@@ -143,9 +143,9 @@ export default function LoginScreen({ navigation }) {
                 onPress={() => setPasswordVisible(!passwordVisible)}
               >
                 <FontAwesomeIcon
-                  style={styles.icon}
+                  style={styles.iconPass}
                   icon={passwordVisible ? faEye : faEyeSlash}
-                  size={15}
+                  size={20}
                   color={passwordVisible ? "#DFB81C" : "white"}
                 />
               </TouchableOpacity>
@@ -229,6 +229,7 @@ const styles = StyleSheet.create({
     width: "100%",
     color: "white",
   },
+  iconPass: { display: "absolute", right: 30 },
   inputPass: { color: "white", width: "100%" },
   icon: { paddingRight: 40 },
   boxToggle: {
