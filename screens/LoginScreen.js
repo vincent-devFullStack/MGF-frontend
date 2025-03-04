@@ -22,7 +22,7 @@ import { updateCoach } from "../reducers/coach";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-const BACKEND_ADDRESS = "http://192.168.9.21:3000";
+const BACKEND_ADDRESS = "http://172.20.10.4:3000";
 
 export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -126,6 +126,7 @@ export default function LoginScreen({ navigation }) {
               placeholderTextColor={"white"}
               onChangeText={(value) => setEmail(value)}
               value={email}
+              paddingBottom={10}
             ></TextInput>
             {error && <Text style={styles.error}>{error}</Text>}
             <View style={styles.passwordInput}>
@@ -136,6 +137,7 @@ export default function LoginScreen({ navigation }) {
                 placeholderTextColor={"white"}
                 onChangeText={(value) => setPassword(value)}
                 value={password}
+                paddingBottom={10}
               ></TextInput>
               <TouchableOpacity
                 onPress={() => setPasswordVisible(!passwordVisible)}
@@ -206,10 +208,11 @@ const styles = StyleSheet.create({
   },
   boxInput: {
     alignItems: "flex-start",
-    justifyContent: "center",
+    justifyContent: "space-around",
     width: "100%",
     height: 250,
     gap: 10,
+    padding: 40,
   },
   titleInput: {
     color: "#DFB81C",
@@ -231,7 +234,7 @@ const styles = StyleSheet.create({
     width: "100%",
     color: "white",
   },
-  inputPass: { color: "white" },
+  inputPass: { color: "white", width: "100%" },
   icon: { paddingRight: 40 },
   boxToggle: {
     flexDirection: "row",
@@ -260,7 +263,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: "100%",
+    width: "90%",
   },
   textBottom: {
     color: "white",

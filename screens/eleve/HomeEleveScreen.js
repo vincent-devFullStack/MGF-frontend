@@ -1,4 +1,5 @@
 import {
+  Image,
   StyleSheet,
   Text,
   View,
@@ -15,6 +16,19 @@ export default function HomeEleveScreen() {
     >
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
+          <View style={styles.header}>
+            <View>
+              <Image
+                style={styles.profilIcon}
+                source={require("../../assets/photo_eleve2.jpg")}
+              />
+            </View>
+            <View>
+              <Text style={styles.title}>
+                Bonne Séance <Text style={styles.titleColor}>Elsa Doe</Text>
+              </Text>
+            </View>
+          </View>
           <Text>Elève Home Screen</Text>
         </SafeAreaView>
       </KeyboardAvoidingView>
@@ -26,9 +40,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   background: {
     flex: 1,
+  },
+  header: {
+    height: 120,
+    width: "90%",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    gap: 20,
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "white",
+    flexWrap: "wrap",
+    width: 270,
+  },
+  profilIcon: {
+    height: 70,
+    width: 70,
+    borderRadius: 50,
   },
 });
