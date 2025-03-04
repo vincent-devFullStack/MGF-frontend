@@ -170,13 +170,8 @@ export default function LoginScreen({ navigation }) {
             <TouchableOpacity>
               <Text style={styles.textBottom}>Mot de passe oublié</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
-              <Text
-                style={styles.textBottom}
-                onPress={() => navigation.navigate("Signup")}
-              >
-                Inscription
-              </Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+              <Text style={styles.textBottom}>Inscription</Text>
             </TouchableOpacity>
           </View>
         </SafeAreaView>

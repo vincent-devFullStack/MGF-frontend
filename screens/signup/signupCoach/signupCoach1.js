@@ -1,5 +1,4 @@
 import {
-  Image,
   StyleSheet,
   Text,
   View,
@@ -21,7 +20,7 @@ export default function Inscription({ navigation }) {
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
           <View style={styles.iconBack}>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={faArrowLeft}
@@ -39,36 +38,10 @@ export default function Inscription({ navigation }) {
             </TouchableOpacity>
           </View>
           <View style={styles.progressbar}>
-            <Text style={styles.pourcent}>0 %</Text>
+            <Text style={styles.pourcent}>33 %</Text>
           </View>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Qui êtes vous ?</Text>
-          </View>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.eleveBtn}
-              onPress={() => navigation.navigate("SignupEleve1")}
-            >
-              <View style={styles.absoluteView}>
-                <Text style={styles.textBtn}>Élève</Text>
-              </View>
-              <Image
-                source={require("../../assets/coach.jpg")}
-                style={styles.img}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.coachBtn}
-              onPress={() => navigation.navigate("SignupCoach1")}
-            >
-              <View style={styles.absoluteView}>
-                <Text style={styles.textBtn}>Coach</Text>
-              </View>
-              <Image
-                source={require("../../assets/eleve.jpg")}
-                style={styles.img}
-              />
-            </TouchableOpacity>
           </View>
         </SafeAreaView>
       </KeyboardAvoidingView>
@@ -115,50 +88,5 @@ const styles = StyleSheet.create({
     fontFamily: "roboto",
     fontWeight: 600,
     color: "white",
-  },
-  buttonContainer: {
-    height: 300,
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "space-around",
-  },
-  eleveBtn: {
-    height: 100,
-    width: 344,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "grey",
-    borderRadius: 10,
-    shadowColor: "black",
-    shadowOffset: { width: 3, height: 6 },
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
-  },
-  coachBtn: {
-    height: 100,
-    width: 344,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "grey",
-    borderRadius: 10,
-    shadowColor: "black",
-    shadowOffset: { width: 3, height: 6 },
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
-  },
-  textBtn: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 18,
-  },
-  absoluteView: {
-    position: "absolute",
-  },
-  img: {
-    height: 100,
-    width: 344,
-    backgroundColor: "transparent",
-    zIndex: -1,
-    borderRadius: 10,
   },
 });
