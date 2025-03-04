@@ -7,7 +7,8 @@ import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import user from "./reducers/user";
+import eleve from "./reducers/eleve";
+import coach from "./reducers/coach";
 
 // Import des screens
 import LoginScreen from "./screens/LoginScreen";
@@ -36,7 +37,7 @@ import {
   faWallet,
 } from "@fortawesome/free-solid-svg-icons";
 
-const reducers = combineReducers({ user });
+const reducers = combineReducers({ eleve, coach });
 
 const persistConfig = { key: "MGF", storage: AsyncStorage };
 
@@ -55,6 +56,7 @@ const EleveTabs = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
+        tabBarStyle: { backgroundColor: "#383853" },
         tabBarIcon: ({ color, size }) => {
           let iconName = "";
 
@@ -70,7 +72,7 @@ const EleveTabs = () => {
             iconName = faUtensils;
           }
 
-          return <FontAwesomeIcon icon={iconName} size={size} color={color} />;
+          return <FontAwesomeIcon icon={iconName} size={24} color={color} />;
         },
         tabBarActiveTintColor: "#DFB81C",
         tabBarInactiveTintColor: "#b2b2b2",
