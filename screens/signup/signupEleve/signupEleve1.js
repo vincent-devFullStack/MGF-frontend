@@ -17,23 +17,36 @@ import {
   faXmark,
   faEye,
   faEyeSlash,
-  faToggleOff,
-  faToggleOn,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Inscription({ navigation }) {
-  const dispatch = useDispatch();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleComparePassword = () => {
+  const BACKEND_ADDRESS = "http://192.168.1.19:3000";
+
+  const handleCheckInputs = async () => {
     if (password !== confirmPassword) {
-      setError("Les mots de passe ne correspondent pas !");
+      setError("Les mots de passe ne correspondent pas");
     } else {
       setError("");
+      const response = await fetch(`${BACKEND_ADDRESS}/checkEmail`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email,
+        }),
+      });
+
+      const data = await response.json();
+      console.log(data.result);
+      if (data.result === false) {
+        console.log("ok");
+        navigation.navigate("SignupEleve2");
+      }
     }
   };
 
@@ -129,7 +142,7 @@ export default function Inscription({ navigation }) {
             </View>
           </View>
           <View>
-            <TouchableOpacity onPress={() => handleComparePassword()}>
+            <TouchableOpacity onPress={() => handleCheckInputs()}>
               <Text style={styles.btn}>Continuer</Text>
             </TouchableOpacity>
           </View>

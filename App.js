@@ -15,7 +15,7 @@ import LoginScreen from "./screens/LoginScreen";
 //Import des screens inscription
 import SignupScreen from "./screens/signup/SignupScreen";
 import SignupEleve1Screen from "./screens/signup/signupEleve/signupEleve1";
-// import SignupEleve2Screen from "./screens/signup/signupEleve/signupEleve2";
+import SignupEleve2Screen from "./screens/signup/signupEleve/signupEleve2";
 import SignupCoach1Screen from "./screens/signup/signupCoach/signupCoach1";
 // import SignupCoach2Screen from "./screens/signup/signupCoach/signupCoach2";
 // Import des screens élèves
@@ -142,7 +142,7 @@ export default function App() {
             <Stack.Screen name="CoachTabs" component={CoachTabs} />
             <Stack.Screen name="Signup" component={SignupScreen} />
             <Stack.Screen name="SignupEleve1" component={SignupEleve1Screen} />
-            {/* <Stack.Screen name="SignupEleve2" component={SignupEleve2Screen} /> */}
+            <Stack.Screen name="SignupEleve2" component={SignupEleve2Screen} />
             <Stack.Screen name="SignupCoach1" component={SignupCoach1Screen} />
             {/* <Stack.Screen name="SignupCoach2" component={SignupCoach2Screen} /> */}
           </Stack.Navigator>
