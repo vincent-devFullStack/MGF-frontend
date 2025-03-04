@@ -12,6 +12,8 @@ import coach from "./reducers/coach";
 
 // Import des screens
 import LoginScreen from "./screens/LoginScreen";
+//Import des screens inscription
+import SignupScreen from "./screens/signup/SignupScreen";
 // Import des screens élèves
 import HomeEleveScreen from "./screens/eleve/HomeEleveScreen";
 import CalEleveScreen from "./screens/eleve/CalEleveScreen";
@@ -134,6 +136,7 @@ export default function App() {
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="EleveTabs" component={EleveTabs} />
             <Stack.Screen name="CoachTabs" component={CoachTabs} />
+            <Stack.Screen name="Signup" component={SignupScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
