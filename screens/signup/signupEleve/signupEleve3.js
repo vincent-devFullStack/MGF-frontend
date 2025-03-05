@@ -97,7 +97,7 @@ export default function InscriptionEleve3({ navigation }) {
                 <Text style={styles.textBtn}>Perte de poids</Text>
               </View>
               <Image
-                source={require("../../../assets/coach.jpg")}
+                source={require("../../../assets/coach")}
                 style={styles.img}
               />
             </TouchableOpacity>
