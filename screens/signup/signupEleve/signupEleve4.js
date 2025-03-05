@@ -33,7 +33,8 @@ export default function InscriptionEleve4({ navigation }) {
   const [poids, setPoids] = useState("");
   const [error, setError] = useState("");
   const [show, setShow] = useState(false);
-  const eleveData = useSelector((state) => state.eleve);
+
+  const eleveData = useSelector((state) => state.eleve.value);
 
   const onChange = (event, selectedDate) => {
     setShow(false);
@@ -61,37 +62,42 @@ export default function InscriptionEleve4({ navigation }) {
     }
 
     setError("");
+    const formattedDateNaissance = dateNaissance.toISOString().split("T")[0];
 
     dispatch(
       finalUpdate({
+        ...eleveData,
         sexe: sexe,
         taille: taille,
-        dateNaissance: dateNaissance,
+        dateNaissance: formattedDateNaissance,
         poids: poids,
       })
     );
 
-    console.log("eleveData après mise à jour:", eleveData);
+    try {
+      const response = await fetch(`${BACKEND_ADDRESS}/signupEleve`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          role: eleveData.role,
+          firstname: eleveData.firstname,
+          name: eleveData.name,
+          email: eleveData.email,
+          password: eleveData.password,
+          objectif: eleveData.objectif,
+          dateNaissance: eleveData.dateNaissance,
+          sexe: eleveData.sexe,
+          taille: eleveData.taille,
+          poids: eleveData.poids,
+        }),
+      });
 
-    const response = await fetch(`${BACKEND_ADDRESS}/signupEleve`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        role: eleveData.role,
-        firstname: eleveData.firstname,
-        name: eleveData.name,
-        email: eleveData.email,
-        password: eleveData.password,
-        objectif: eleveData.objectif,
-        dateNaissance: eleveData.dateNaissance,
-        sexe: eleveData.sexe,
-        taille: eleveData.taille,
-        poids: eleveData.poids,
-      }),
-    });
-
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error(" Erreur fetch :", error);
+    }
     const data = await response.json();
-    console.log(data);
 
     if (data.result) {
       navigation.navigate("HomeEleve");
