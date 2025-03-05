@@ -15,18 +15,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkBody } from "../../../modules/checkBody";
 
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { updateFourth } from "../../../reducers/coach";
+import { updateFourth, updateCoach } from "../../../reducers/coach";
 
 export default function InscriptionCoach4({ navigation }) {
   const dispatch = useDispatch();
   const coach = useSelector((state) => state.coach.value);
-  console.log(coach);
+
   const [description, setDescription] = useState("");
   const [diplomes, setDiplomes] = useState("");
   const [domaines, setDomaines] = useState("");
   const [error, setError] = useState("");
 
-  const handleCheckInputs = () => {
+  const BACKEND_ADDRESS = "http://192.168.1.15:3000";
+
+  const handleCheckInputs = async () => {
     if (
       !checkBody(
         { domaines: domaines, description: description, diplomes: diplomes },
@@ -44,6 +46,43 @@ export default function InscriptionCoach4({ navigation }) {
           diplomes: diplomes.split(", "),
         })
       );
+
+      const response = await fetch(`${BACKEND_ADDRESS}/signupCoach`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: coach.name,
+          firstname: coach.firstname,
+          email: coach.email,
+          password: coach.password,
+          photoProfil: coach.photo,
+          role: coach.role,
+          siret: coach.siret,
+          diplomes: coach.diplomes,
+          villes: coach.villes,
+          lieux: coach.salles,
+          domaineExpertise: coach.domaines,
+          presentation: coach.description,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.result) {
+        dispatch(
+          updateCoach({
+            token: data.data.token,
+            role: data.data.role,
+            firstname: data.data.firstname,
+            name: data.data.name,
+            email: data.data.email,
+            password: data.data.password,
+          })
+        );
+        navigation.navigate("CoachTabs", { screen: "HomeCoach" });
+      } else {
+        setError(data.error);
+      }
     }
   };
 

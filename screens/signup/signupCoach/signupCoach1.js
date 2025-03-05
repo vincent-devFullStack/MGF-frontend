@@ -31,7 +31,7 @@ export default function InscriptionCoach1({ navigation }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const BACKEND_ADDRESS = "http://192.168.9.21:3000";
+  const BACKEND_ADDRESS = "http://192.168.1.15:3000";
 
   const handleCheckInputs = async () => {
     if (password !== confirmPassword) {
