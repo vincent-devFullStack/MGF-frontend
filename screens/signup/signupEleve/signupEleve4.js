@@ -12,13 +12,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { finalUpdate } from "../../../reducers/eleve";
-
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "react-native-element-dropdown";
 
 export default function InscriptionEleve4({ navigation }) {
   const dispatch = useDispatch();
-
   const eleveData = useSelector((state) => state.eleve);
 
   const data = [
@@ -27,31 +25,45 @@ export default function InscriptionEleve4({ navigation }) {
   ];
 
   const [sexe, setSexe] = useState("");
-  const [taille, setTaille] = useState(0);
-  const [dateNaissance, setDateNaissance] = useState(null);
-  const [poids, setPoids] = useState(0);
+  const [taille, setTaille] = useState("");
+  const [dateNaissance, setDateNaissance] = useState("");
+  const [poids, setPoids] = useState("");
   const [error, setError] = useState("");
 
-  // const BACKEND_ADDRESS = "http://192.168.1.19:3000";
+  const BACKEND_ADDRESS = "http://192.168.1.19:3000";
 
-  const handleCheckInputs = async () => {
+  async function registerUser() {
     if (!sexe || !taille || !dateNaissance || !poids) {
       setError("Tous les champs sont requis");
-    } else {
-      setError("");
+      return;
     }
-    if (error === "") {
-      dispatch(
-        finalUpdate({
-          sexe: sexe,
-          taille: taille,
-          dateNaissance: dateNaissance,
-          poids: poids,
-        })
-      );
+
+    setError("");
+
+    dispatch(finalUpdate({ sexe, taille, dateNaissance, poids }));
+
+    const updatedEleveData = {
+      sexe,
+      taille,
+      dateNaissance,
+      poids,
+    };
+
+    const response = await fetch(`${BACKEND_ADDRESS}/signupEleve`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedEleveData),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      console.log("Inscription réussie :", data);
       navigation.navigate("HomeEleve");
+    } else {
+      setError(data.message || "Erreur lors de l'inscription");
     }
-  };
+  }
 
   return (
     <LinearGradient
@@ -103,9 +115,7 @@ export default function InscriptionEleve4({ navigation }) {
                 valueField="value"
                 placeholder=" Votre sexe"
                 value={sexe}
-                onChange={(item) => {
-                  setSexe(item.value);
-                }}
+                onChange={(item) => setSexe(item.value)}
               />
               <View style={styles.input}>
                 <TextInput
@@ -114,7 +124,7 @@ export default function InscriptionEleve4({ navigation }) {
                   placeholderTextColor={"black"}
                   onChangeText={(value) => setTaille(value)}
                   value={taille}
-                ></TextInput>
+                />
               </View>
             </View>
             <View style={styles.ligne2}>
@@ -125,7 +135,7 @@ export default function InscriptionEleve4({ navigation }) {
                   placeholderTextColor={"black"}
                   onChangeText={(value) => setDateNaissance(value)}
                   value={dateNaissance}
-                ></TextInput>
+                />
               </View>
               <View style={styles.input1}>
                 <TextInput
@@ -134,15 +144,17 @@ export default function InscriptionEleve4({ navigation }) {
                   placeholderTextColor={"black"}
                   onChangeText={(value) => setPoids(value)}
                   value={poids}
-                ></TextInput>
+                />
               </View>
             </View>
           </View>
+
+          {error ? (
+            <Text style={{ color: "red", textAlign: "center" }}>{error}</Text>
+          ) : null}
+
           <View style={styles.btnPosition}>
-            <TouchableOpacity
-              style={styles.nextBtn}
-              onPress={() => handleCheckInputs()}
-            >
+            <TouchableOpacity style={styles.nextBtn} onPress={registerUser}>
               <Text style={styles.btn}>Continuer</Text>
             </TouchableOpacity>
           </View>
