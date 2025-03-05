@@ -31,30 +31,22 @@ export const eleveSlice = createSlice({
       };
     },
     updateFirst: (state, action) => {
-      state.value = {
-        role: action.payload.role,
-        email: action.payload.email,
-        password: action.payload.password,
-      };
+      (state.value.role = action.payload.role),
+        (state.value.email = action.payload.email),
+        (state.value.password = action.payload.password);
     },
     updateSecond: (state, action) => {
-      state.value = {
-        firstname: action.payload.firstname,
-        name: action.payload.name,
-      };
+      (state.value.firstname = action.payload.firstname),
+        (state.value.name = action.payload.name);
     },
     updateThird: (state, action) => {
-      state.value = {
-        objectif: action.payload.objectif,
-      };
+      state.value.objectif = action.payload.objectif;
     },
     finalUpdate: (state, action) => {
-      state.value = {
-        dateNaissance: action.payload.dateNaissance,
-        sexe: action.payload.sexe,
-        taille: action.payload.taille,
-        poids: action.payload.poids,
-      };
+      (state.value.dateNaissance = action.payload.dateNaissance),
+        (state.value.sexe = action.payload.sexe),
+        (state.value.taille = action.payload.taille),
+        (state.value.poids = action.payload.poids);
     },
   },
 });
