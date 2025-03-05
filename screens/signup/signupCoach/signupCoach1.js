@@ -6,10 +6,13 @@ import {
   SafeAreaView,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { updateFirst } from "../../../reducers/coach";
 
 import {
   faArrowLeft,
@@ -19,19 +22,23 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function InscriptionCoach1({ navigation }) {
+  const dispatch = useDispatch();
+
   const [passwordVisible, setPasswordVisible] = useState(false);
+
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const BACKEND_ADDRESS = "http://172.20.10.4:3000";
+  const BACKEND_ADDRESS = "http://192.168.9.21:3000";
 
   const handleCheckInputs = async () => {
     if (password !== confirmPassword) {
       setError("Les mots de passe ne correspondent pas");
     } else {
       setError("");
+
       const response = await fetch(`${BACKEND_ADDRESS}/checkEmail`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -41,9 +48,15 @@ export default function InscriptionCoach1({ navigation }) {
       });
 
       const data = await response.json();
-      console.log(data.result);
+
       if (data.result === false) {
-        console.log("ok");
+        dispatch(
+          updateFirst({
+            role: "coach",
+            email: email,
+            password: password,
+          })
+        );
         navigation.navigate("SignupCoach2");
       }
     }
@@ -54,7 +67,10 @@ export default function InscriptionCoach1({ navigation }) {
       colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
       style={styles.background}
     >
-      <KeyboardAvoidingView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "position"}
+      >
         <SafeAreaView style={styles.container}>
           <View style={styles.iconBack}>
             <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
@@ -76,7 +92,7 @@ export default function InscriptionCoach1({ navigation }) {
           </View>
 
           <View style={styles.progressbar}>
-            <Text style={styles.pourcent}>20 %</Text>
+            <Text style={styles.pourcent}>25 %</Text>
           </View>
 
           <View style={styles.titleContainer}>
@@ -92,6 +108,7 @@ export default function InscriptionCoach1({ navigation }) {
                 onChangeText={(value) => setEmail(value)}
                 value={email}
                 paddingBottom={10}
+                inputMode="email"
               ></TextInput>
 
               <View style={styles.passwordInput}>
