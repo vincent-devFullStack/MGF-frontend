@@ -32,6 +32,7 @@ export default function InscriptionEleve4({ navigation }) {
   const [poids, setPoids] = useState("");
   const [error, setError] = useState("");
   const [show, setShow] = useState(false);
+  const eleveData = useSelector((state) => state.eleve);
 
   const onChange = (event, selectedDate) => {
     setShow(false);
@@ -43,7 +44,6 @@ export default function InscriptionEleve4({ navigation }) {
   const BACKEND_ADDRESS = "http://172.20.10.4:3000";
 
   async function registerUser() {
-    console.log("bouton cliqué");
     if (!sexe || !taille || !dateNaissance || !poids) {
       setError("Tous les champs sont requis");
       return;
@@ -51,6 +51,7 @@ export default function InscriptionEleve4({ navigation }) {
 
     setError("");
 
+    // Mise à jour de l'état global avec Redux
     dispatch(
       finalUpdate({
         sexe: sexe,
@@ -59,8 +60,12 @@ export default function InscriptionEleve4({ navigation }) {
         poids: poids,
       })
     );
-    const eleveData = useSelector((state) => state.eleve);
 
+    // Attendre que l'état Redux soit mis à jour
+    // Vous pouvez faire un `console.log` ici pour vérifier `eleveData`
+    console.log("eleveData après mise à jour:", eleveData);
+
+    // Effectuer l'appel au backend avec `eleveData`
     const response = await fetch(`${BACKEND_ADDRESS}/signupEleve`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
