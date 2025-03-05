@@ -17,6 +17,7 @@ import { finalUpdate } from "../../../reducers/eleve";
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "react-native-element-dropdown";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { checkBody } from "../../../modules/checkBody";
 
 export default function InscriptionEleve4({ navigation }) {
   const dispatch = useDispatch();
@@ -44,7 +45,17 @@ export default function InscriptionEleve4({ navigation }) {
   const BACKEND_ADDRESS = "http://192.168.1.19:3000";
 
   async function registerUser() {
-    if (!sexe || !taille || !dateNaissance || !poids) {
+    if (
+      !checkBody(
+        {
+          sexe: sexe,
+          taille: taille,
+          dateNaissance: dateNaissance,
+          poids: poids,
+        },
+        ["sexe", "taille", "dateNaissance", "poids"]
+      )
+    ) {
       setError("Tous les champs sont requis");
       return;
     }
@@ -82,7 +93,7 @@ export default function InscriptionEleve4({ navigation }) {
     const data = await response.json();
     console.log(data);
 
-    if (data.success) {
+    if (data.result) {
       navigation.navigate("HomeEleve");
     } else {
       setError(data.message || "Erreur lors de l'inscription");
