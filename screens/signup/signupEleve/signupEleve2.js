@@ -15,7 +15,7 @@ import { updateSecond } from "../../../reducers/eleve";
 
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 
-export default function Inscription({ navigation }) {
+export default function InscriptionEleve2({ navigation }) {
   const dispatch = useDispatch();
 
   const [firstname, setFirstname] = useState("");
