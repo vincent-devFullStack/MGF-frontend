@@ -11,47 +11,14 @@ import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateThird } from "../../../reducers/eleve";
+import { finalUpdate } from "../../../reducers/eleve";
 
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 
-export default function InscriptionEleve3({ navigation }) {
+export default function InscriptionEleve4({ navigation }) {
   const dispatch = useDispatch();
 
-  const [objectif, setObjectif] = useState("");
-
   // const BACKEND_ADDRESS = "http://192.168.1.19:3000";
-
-  const handleClickPerte = (newObjectif) => {
-    setObjectif = newObjectif;
-    dispatch(
-      updateThird({
-        objectif: newObjectif,
-      })
-    );
-    setObjectif = "";
-    navigation.navigate("SignupEleve4");
-  };
-  const handleClickMuscle = (newObjectif) => {
-    setObjectif = newObjectif;
-    dispatch(
-      updateThird({
-        objectif: newObjectif,
-      })
-    );
-    setObjectif = "";
-    navigation.navigate("SignupEleve4");
-  };
-  const handleClickRéath = (newObjectif) => {
-    setObjectif = newObjectif;
-    dispatch(
-      updateThird({
-        objectif: newObjectif,
-      })
-    );
-    setObjectif = "";
-    navigation.navigate("SignupEleve4");
-  };
 
   return (
     <LinearGradient
@@ -91,7 +58,7 @@ export default function InscriptionEleve3({ navigation }) {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.eleveBtn}
-              onPress={() => handleClickPerte("Perte de poids")}
+              onPress={() => handleClickPerte()}
             >
               <View style={styles.absoluteView}>
                 <Text style={styles.textBtn}>Perte de poids</Text>
@@ -103,7 +70,7 @@ export default function InscriptionEleve3({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.coachBtn}
-              onPress={() => handleClickMuscle("Prise de muscle")}
+              onPress={() => handleClickMuscle()}
             >
               <View style={styles.absoluteView}>
                 <Text style={styles.textBtn}>Prendre du muscle</Text>
@@ -115,7 +82,7 @@ export default function InscriptionEleve3({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.coachBtn}
-              onPress={() => handleClickRéath("Réathlétisation")}
+              onPress={() => handleClickRéath()}
             >
               <View style={styles.absoluteView}>
                 <Text style={styles.textBtn}>Réathlétisation</Text>

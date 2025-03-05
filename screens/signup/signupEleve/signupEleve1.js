@@ -21,7 +21,7 @@ import {
   faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function Inscription({ navigation }) {
+export default function InscriptionEleve1({ navigation }) {
   const dispatch = useDispatch();
 
   const [passwordVisible, setPasswordVisible] = useState(false);

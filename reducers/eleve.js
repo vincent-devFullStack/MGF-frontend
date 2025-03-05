@@ -48,9 +48,22 @@ export const eleveSlice = createSlice({
         objectif: action.payload.objectif,
       };
     },
+    finalUpdate: (state, action) => {
+      state.value = {
+        dateNaissance: action.payload.dateNaissance,
+        sexe: action.payload.sexe,
+        taille: action.payload.taille,
+        poids: action.payload.poids,
+      };
+    },
   },
 });
 
-export const { updateEleve, updateFirst, updateSecond, updateThird } =
-  eleveSlice.actions;
+export const {
+  updateEleve,
+  updateFirst,
+  updateSecond,
+  updateThird,
+  finalUpdate,
+} = eleveSlice.actions;
 export default eleveSlice.reducer;
