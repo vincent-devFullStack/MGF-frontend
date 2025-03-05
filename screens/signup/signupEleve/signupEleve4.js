@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -73,7 +74,10 @@ export default function InscriptionEleve4({ navigation }) {
       colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
       style={styles.background}
     >
-      <KeyboardAvoidingView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
         <SafeAreaView style={styles.container}>
           <View style={styles.iconBack}>
             <TouchableOpacity
