@@ -6,37 +6,52 @@ import {
   SafeAreaView,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { updateSecond } from "../../../reducers/coach";
 
-import {
-  faArrowLeft,
-  faXmark,
-  faEye,
-  faEyeSlash,
-  faToggleOff,
-  faToggleOn,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function InscriptionCoach2({ navigation }) {
+  const dispatch = useDispatch();
+
   const [firstname, setFirstname] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
 
-  const BACKEND_ADDRESS = "http://192.168.1.19:3000";
+  function handleCheckInputs() {
+    if (firstname === "" && name === "") {
+      setError("Missing or empty fields");
+    } else {
+      setError("");
+      dispatch(
+        updateSecond({
+          firstname: firstname,
+          name: name,
+        })
+      );
+      navigation.navigate("SignupCoach3");
+    }
+  }
 
   return (
     <LinearGradient
       colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
       style={styles.background}
     >
-      <KeyboardAvoidingView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "position"}
+      >
         <SafeAreaView style={styles.container}>
           <View style={styles.iconBack}>
-            <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("SignupCoach1")}
+            >
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={faArrowLeft}
@@ -55,7 +70,7 @@ export default function InscriptionCoach2({ navigation }) {
           </View>
 
           <View style={styles.progressbar}>
-            <Text style={styles.pourcent}>40 %</Text>
+            <Text style={styles.pourcent}>50 %</Text>
           </View>
 
           <View style={styles.titleContainer}>
@@ -75,18 +90,19 @@ export default function InscriptionCoach2({ navigation }) {
             <View>
               <TextInput
                 style={styles.input}
-                placeholder="Indiquez votre prénom"
+                placeholder="Indiquez votre nom"
                 placeholderTextColor={"white"}
                 onChangeText={(value) => setName(value)}
                 value={name}
                 paddingBottom={10}
               ></TextInput>
             </View>
+            {error && <Text style={styles.error}>{error}</Text>}
           </View>
           <View style={styles.btnPosition}>
             <TouchableOpacity
               style={styles.nextBtn}
-              onPress={() => navigation.navigate("SignupCoach3")}
+              onPress={handleCheckInputs}
             >
               <Text style={styles.btn}>Continuer</Text>
             </TouchableOpacity>
@@ -150,11 +166,6 @@ const styles = StyleSheet.create({
     gap: 10,
     padding: 40,
   },
-  titleInput: {
-    color: "#DFB81C",
-    fontSize: 36,
-    fontWeight: 600,
-  },
   input: {
     borderBottomColor: "#DFB81C",
     borderBottomWidth: 1,
@@ -176,5 +187,9 @@ const styles = StyleSheet.create({
   btnPosition: {
     display: "absolute",
     marginTop: 170,
+  },
+  btn: { fontweight: 600 },
+  error: {
+    color: "red",
   },
 });
