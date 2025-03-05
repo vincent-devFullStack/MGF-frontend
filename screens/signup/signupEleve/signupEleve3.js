@@ -23,17 +23,17 @@ export default function InscriptionEleve3({ navigation }) {
   // const BACKEND_ADDRESS = "http://192.168.1.19:3000";
 
   const handleClickPerte = (newObjectif) => {
-    setObjectif = newObjectif;
+    setObjectif("Perte de poids");
     dispatch(
       updateThird({
         objectif: newObjectif,
       })
     );
-    setObjectif = "";
+    setObjectif("Prise de muscles");
     navigation.navigate("SignupEleve4");
   };
   const handleClickMuscle = (newObjectif) => {
-    setObjectif = newObjectif;
+    setObjectif("Réathlétisation");
     dispatch(
       updateThird({
         objectif: newObjectif,
@@ -97,7 +97,7 @@ export default function InscriptionEleve3({ navigation }) {
                 <Text style={styles.textBtn}>Perte de poids</Text>
               </View>
               <Image
-                source={require("../../../assets/coach")}
+                source={require("../../../assets/coach.jpg")}
                 style={styles.img}
               />
             </TouchableOpacity>
