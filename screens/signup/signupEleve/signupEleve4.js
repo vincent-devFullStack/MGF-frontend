@@ -1,4 +1,5 @@
 import {
+  Button,
   StyleSheet,
   Text,
   TextInput,
@@ -15,10 +16,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { finalUpdate } from "../../../reducers/eleve";
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "react-native-element-dropdown";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function InscriptionEleve4({ navigation }) {
   const dispatch = useDispatch();
-  const eleveData = useSelector((state) => state.eleve);
 
   const data = [
     { label: "Homme", value: "Homme" },
@@ -27,9 +28,17 @@ export default function InscriptionEleve4({ navigation }) {
 
   const [sexe, setSexe] = useState("");
   const [taille, setTaille] = useState("");
-  const [dateNaissance, setDateNaissance] = useState("");
+  const [dateNaissance, setDateNaissance] = useState(new Date());
   const [poids, setPoids] = useState("");
   const [error, setError] = useState("");
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    setShow(false);
+    if (selectedDate) {
+      setDateNaissance(selectedDate);
+    }
+  };
 
   const BACKEND_ADDRESS = "http://172.20.10.4:3000";
 
@@ -42,27 +51,26 @@ export default function InscriptionEleve4({ navigation }) {
 
     setError("");
 
-    console.log("Avant dispatch :", eleveData);
-    dispatch(finalUpdate({ sexe, taille, dateNaissance, poids, token }));
-
-    const updatedEleveData = {
-      sexe,
-      taille,
-      dateNaissance,
-      poids,
-    };
+    dispatch(
+      finalUpdate({
+        sexe: sexe,
+        taille: taille,
+        dateNaissance: dateNaissance,
+        poids: poids,
+      })
+    );
+    const eleveData = useSelector((state) => state.eleve);
 
     const response = await fetch(`${BACKEND_ADDRESS}/signupEleve`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedEleveData),
+      body: JSON.stringify(eleveData),
     });
 
     const data = await response.json();
     console.log(data);
 
     if (data.success) {
-      console.log("Inscription réussie :", data);
       navigation.navigate("HomeEleve");
     } else {
       setError(data.message || "Erreur lors de l'inscription");
@@ -135,6 +143,24 @@ export default function InscriptionEleve4({ navigation }) {
               </View>
             </View>
             <View style={styles.ligne2}>
+              <View style={styles.containerDate}>
+                <Button
+                  title="Indiquez votre date de naissance"
+                  onPress={() => setShow(true)}
+                />
+                {show && (
+                  <DateTimePicker
+                    value={dateNaissance}
+                    mode="date"
+                    display={Platform.OS === "ios" ? "inline" : "default"}
+                    onChange={onChange}
+                  />
+                )}
+                <Text style={styles.dateText}>
+                  Date sélectionnée :{" "}
+                  {dateNaissance.toLocaleDateString("fr-FR")}
+                </Text>
+              </View>
               <View style={styles.input}>
                 <TextInput
                   style={styles.inputText1}
@@ -144,6 +170,8 @@ export default function InscriptionEleve4({ navigation }) {
                   value={dateNaissance}
                 />
               </View>
+            </View>
+            <View style={styles.ligne3}>
               <View style={styles.input1}>
                 <TextInput
                   style={styles.inputText}
@@ -330,6 +358,26 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    left: 9,
+  },
+  ligne3: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 15,
+  },
+  containerDate: {
+    backgroundColor: "white",
+    borderRadius: 5,
+    position: "absolute",
+    alignItems: "center",
+    marginTop: 20,
+    zIndex: 1,
+    transform: [{ scale: 0.8 }, { translateX: 10 }],
+    alignSelf: "center",
+  },
+  dateText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: "black",
   },
 });

@@ -10,51 +10,43 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateThird } from "../../../reducers/eleve";
 
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function InscriptionEleve3({ navigation }) {
   const dispatch = useDispatch();
-  const eleveData = useSelector((state) => state.eleve);
 
   const [objectif, setObjectif] = useState("");
 
-  const handleClickPerte = async (newObjectif) => {
+  const handleClickPerte = (newObjectif) => {
     setObjectif("Perte de poids");
-    await console.log("Avant dispatch :", eleveData);
-
     dispatch(
       updateThird({
         objectif: newObjectif,
       })
     );
+    navigation.navigate("SignupEleve4");
+  };
+
+  const handleClickMuscle = (newObjectif) => {
     setObjectif("Prise de muscles");
+    dispatch(
+      updateThird({
+        objectif: newObjectif,
+      })
+    );
     navigation.navigate("SignupEleve4");
   };
-  const handleClickMuscle = async (newObjectif) => {
+
+  const handleClickRéath = (newObjectif) => {
     setObjectif("Réathlétisation");
-    await console.log("Avant dispatch :", eleveData);
-
     dispatch(
       updateThird({
         objectif: newObjectif,
       })
     );
-    setObjectif = "";
-    navigation.navigate("SignupEleve4");
-  };
-  const handleClickRéath = async (newObjectif) => {
-    setObjectif = newObjectif;
-    await console.log("Avant dispatch :", eleveData);
-
-    dispatch(
-      updateThird({
-        objectif: newObjectif,
-      })
-    );
-    setObjectif = "";
     navigation.navigate("SignupEleve4");
   };
 

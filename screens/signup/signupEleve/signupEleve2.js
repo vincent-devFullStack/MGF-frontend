@@ -10,27 +10,23 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateSecond } from "../../../reducers/eleve";
 
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function InscriptionEleve2({ navigation }) {
   const dispatch = useDispatch();
-  const eleveData = useSelector((state) => state.eleve);
 
   const [firstname, setFirstname] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
 
-  const handleCheckInputs = async () => {
+  const handleCheckInputs = () => {
     if (!name || !firstname) {
       setError("Les champs prénom et nom sont requis");
     } else {
       setError("");
-    }
-    if (error === "") {
-      await console.log("Avant dispatch :", eleveData);
       dispatch(
         updateSecond({
           firstname: firstname,
@@ -90,7 +86,7 @@ export default function InscriptionEleve2({ navigation }) {
             <View>
               <TextInput
                 style={styles.input}
-                placeholder="Indiquez votre prénom"
+                placeholder="Indiquez votre nom"
                 placeholderTextColor={"white"}
                 onChangeText={(value) => setName(value)}
                 value={name}
