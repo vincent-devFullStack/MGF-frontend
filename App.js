@@ -19,6 +19,8 @@ import SignupEleve2Screen from "./screens/signup/signupEleve/signupEleve2";
 import SignupEleve3Screen from "./screens/signup/signupEleve/signupEleve3";
 import SignupCoach1Screen from "./screens/signup/signupCoach/signupCoach1";
 import SignupCoach2Screen from "./screens/signup/signupCoach/signupCoach2";
+import SignupCoach3Screen from "./screens/signup/signupCoach/signupCoach3";
+import SignupCoach4Screen from "./screens/signup/signupCoach/signupCoach4";
 // Import des screens élèves
 import HomeEleveScreen from "./screens/eleve/HomeEleveScreen";
 import CalEleveScreen from "./screens/eleve/CalEleveScreen";
@@ -147,6 +149,8 @@ export default function App() {
             <Stack.Screen name="SignupEleve3" component={SignupEleve3Screen} />
             <Stack.Screen name="SignupCoach1" component={SignupCoach1Screen} />
             <Stack.Screen name="SignupCoach2" component={SignupCoach2Screen} />
+            <Stack.Screen name="SignupCoach3" component={SignupCoach3Screen} />
+            <Stack.Screen name="SignupCoach4" component={SignupCoach4Screen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

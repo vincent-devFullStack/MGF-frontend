@@ -21,7 +21,7 @@ import {
   faToggleOn,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function Inscription({ navigation }) {
+export default function inscriptionCoach2({ navigation }) {
   const [firstname, setFirstname] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
