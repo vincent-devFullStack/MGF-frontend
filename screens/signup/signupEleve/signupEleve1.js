@@ -10,6 +10,8 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
+import { updateFirst } from "../../../reducers/eleve";
+
 import { useDispatch } from "react-redux";
 
 import {
@@ -20,13 +22,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Inscription({ navigation }) {
+  const dispatch = useDispatch();
+
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const role = "eleve";
 
-  const BACKEND_ADDRESS = "http://192.168.1.19:3000";
+  const BACKEND_ADDRESS = "http://172.20.10.4:3000";
 
   const handleCheckInputs = async () => {
     if (password !== confirmPassword) {
@@ -44,7 +49,15 @@ export default function Inscription({ navigation }) {
       const data = await response.json();
       console.log(data.result);
       if (data.result === false) {
-        console.log("ok");
+        dispatch(
+          updateFirst({
+            role: role,
+            email: email,
+            password: password,
+          })
+        );
+        setEmail("");
+        setPassword("");
         navigation.navigate("SignupEleve2");
       }
     }
@@ -141,8 +154,11 @@ export default function Inscription({ navigation }) {
               {error && <Text style={styles.error}>{error}</Text>}
             </View>
           </View>
-          <View>
-            <TouchableOpacity onPress={() => handleCheckInputs()}>
+          <View style={styles.btnPosition}>
+            <TouchableOpacity
+              onPress={() => handleCheckInputs()}
+              style={styles.nextBtn}
+            >
               <Text style={styles.btn}>Continuer</Text>
             </TouchableOpacity>
           </View>
@@ -165,9 +181,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "90%",
     justifyContent: "space-between",
+    position: "absolute",
+    paddingTop: 70,
   },
   progressbar: {
-    marginTop: 30,
+    marginTop: 70,
     height: 50,
     width: 50,
     backgroundColor: "white",
@@ -187,7 +205,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 36,
+    fontSize: 32,
     fontFamily: "roboto",
     fontWeight: 600,
     color: "white",
@@ -198,7 +216,7 @@ const styles = StyleSheet.create({
   boxInput: {
     alignItems: "center",
     justifyContent: "space-between",
-    width: "100%",
+    width: "90%",
     height: 250,
     gap: 10,
     padding: 40,
@@ -211,9 +229,9 @@ const styles = StyleSheet.create({
   input: {
     borderBottomColor: "#DFB81C",
     borderBottomWidth: 1,
-    width: "350",
+    width: 314,
     color: "white",
-    height: 50,
+    marginBottom: 10,
   },
   passwordInput: {
     flexDirection: "row",
@@ -223,8 +241,21 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: "100%",
     color: "white",
-    height: 50,
+    height: 40,
+    marginBottom: 10,
   },
   inputPass: { color: "white", width: "100%" },
   icon: { paddingRight: 40 },
+  nextBtn: {
+    backgroundColor: "white",
+    height: 42,
+    width: 174,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+  },
+  btnPosition: {
+    display: "absolute",
+    marginTop: 170,
+  },
 });

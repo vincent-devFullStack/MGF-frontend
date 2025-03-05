@@ -16,8 +16,9 @@ import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/signup/SignupScreen";
 import SignupEleve1Screen from "./screens/signup/signupEleve/signupEleve1";
 import SignupEleve2Screen from "./screens/signup/signupEleve/signupEleve2";
+import SignupEleve3Screen from "./screens/signup/signupEleve/signupEleve3";
 import SignupCoach1Screen from "./screens/signup/signupCoach/signupCoach1";
-// import SignupCoach2Screen from "./screens/signup/signupCoach/signupCoach2";
+import SignupCoach2Screen from "./screens/signup/signupCoach/signupCoach2";
 // Import des screens élèves
 import HomeEleveScreen from "./screens/eleve/HomeEleveScreen";
 import CalEleveScreen from "./screens/eleve/CalEleveScreen";
@@ -143,8 +144,9 @@ export default function App() {
             <Stack.Screen name="Signup" component={SignupScreen} />
             <Stack.Screen name="SignupEleve1" component={SignupEleve1Screen} />
             <Stack.Screen name="SignupEleve2" component={SignupEleve2Screen} />
+            <Stack.Screen name="SignupEleve3" component={SignupEleve3Screen} />
             <Stack.Screen name="SignupCoach1" component={SignupCoach1Screen} />
-            {/* <Stack.Screen name="SignupCoach2" component={SignupCoach2Screen} /> */}
+            <Stack.Screen name="SignupCoach2" component={SignupCoach2Screen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

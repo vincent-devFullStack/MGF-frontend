@@ -8,6 +8,7 @@ const initialState = {
     name: "",
     email: "",
     password: "",
+    objectif: "",
     dateNaissance: null,
     sexe: "",
     taille: 0,
@@ -29,8 +30,27 @@ export const eleveSlice = createSlice({
         password: action.payload.password,
       };
     },
+    updateFirst: (state, action) => {
+      state.value = {
+        role: action.payload.role,
+        email: action.payload.email,
+        password: action.payload.password,
+      };
+    },
+    updateSecond: (state, action) => {
+      state.value = {
+        firstname: action.payload.firstname,
+        name: action.payload.name,
+      };
+    },
+    updateThird: (state, action) => {
+      state.value = {
+        objectif: action.payload.objectif,
+      };
+    },
   },
 });
 
-export const { updateEleve } = eleveSlice.actions;
+export const { updateEleve, updateFirst, updateSecond, updateThird } =
+  eleveSlice.actions;
 export default eleveSlice.reducer;

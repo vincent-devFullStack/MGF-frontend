@@ -1,7 +1,7 @@
 import {
-  Image,
   StyleSheet,
   Text,
+  Image,
   View,
   SafeAreaView,
   TouchableOpacity,
@@ -9,10 +9,47 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { updateThird } from "../../../reducers/eleve";
 
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function Inscription({ navigation }) {
+  const dispatch = useDispatch();
+
+  const [objectif, setObjectif] = useState("");
+
+  // const BACKEND_ADDRESS = "http://192.168.1.19:3000";
+
+  const handleClickPerte = () => {
+    setObjectif = "Perte de poids";
+    dispatch(
+      updateThird({
+        objectif: objectif,
+      })
+    );
+    setObjectif = "";
+  };
+  const handleClickMuscle = () => {
+    setObjectif = "Prise de muscle";
+    dispatch(
+      updateThird({
+        objectif: objectif,
+      })
+    );
+    setObjectif = "";
+  };
+  const handleClickRéath = () => {
+    setObjectif = "Réathlétisation";
+    dispatch(
+      updateThird({
+        objectif: objectif,
+      })
+    );
+    setObjectif = "";
+  };
+
   return (
     <LinearGradient
       colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
@@ -21,7 +58,9 @@ export default function Inscription({ navigation }) {
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
           <View style={styles.iconBack}>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("SignupEleve2")}
+            >
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={faArrowLeft}
@@ -38,34 +77,48 @@ export default function Inscription({ navigation }) {
               />
             </TouchableOpacity>
           </View>
+
           <View style={styles.progressbar}>
-            <Text style={styles.pourcent}>0 %</Text>
+            <Text style={styles.pourcent}>60 %</Text>
           </View>
+
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Qui êtes vous ?</Text>
+            <Text style={styles.title}>Quel est votre objectif ?</Text>
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.eleveBtn}
-              onPress={() => navigation.navigate("SignupEleve1")}
+              onPress={() => handleClickPerte()}
             >
               <View style={styles.absoluteView}>
-                <Text style={styles.textBtn}>Élève</Text>
+                <Text style={styles.textBtn}>Perte de poids</Text>
               </View>
               <Image
-                source={require("../../assets/coach.jpg")}
+                source={require("../../../assets/coach.jpg")}
                 style={styles.img}
               />
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.coachBtn}
-              onPress={() => navigation.navigate("SignupCoach1")}
+              onPress={() => handleClickMuscle()}
             >
               <View style={styles.absoluteView}>
-                <Text style={styles.textBtn}>Coach</Text>
+                <Text style={styles.textBtn}>Prendre du muscle</Text>
               </View>
               <Image
-                source={require("../../assets/eleve.jpg")}
+                source={require("../../../assets/eleve.jpg")}
+                style={styles.img}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.coachBtn}
+              onPress={() => handleClickRéath()}
+            >
+              <View style={styles.absoluteView}>
+                <Text style={styles.textBtn}>Réathlétisation</Text>
+              </View>
+              <Image
+                source={require("../../../assets/eleve.jpg")}
                 style={styles.img}
               />
             </TouchableOpacity>
@@ -113,13 +166,51 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 36,
+    fontSize: 32,
     fontFamily: "roboto",
     fontWeight: 600,
     color: "white",
   },
+  error: {
+    color: "red",
+  },
+  boxInput: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "90%",
+    height: 250,
+    gap: 10,
+    padding: 40,
+  },
+  titleInput: {
+    color: "#DFB81C",
+    fontSize: 36,
+    fontWeight: 600,
+  },
+  input: {
+    borderBottomColor: "#DFB81C",
+    borderBottomWidth: 1,
+    width: 314,
+    color: "white",
+    marginBottom: 20,
+  },
+
+  inputPass: { color: "white", width: "100%" },
+  icon: { paddingRight: 40 },
+  nextBtn: {
+    backgroundColor: "white",
+    height: 42,
+    width: 174,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+  },
+  btnPosition: {
+    display: "absolute",
+    marginTop: 170,
+  },
   buttonContainer: {
-    height: 300,
+    height: 400,
     width: "100%",
     alignItems: "center",
     justifyContent: "space-around",

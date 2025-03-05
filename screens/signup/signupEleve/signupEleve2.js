@@ -11,25 +11,35 @@ import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { updateSecond } from "../../../reducers/eleve";
 
-import {
-  faArrowLeft,
-  faXmark,
-  faEye,
-  faEyeSlash,
-  faToggleOff,
-  faToggleOn,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function Inscription({ navigation }) {
   const dispatch = useDispatch();
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const BACKEND_ADDRESS = "http://192.168.1.19:3000";
+  const [firstname, setFirstname] = useState("");
+  const [name, setName] = useState("");
+  const [error, setError] = useState("");
+
+  // const BACKEND_ADDRESS = "http://192.168.1.19:3000";
+
+  const handleCheckInputs = async () => {
+    if (!name || !firstname) {
+      setError("Les champs prénom et nom sont requis");
+    } else {
+      setError("");
+    }
+    if (error === "") {
+      dispatch(
+        updateSecond({
+          firstname: firstname,
+          name: name,
+        })
+      );
+      navigation.navigate("SignupEleve3");
+    }
+  };
 
   return (
     <LinearGradient
@@ -39,7 +49,9 @@ export default function Inscription({ navigation }) {
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
           <View style={styles.iconBack}>
-            <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("SignupEleve1")}
+            >
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={faArrowLeft}
@@ -56,7 +68,6 @@ export default function Inscription({ navigation }) {
               />
             </TouchableOpacity>
           </View>
-
           <View style={styles.progressbar}>
             <Text style={styles.pourcent}>40 %</Text>
           </View>
@@ -70,29 +81,29 @@ export default function Inscription({ navigation }) {
                 style={styles.input}
                 placeholder="Indiquez votre prénom"
                 placeholderTextColor={"white"}
-                onChangeText={(value) => setEmail(value)}
-                value={email}
+                onChangeText={(value) => setFirstname(value)}
+                value={firstname}
                 paddingBottom={10}
               ></TextInput>
-
-              <View style={styles.passwordInput}>
-                <TextInput
-                  style={styles.inputPass}
-                  placeholder="Indiquez votre nom"
-                  secureTextEntry={!passwordVisible}
-                  placeholderTextColor={"white"}
-                  onChangeText={(value) => setPassword(value)}
-                  value={password}
-                  paddingBottom={10}
-                ></TextInput>
-                <TouchableOpacity
-                  onPress={() => setPasswordVisible(!passwordVisible)}
-                ></TouchableOpacity>
-              </View>
+              {error && <Text style={styles.error}>{error}</Text>}
+            </View>
+            <View>
+              <TextInput
+                style={styles.input}
+                placeholder="Indiquez votre prénom"
+                placeholderTextColor={"white"}
+                onChangeText={(value) => setName(value)}
+                value={name}
+                paddingBottom={10}
+              ></TextInput>
+              {error && <Text style={styles.error}>{error}</Text>}
             </View>
           </View>
-          <View>
-            <TouchableOpacity>
+          <View style={styles.btnPosition}>
+            <TouchableOpacity
+              style={styles.nextBtn}
+              onPress={() => handleCheckInputs()}
+            >
               <Text style={styles.btn}>Continuer</Text>
             </TouchableOpacity>
           </View>
@@ -115,9 +126,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "90%",
     justifyContent: "space-between",
+    position: "absolute",
+    paddingTop: 70,
   },
   progressbar: {
-    marginTop: 30,
+    marginTop: 70,
     height: 50,
     width: 50,
     backgroundColor: "white",
@@ -137,7 +150,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 36,
+    fontSize: 32,
     fontFamily: "roboto",
     fontWeight: 600,
     color: "white",
@@ -147,8 +160,8 @@ const styles = StyleSheet.create({
   },
   boxInput: {
     alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
+    justifyContent: "center",
+    width: "90%",
     height: 250,
     gap: 10,
     padding: 40,
@@ -161,20 +174,23 @@ const styles = StyleSheet.create({
   input: {
     borderBottomColor: "#DFB81C",
     borderBottomWidth: 1,
-    width: "350",
+    width: 314,
     color: "white",
-    height: 50,
+    marginBottom: 20,
   },
-  passwordInput: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderBottomColor: "#DFB81C",
-    borderBottomWidth: 1,
-    width: "100%",
-    color: "white",
-    height: 50,
-  },
+
   inputPass: { color: "white", width: "100%" },
   icon: { paddingRight: 40 },
+  nextBtn: {
+    backgroundColor: "white",
+    height: 42,
+    width: 174,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+  },
+  btnPosition: {
+    display: "absolute",
+    marginTop: 170,
+  },
 });
