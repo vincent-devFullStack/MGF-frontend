@@ -1,7 +1,7 @@
 import {
   StyleSheet,
   Text,
-  Image,
+  TextInput,
   View,
   SafeAreaView,
   TouchableOpacity,
@@ -14,11 +14,42 @@ import { useDispatch } from "react-redux";
 import { finalUpdate } from "../../../reducers/eleve";
 
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { Dropdown } from "react-native-element-dropdown";
 
 export default function InscriptionEleve4({ navigation }) {
   const dispatch = useDispatch();
 
+  const data = [
+    { label: "Homme", value: "Homme" },
+    { label: "Femme", value: "Femme" },
+  ];
+
+  const [sexe, setSexe] = useState("");
+  const [taille, setTaille] = useState(0);
+  const [dateNaissance, setDateNaissance] = useState(null);
+  const [poids, setPoids] = useState(0);
+  const [error, setError] = useState("");
+
   // const BACKEND_ADDRESS = "http://192.168.1.19:3000";
+
+  const handleCheckInputs = async () => {
+    if (!sexe || !taille) {
+      setError("Tous les champs sont requis");
+    } else {
+      setError("");
+    }
+    if (error === "") {
+      dispatch(
+        finalUpdate({
+          sexe: sexe,
+          taille: taille,
+          dateNaissance: dateNaissance,
+          poids: poids,
+        })
+      );
+      navigation.navigate("HomeEleve");
+    }
+  };
 
   return (
     <LinearGradient
@@ -29,7 +60,7 @@ export default function InscriptionEleve4({ navigation }) {
         <SafeAreaView style={styles.container}>
           <View style={styles.iconBack}>
             <TouchableOpacity
-              onPress={() => navigation.navigate("SignupEleve2")}
+              onPress={() => navigation.navigate("SignupEleve3")}
             >
               <FontAwesomeIcon
                 style={styles.icon}
@@ -49,48 +80,68 @@ export default function InscriptionEleve4({ navigation }) {
           </View>
 
           <View style={styles.progressbar}>
-            <Text style={styles.pourcent}>60 %</Text>
+            <Text style={styles.pourcent}>80 %</Text>
           </View>
 
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Quel est votre objectif ?</Text>
+            <Text style={styles.title}>Un dernier petit effort !</Text>
           </View>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.eleveBtn}
-              onPress={() => handleClickPerte()}
-            >
-              <View style={styles.absoluteView}>
-                <Text style={styles.textBtn}>Perte de poids</Text>
-              </View>
-              <Image
-                source={require("../../../assets/coach.jpg")}
-                style={styles.img}
+          <View style={styles.boxInput}>
+            <View style={styles.ligne1}>
+              <Dropdown
+                style={styles.dropdown}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                iconStyle={styles.iconStyle}
+                data={data}
+                search
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                placeholder=" Votre sexe"
+                value={sexe}
+                onChange={(item) => {
+                  setSexe(item.value);
+                }}
               />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.coachBtn}
-              onPress={() => handleClickMuscle()}
-            >
-              <View style={styles.absoluteView}>
-                <Text style={styles.textBtn}>Prendre du muscle</Text>
+              <View style={styles.input}>
+                <TextInput
+                  style={styles.inputText}
+                  placeholder="Votre taille"
+                  placeholderTextColor={"black"}
+                  onChangeText={(value) => setTaille(value)}
+                  value={taille}
+                ></TextInput>
               </View>
-              <Image
-                source={require("../../../assets/eleve.jpg")}
-                style={styles.img}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.coachBtn}
-              onPress={() => handleClickRéath()}
-            >
-              <View style={styles.absoluteView}>
-                <Text style={styles.textBtn}>Réathlétisation</Text>
+            </View>
+            <View style={styles.ligne2}>
+              <View style={styles.input}>
+                <TextInput
+                  style={styles.inputText1}
+                  placeholder="Votre naissance"
+                  placeholderTextColor={"black"}
+                  onChangeText={(value) => setDateNaissance(value)}
+                  value={dateNaissance}
+                ></TextInput>
               </View>
-              <Image
-                source={require("../../../assets/eleve.jpg")}
-                style={styles.img}
-              />
+              <View style={styles.input1}>
+                <TextInput
+                  style={styles.inputText}
+                  placeholder="Votre poids"
+                  placeholderTextColor={"black"}
+                  onChangeText={(value) => setPoids(value)}
+                  value={poids}
+                ></TextInput>
+              </View>
+            </View>
+          </View>
+          <View style={styles.btnPosition}>
+            <TouchableOpacity
+              style={styles.nextBtn}
+              onPress={() => handleCheckInputs()}
+            >
+              <Text style={styles.btn}>Continuer</Text>
             </TouchableOpacity>
           </View>
         </SafeAreaView>
@@ -158,14 +209,24 @@ const styles = StyleSheet.create({
     fontWeight: 600,
   },
   input: {
-    borderBottomColor: "#DFB81C",
-    borderBottomWidth: 1,
-    width: 314,
-    color: "white",
-    marginBottom: 20,
+    width: 110,
+    color: "black",
+    backgroundColor: "white",
+    borderRadius: 5,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
   },
-
-  inputPass: { color: "white", width: "100%" },
+  input1: {
+    width: 110,
+    color: "black",
+    backgroundColor: "white",
+    borderRadius: 5,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 17,
+  },
   icon: { paddingRight: 40 },
   nextBtn: {
     backgroundColor: "white",
@@ -223,5 +284,31 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     zIndex: -1,
     borderRadius: 10,
+  },
+  dropdown: {
+    margin: 16,
+    height: 40,
+    width: 110,
+    borderBottomColor: "gray",
+    borderBottomWidth: 0.5,
+    backgroundColor: "white",
+    borderRadius: 5,
+  },
+  inputSearchStyle: {
+    display: "none",
+  },
+  selectedTextStyle: {
+    borderRadius: 10,
+  },
+  ligne1: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  ligne2: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    left: 9,
   },
 });
