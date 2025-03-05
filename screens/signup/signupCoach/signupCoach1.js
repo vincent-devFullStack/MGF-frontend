@@ -18,7 +18,7 @@ import {
   faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function inscriptionCoach1({ navigation }) {
+export default function InscriptionCoach1({ navigation }) {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");

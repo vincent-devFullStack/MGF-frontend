@@ -21,7 +21,7 @@ import {
   faToggleOn,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function inscriptionCoach2({ navigation }) {
+export default function InscriptionCoach2({ navigation }) {
   const [firstname, setFirstname] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
@@ -84,7 +84,10 @@ export default function inscriptionCoach2({ navigation }) {
             </View>
           </View>
           <View style={styles.btnPosition}>
-            <TouchableOpacity style={styles.nextBtn}>
+            <TouchableOpacity
+              style={styles.nextBtn}
+              onPress={() => navigation.navigate("SignupCoach3")}
+            >
               <Text style={styles.btn}>Continuer</Text>
             </TouchableOpacity>
           </View>
