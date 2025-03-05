@@ -21,7 +21,7 @@ import {
   faToggleOn,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function inscriptionCoach4({ navigation }) {
+export default function InscriptionCoach4({ navigation }) {
   return (
     <LinearGradient
       colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
