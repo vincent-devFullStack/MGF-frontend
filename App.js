@@ -14,9 +14,9 @@ import coach from "./reducers/coach";
 import LoginScreen from "./screens/LoginScreen";
 //Import des screens inscription
 import SignupScreen from "./screens/signup/SignupScreen";
-import SignupEleve1Screen from "./screens/signup/signupEleve/signupEleve1";
-import SignupEleve2Screen from "./screens/signup/signupEleve/signupEleve2";
-import SignupEleve3Screen from "./screens/signup/signupEleve/signupEleve3";
+import SignupEleve1Screen from "./screens/signup/signupEleve/SignupEleve1";
+import SignupEleve2Screen from "./screens/signup/signupEleve/SignupEleve2";
+import SignupEleve3Screen from "./screens/signup/signupEleve/SignupEleve3";
 import SignupCoach1Screen from "./screens/signup/signupCoach/signupCoach1";
 import SignupCoach2Screen from "./screens/signup/signupCoach/signupCoach2";
 import SignupCoach3Screen from "./screens/signup/signupCoach/signupCoach3";
