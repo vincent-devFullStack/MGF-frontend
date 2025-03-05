@@ -41,7 +41,7 @@ export default function InscriptionEleve4({ navigation }) {
     }
   };
 
-  const BACKEND_ADDRESS = "http://172.20.10.4:3000";
+  const BACKEND_ADDRESS = "http://192.168.1.19:3000";
 
   async function registerUser() {
     if (!sexe || !taille || !dateNaissance || !poids) {
@@ -51,7 +51,6 @@ export default function InscriptionEleve4({ navigation }) {
 
     setError("");
 
-    // Mise à jour de l'état global avec Redux
     dispatch(
       finalUpdate({
         sexe: sexe,
@@ -61,15 +60,23 @@ export default function InscriptionEleve4({ navigation }) {
       })
     );
 
-    // Attendre que l'état Redux soit mis à jour
-    // Vous pouvez faire un `console.log` ici pour vérifier `eleveData`
     console.log("eleveData après mise à jour:", eleveData);
 
-    // Effectuer l'appel au backend avec `eleveData`
     const response = await fetch(`${BACKEND_ADDRESS}/signupEleve`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(eleveData),
+      body: JSON.stringify({
+        role: eleveData.role,
+        firstname: eleveData.firstname,
+        name: eleveData.name,
+        email: eleveData.email,
+        password: eleveData.password,
+        objectif: eleveData.objectif,
+        dateNaissance: eleveData.dateNaissance,
+        sexe: eleveData.sexe,
+        taille: eleveData.taille,
+        poids: eleveData.poids,
+      }),
     });
 
     const data = await response.json();
