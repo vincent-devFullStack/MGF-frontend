@@ -30,9 +30,10 @@ export default function InscriptionEleve4({ navigation }) {
   const [poids, setPoids] = useState("");
   const [error, setError] = useState("");
 
-  const BACKEND_ADDRESS = "http://192.168.1.19:3000";
+  const BACKEND_ADDRESS = "http://172.20.10.4:3000";
 
   async function registerUser() {
+    console.log("bouton cliqué");
     if (!sexe || !taille || !dateNaissance || !poids) {
       setError("Tous les champs sont requis");
       return;
@@ -40,7 +41,8 @@ export default function InscriptionEleve4({ navigation }) {
 
     setError("");
 
-    dispatch(finalUpdate({ sexe, taille, dateNaissance, poids }));
+    console.log("Avant dispatch :", eleveData);
+    dispatch(finalUpdate({ sexe, taille, dateNaissance, poids, token }));
 
     const updatedEleveData = {
       sexe,
@@ -56,6 +58,7 @@ export default function InscriptionEleve4({ navigation }) {
     });
 
     const data = await response.json();
+    console.log(data);
 
     if (data.success) {
       console.log("Inscription réussie :", data);

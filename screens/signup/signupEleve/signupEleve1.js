@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
 import { updateFirst } from "../../../reducers/eleve";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   faArrowLeft,
@@ -23,6 +23,7 @@ import {
 
 export default function InscriptionEleve1({ navigation }) {
   const dispatch = useDispatch();
+  const eleveData = useSelector((state) => state.eleve);
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState("");
@@ -49,6 +50,7 @@ export default function InscriptionEleve1({ navigation }) {
       const data = await response.json();
       console.log(data.result);
       if (data.result === false) {
+        await console.log("Avant dispatch :", eleveData);
         dispatch(
           updateFirst({
             role: role,

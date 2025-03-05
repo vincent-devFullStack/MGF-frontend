@@ -10,19 +10,18 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateSecond } from "../../../reducers/eleve";
 
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function InscriptionEleve2({ navigation }) {
   const dispatch = useDispatch();
+  const eleveData = useSelector((state) => state.eleve);
 
   const [firstname, setFirstname] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
-
-  // const BACKEND_ADDRESS = "http://192.168.1.19:3000";
 
   const handleCheckInputs = async () => {
     if (!name || !firstname) {
@@ -31,6 +30,7 @@ export default function InscriptionEleve2({ navigation }) {
       setError("");
     }
     if (error === "") {
+      await console.log("Avant dispatch :", eleveData);
       dispatch(
         updateSecond({
           firstname: firstname,
