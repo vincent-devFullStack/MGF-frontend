@@ -35,7 +35,7 @@ export default function InscriptionCoach3({ navigation }) {
   const [error, setError] = useState(null);
   const [errorInput, setErrorInput] = useState(null);
 
-  const BACKEND_ADDRESS = "http://192.168.9.21:3000";
+  const BACKEND_ADDRESS = "http://192.168.1.15:3000";
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
