@@ -10,7 +10,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { finalUpdate } from "../../../reducers/eleve";
 
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -18,6 +18,8 @@ import { Dropdown } from "react-native-element-dropdown";
 
 export default function InscriptionEleve4({ navigation }) {
   const dispatch = useDispatch();
+
+  const eleveData = useSelector((state) => state.eleve);
 
   const data = [
     { label: "Homme", value: "Homme" },
@@ -33,7 +35,7 @@ export default function InscriptionEleve4({ navigation }) {
   // const BACKEND_ADDRESS = "http://192.168.1.19:3000";
 
   const handleCheckInputs = async () => {
-    if (!sexe || !taille) {
+    if (!sexe || !taille || !dateNaissance || !poids) {
       setError("Tous les champs sont requis");
     } else {
       setError("");
