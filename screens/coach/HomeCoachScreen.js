@@ -6,25 +6,40 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
+  Image,
+  TouchableOpacity,
 } from "react-native";
+import VignetteRdv from "../../components/coach/VignetteRdv";
+
 import { LinearGradient } from "expo-linear-gradient";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
 import { BACKEND_ADDRESS } from "../../env";
 
 export default function HomeCoachScreen() {
+  const isFocused = useIsFocused();
   const coach = useSelector((state) => state.coach.value);
   const [rdv, setRdv] = useState([]);
 
   useEffect(() => {
     // Fetch rdv coach from API
-    fetch(`http://localhost:3000/rdv/${coach.token}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setRdv(data.rdv);
-        console.log(data.rdv);
-      });
-  }, []);
+    if (isFocused) {
+      fetch(`${BACKEND_ADDRESS}/coach/rdv/${coach.token}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setRdv(data.rdv);
+        });
+    }
+  }, [isFocused]);
+
+  const rdvList = rdv.map((data, i) => {
+    return <VignetteRdv key={i} {...data} />;
+  });
+
+  if (!isFocused) {
+    return <View />;
+  }
 
   return (
     <LinearGradient
@@ -36,10 +51,18 @@ export default function HomeCoachScreen() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <SafeAreaView style={styles.container}>
-          <Text style={styles.title}>Coachings du jour</Text>
-          <ScrollView contentContainerStyle={styles.containerRdv}></ScrollView>
-          <Text style={styles.secondTitle}>Echéances abonnements</Text>
-          <ScrollView contentContainerStyle={styles.containerAbo}></ScrollView>
+          <View style={styles.boxOne}>
+            <Text style={styles.title}>Coachings du jour</Text>
+            <ScrollView contentContainerStyle={styles.containerRdv}>
+              {rdv && rdvList}
+            </ScrollView>
+          </View>
+          <View style={styles.boxTwo}>
+            <Text style={styles.secondTitle}>Echéances abonnements</Text>
+            <ScrollView
+              contentContainerStyle={styles.containerAbo}
+            ></ScrollView>
+          </View>
         </SafeAreaView>
       </KeyboardAvoidingView>
     </LinearGradient>
@@ -49,21 +72,33 @@ export default function HomeCoachScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "flex-start",
+    paddingTop: 70,
+    padding: 40,
+    gap: 10,
   },
   background: {
     flex: 1,
   },
+  boxOne: {
+    width: "100%",
+    height: "60%",
+  },
+  boxTwo: {
+    width: "100%",
+    height: "40%",
+  },
   title: {
-    fontSize: 36,
+    fontSize: 34,
     color: "white",
   },
   containerRdv: {
     width: "100%",
-    height: "60%",
+    gap: 10,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    flexGrow: 1,
   },
   secondTitle: {
     fontSize: 24,
@@ -71,8 +106,8 @@ const styles = StyleSheet.create({
   },
   containerAbo: {
     width: "100%",
-    height: "40%",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    flexGrow: 1,
   },
 });
