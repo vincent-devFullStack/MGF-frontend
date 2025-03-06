@@ -93,7 +93,7 @@ export default function InscriptionCoach4({ navigation }) {
     >
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : "position"}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <SafeAreaView style={styles.container}>
           <View style={styles.iconBack}>
