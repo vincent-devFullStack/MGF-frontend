@@ -19,8 +19,7 @@ export default function HomeEleveScreen() {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
-  const BACKEND_ADDRESS = "http://172.20.10.4:3000";
-
+  const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
   const eleveData = useSelector((state) => state.eleve.value);
 
   useEffect(() => {

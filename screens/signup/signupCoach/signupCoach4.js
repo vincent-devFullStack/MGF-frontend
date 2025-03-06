@@ -26,8 +26,7 @@ export default function InscriptionCoach4({ navigation }) {
   const [domaines, setDomaines] = useState("");
   const [error, setError] = useState("");
 
-  const BACKEND_ADDRESS = "http://192.168.1.15:3000";
-
+  const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
   const handleCheckInputs = async () => {
     if (
       !checkBody(

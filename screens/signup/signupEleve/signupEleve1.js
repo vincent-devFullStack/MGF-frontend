@@ -32,7 +32,7 @@ export default function InscriptionEleve1({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const role = "eleve";
 
-  const BACKEND_ADDRESS = "http://172.20.10.4:3000";
+  const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
 
   const handleCheckInputs = async () => {
     if (password !== confirmPassword) {

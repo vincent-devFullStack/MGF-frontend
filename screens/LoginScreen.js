@@ -22,7 +22,7 @@ import { updateCoach } from "../reducers/coach";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-const BACKEND_ADDRESS = "http://172.20.10.4:3000";
+const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
 
 export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();

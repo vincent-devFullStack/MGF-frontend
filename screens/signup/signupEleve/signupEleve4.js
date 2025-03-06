@@ -43,8 +43,7 @@ export default function InscriptionEleve4({ navigation }) {
     }
   };
 
-  const BACKEND_ADDRESS = "http://172.20.10.4:3000";
-
+  const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
   async function registerUser() {
     if (
       !checkBody(

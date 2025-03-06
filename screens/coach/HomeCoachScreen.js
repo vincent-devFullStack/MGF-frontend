@@ -12,8 +12,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 export default function HomeCoachScreen() {
-  const BACKEND_ADDRESS = "http://192.168.9.21:3000";
-
+  const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
   const coach = useSelector((state) => state.coach.value);
   const [rdv, setRdv] = useState([]);
 
