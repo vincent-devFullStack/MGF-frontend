@@ -74,30 +74,25 @@ export default function InscriptionEleve4({ navigation }) {
       })
     );
 
-    try {
-      const response = await fetch(`${BACKEND_ADDRESS}/signupEleve`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          role: eleveData.role,
-          firstname: eleveData.firstname,
-          name: eleveData.name,
-          email: eleveData.email,
-          password: eleveData.password,
-          objectif: eleveData.objectif,
-          dateNaissance: eleveData.dateNaissance,
-          sexe: eleveData.sexe,
-          taille: eleveData.taille,
-          poids: eleveData.poids,
-        }),
-      });
+    const response = await fetch(`${BACKEND_ADDRESS}/signupEleve`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        role: eleveData.role,
+        firstname: eleveData.firstname,
+        name: eleveData.name,
+        email: eleveData.email,
+        password: eleveData.password,
+        objectif: eleveData.objectif,
+        dateNaissance: eleveData.dateNaissance,
+        sexe: eleveData.sexe,
+        taille: eleveData.taille,
+        poids: eleveData.poids,
+      }),
+    });
 
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.error(" Erreur fetch :", error);
-    }
     const data = await response.json();
+    console.log(data);
 
     if (data.result) {
       dispatch(
@@ -110,6 +105,7 @@ export default function InscriptionEleve4({ navigation }) {
           password: data.data.password,
         })
       );
+
       navigation.navigate("EleveTabs", { screen: "HomeEleve" });
     } else {
       setError(data.message || "Erreur lors de l'inscription");
