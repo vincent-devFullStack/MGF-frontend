@@ -13,7 +13,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { finalUpdate } from "../../../reducers/eleve";
+import { finalUpdate, updateEleve } from "../../../reducers/eleve";
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "react-native-element-dropdown";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -43,7 +43,7 @@ export default function InscriptionEleve4({ navigation }) {
     }
   };
 
-  const BACKEND_ADDRESS = "http://192.168.1.19:3000";
+  const BACKEND_ADDRESS = "http://172.20.10.4:3000";
 
   async function registerUser() {
     if (
@@ -100,7 +100,17 @@ export default function InscriptionEleve4({ navigation }) {
     const data = await response.json();
 
     if (data.result) {
-      navigation.navigate("HomeEleve");
+      dispatch(
+        updateEleve({
+          token: data.data.token,
+          role: data.data.role,
+          firstname: data.data.firstname,
+          name: data.data.name,
+          email: data.data.email,
+          password: data.data.password,
+        })
+      );
+      navigation.navigate("EleveTabs", { screen: "HomeEleve" });
     } else {
       setError(data.message || "Erreur lors de l'inscription");
     }
