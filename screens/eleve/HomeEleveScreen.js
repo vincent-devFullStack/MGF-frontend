@@ -1,3 +1,9 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
+
+import SearchNewCoach from "../../components/SearchNewCoach";
+
 import {
   Image,
   StyleSheet,
@@ -9,6 +15,42 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function HomeEleveScreen() {
+  const [visible, setVisible] = useState(false);
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
+
+  const BACKEND_ADDRESS = "http://172.20.10.4:3000";
+
+  const eleveData = useSelector((state) => state.eleve.value);
+
+  useEffect(() => {
+    fetch(`${BACKEND_ADDRESS}/eleve/${eleveData.token}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.data.coach !== undefined) {
+          setVisible(true);
+          console.log(data.data.coach);
+        } else {
+          setVisible(false);
+          console.log(data.data.coach);
+        }
+      });
+  }, [isFocused]);
+
+  useEffect(() => {
+    console.log("Visible state:", visible);
+  }, [visible]);
+
+  console.log(visible);
+
+  const researchVisibleCard = () => {
+    if (visible) {
+      return <SearchNewCoach />;
+    }
+  };
+  if (!isFocused) {
+    return <View />;
+  }
   return (
     <LinearGradient
       colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
@@ -16,6 +58,7 @@ export default function HomeEleveScreen() {
     >
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
+          {researchVisibleCard()}
           <View style={styles.header}>
             <View>
               <Image
@@ -29,6 +72,7 @@ export default function HomeEleveScreen() {
               </Text>
             </View>
           </View>
+
           <Text>Elève Home Screen</Text>
         </SafeAreaView>
       </KeyboardAvoidingView>

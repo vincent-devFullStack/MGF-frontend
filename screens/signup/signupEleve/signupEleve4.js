@@ -92,7 +92,7 @@ export default function InscriptionEleve4({ navigation }) {
     });
 
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
 
     if (data.result) {
       dispatch(
