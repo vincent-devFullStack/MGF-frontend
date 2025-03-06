@@ -1,5 +1,6 @@
 import {
   StyleSheet,
+  Platform,
   Text,
   TextInput,
   View,
@@ -68,7 +69,10 @@ export default function InscriptionEleve1({ navigation }) {
       colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
       style={styles.background}
     >
-      <KeyboardAvoidingView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         <SafeAreaView style={styles.container}>
           <View style={styles.iconBack}>
             <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
