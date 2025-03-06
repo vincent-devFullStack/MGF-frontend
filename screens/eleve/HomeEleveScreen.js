@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Platform,
   SafeAreaView,
   KeyboardAvoidingView,
 } from "react-native";
@@ -26,12 +27,14 @@ export default function HomeEleveScreen() {
     fetch(`${BACKEND_ADDRESS}/eleve/${eleveData.token}`)
       .then((response) => response.json())
       .then((data) => {
-        if (data.data.coach !== undefined) {
+        // console.log(data.data.coach);
+
+        if (data.data.coach === undefined) {
           setVisible(true);
-          console.log(data.data.coach);
+          // console.log("coach is:", data.data.coach.firstname);
         } else {
           setVisible(false);
-          console.log(data.data.coach);
+          // console.log(data.data.coach);
         }
       });
   }, [isFocused]);

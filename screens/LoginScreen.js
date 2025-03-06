@@ -200,6 +200,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     padding: 20,
     color: "white",
+    shadowColor: "black",
+    shadowOffset: { width: 3, height: 3 },
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
   },
   titleColor: {
     color: "#DFB81C",
@@ -241,6 +245,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     gap: 10,
+    shadowColor: "black",
+    shadowOffset: { width: 3, height: 3 },
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
   },
   textToggle: {
     fontWeight: 600,
@@ -253,6 +261,10 @@ const styles = StyleSheet.create({
     height: 42,
     backgroundColor: "#DFB81C",
     borderRadius: 5,
+    shadowColor: "black",
+    shadowOffset: { width: 3, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
   },
   buttonText: {
     fontWeight: 600,
