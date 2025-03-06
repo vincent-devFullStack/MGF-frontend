@@ -18,6 +18,7 @@ import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "react-native-element-dropdown";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { checkBody } from "../../../modules/checkBody";
+import { BACKEND_ADDRESS } from "../../../env";
 
 export default function InscriptionEleve4({ navigation }) {
   const dispatch = useDispatch();
@@ -43,7 +44,6 @@ export default function InscriptionEleve4({ navigation }) {
     }
   };
 
-  const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
   async function registerUser() {
     if (
       !checkBody(

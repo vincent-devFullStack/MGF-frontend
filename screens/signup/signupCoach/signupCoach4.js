@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkBody } from "../../../modules/checkBody";
+import { BACKEND_ADDRESS } from "../../../env";
 
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { updateFourth, updateCoach } from "../../../reducers/coach";
@@ -26,7 +27,6 @@ export default function InscriptionCoach4({ navigation }) {
   const [domaines, setDomaines] = useState("");
   const [error, setError] = useState("");
 
-  const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
   const handleCheckInputs = async () => {
     if (
       !checkBody(

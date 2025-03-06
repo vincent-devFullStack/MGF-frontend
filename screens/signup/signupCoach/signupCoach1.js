@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateFirst } from "../../../reducers/coach";
+import { BACKEND_ADDRESS } from "../../../env";
 
 import {
   faArrowLeft,
@@ -31,7 +32,6 @@ export default function InscriptionCoach1({ navigation }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
   const handleCheckInputs = async () => {
     if (password !== confirmPassword) {
       setError("Les mots de passe ne correspondent pas");

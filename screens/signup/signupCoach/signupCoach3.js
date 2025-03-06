@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { checkBody } from "../../../modules/checkBody";
+import { BACKEND_ADDRESS } from "../../../env";
 
 import {
   faArrowLeft,
@@ -35,7 +36,6 @@ export default function InscriptionCoach3({ navigation }) {
   const [error, setError] = useState(null);
   const [errorInput, setErrorInput] = useState(null);
 
-  const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 

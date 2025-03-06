@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
+import { BACKEND_ADDRESS } from "../../env";
 
 import SearchNewCoach from "../../components/SearchNewCoach";
 
@@ -19,7 +20,6 @@ export default function HomeEleveScreen() {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
-  const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
   const eleveData = useSelector((state) => state.eleve.value);
 
   useEffect(() => {

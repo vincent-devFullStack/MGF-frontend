@@ -17,12 +17,12 @@ import {
   faToggleOn,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { BACKEND_ADDRESS } from "../env";
+
 import { updateEleve } from "../reducers/eleve";
 import { updateCoach } from "../reducers/coach";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-
-const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
 
 export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();

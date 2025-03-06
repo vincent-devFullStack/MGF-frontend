@@ -10,9 +10,9 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { BACKEND_ADDRESS } from "../../env";
 
 export default function HomeCoachScreen() {
-  const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
   const coach = useSelector((state) => state.coach.value);
   const [rdv, setRdv] = useState([]);
 

@@ -12,6 +12,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
 import { updateFirst } from "../../../reducers/eleve";
+import { BACKEND_ADDRESS } from "../../../env";
 
 import { useDispatch } from "react-redux";
 
@@ -31,8 +32,6 @@ export default function InscriptionEleve1({ navigation }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const role = "eleve";
-
-  const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
 
   const handleCheckInputs = async () => {
     if (password !== confirmPassword) {
