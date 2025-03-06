@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
 import { BACKEND_ADDRESS } from "../../env";
 
-import SearchNewCoach from "../../components/SearchNewCoach";
+import SearchNewCoach from "../../components/eleve/SearchNewCoach";
 
 import {
   Image,
@@ -18,7 +18,6 @@ import { LinearGradient } from "expo-linear-gradient";
 
 export default function HomeEleveScreen() {
   const [visible, setVisible] = useState(false);
-  const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
   const eleveData = useSelector((state) => state.eleve.value);

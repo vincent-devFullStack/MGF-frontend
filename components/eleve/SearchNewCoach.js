@@ -5,6 +5,7 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import * as React from "react";
 
@@ -13,8 +14,8 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { RadioButton } from "react-native-paper";
-import { BACKEND_ADDRESS } from "../env";
-import MiniatureCoach from "../components/MiniatureCoach";
+import { BACKEND_ADDRESS } from "../../env";
+import MiniatureCoach from "../eleve/MiniatureCoach";
 
 function SearchNewCoach() {
   const [search, setSearch] = useState("");
@@ -96,12 +97,14 @@ function SearchNewCoach() {
         colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
         style={styles.background2}
       >
-        {coachs}
-        {coachs}
-        {coachs}
-        {coachs}
-        {coachs}
-        {coachs}
+        <ScrollView contentContainerStyle={styles.coachList}>
+          {coachs}
+          {coachs}
+          {coachs}
+          {coachs}
+          {coachs}
+          {coachs}
+        </ScrollView>
       </LinearGradient>
       <View style={styles.btnPosition}>
         <TouchableOpacity
@@ -183,6 +186,12 @@ const styles = StyleSheet.create({
   btnPosition: {
     display: "absolute",
     marginTop: 30,
+  },
+  coachList: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    paddingVertical: 10,
   },
 });
 
