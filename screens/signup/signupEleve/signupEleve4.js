@@ -62,6 +62,7 @@ export default function InscriptionEleve4({ navigation }) {
 
     setError("");
     const formattedDateNaissance = dateNaissance.toISOString().split("T")[0];
+    console.log(formattedDateNaissance);
 
     dispatch(
       finalUpdate({

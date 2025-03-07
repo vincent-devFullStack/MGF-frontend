@@ -124,7 +124,7 @@ export default function VignetteCoach(props) {
 
 const styles = StyleSheet.create({
   background: {
-    width: "100%",
+    width: "95%",
     height: 100,
     borderRadius: 10,
     marginBottom: 10,

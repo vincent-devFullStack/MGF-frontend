@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
+import * as Location from "expo-location";
 import * as React from "react";
 import { BACKEND_ADDRESS } from "../../env";
 import { RadioButton } from "react-native-paper";
@@ -17,11 +18,32 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faXmark, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import MapView from "react-native-maps";
 import VignetteCoach from "../../components/eleve/VignetteCoach";
+import MaskedView from "@react-native-community/masked-view";
 
 export default function MapScreen({ navigation }) {
   const [search, setSearch] = useState("");
   const [checked, setChecked] = React.useState("first");
   const [coachList, setCoachList] = useState([]);
+  const [currentPosition, setCurrentPosition] = useState(null);
+  const [newPlace, setNewPlace] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const result = await Location.requestForegroundPermissionsAsync();
+      const status = result?.status;
+
+      if (status === "granted") {
+        Location.watchPositionAsync({ distanceInterval: 10 }, (location) => {
+          setCurrentPosition(location.coords);
+        });
+      }
+    })();
+    // fetch(`${BACKEND_ADDRESS}/places/${user.nickname}`)
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     data.result && dispatch(importPlaces(data.places));
+    //   });
+  }, []);
 
   useEffect(() => {
     fetch(`${BACKEND_ADDRESS}/coach`)
@@ -111,19 +133,37 @@ export default function MapScreen({ navigation }) {
             style={styles.background2}
           >
             <MapView
-              initialRegion={{
-                latitude: 37.78825,
-                longitude: -122.4324,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-              }}
+              initialRegion={currentPosition}
+              mapType="hybridFlyover"
               style={styles.map}
             ></MapView>
-            <View style={styles.background3}>
-              <ScrollView contentContainerStyle={styles.coachList}>
-                {coachs}
-              </ScrollView>
-            </View>
+
+            <MaskedView
+              style={styles.maskedContainer}
+              maskElement={
+                <LinearGradient
+                  colors={[
+                    "black",
+                    "black",
+                    "black",
+                    "black",
+                    "transparent",
+                    "transparent",
+                  ]}
+                  style={styles.maskGradient}
+                />
+              }
+            >
+              <LinearGradient
+                colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
+                style={styles.coachListContainer}
+              >
+                <ScrollView contentContainerStyle={styles.coachList}>
+                  {coachs}
+                  {coachs}
+                </ScrollView>
+              </LinearGradient>
+            </MaskedView>
           </LinearGradient>
         </SafeAreaView>
       </KeyboardAvoidingView>
@@ -157,6 +197,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexWrap: "wrap",
+  },
+  maskedContainer: {
+    height: "60%",
+    width: "95%",
+    borderRadius: 10,
+    overflow: "hidden", // Important pour appliquer correctement le masque
+  },
+  maskGradient: {
+    height: "100%", // S'assure que le gradient couvre toute la hauteur
+    width: "100%", // et toute la largeur de l'écran
   },
   cross: {
     position: "absolute",
@@ -207,5 +257,7 @@ const styles = StyleSheet.create({
   },
   coachList: {
     height: "150%",
+    alignItems: "center",
+    marginTop: 10,
   },
 });
