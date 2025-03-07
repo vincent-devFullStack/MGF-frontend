@@ -9,15 +9,12 @@ import {
 } from "react-native";
 import * as React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { BACKEND_ADDRESS } from "../../env";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-// import { BlurView } from "expo-blur";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 function MiniatureCoach(props) {
-  const dispatch = useDispatch();
   const [coachList, setCoachList] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -58,7 +55,7 @@ function MiniatureCoach(props) {
           <View>
             <Text style={styles.desc}>{props.firstname}</Text>
             <Text style={styles.desc1}>{props.domaineExpertise}</Text>
-            <Text style={styles.desc1}>
+            <Text style={styles.desc2}>
               {props.diplomes[0]} {props.diplomes[1]} {props.diplomes[2]}{" "}
               {props.diplomes[3]}
             </Text>
@@ -139,7 +136,13 @@ const styles = StyleSheet.create({
   },
   desc1: {
     textAlign: "center",
-    fontSize: 14,
+    fontSize: 15,
+    color: "white",
+  },
+  desc2: {
+    textAlign: "center",
+    fontSize: 13,
+    fontWeight: "bold",
     color: "white",
   },
   content: {
@@ -215,8 +218,8 @@ const styles = StyleSheet.create({
   },
   cross: {
     position: "absolute",
-    top: 0,
-    right: 10,
+    top: 5,
+    right: -5,
     padding: 10,
   },
 });
