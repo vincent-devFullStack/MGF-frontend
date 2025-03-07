@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
 import { BACKEND_ADDRESS } from "../../env";
 import { formatDate } from "../../modules/formatDate";
+import MaskedView from "@react-native-community/masked-view";
 
 export default function HomeCoachScreen() {
   const isFocused = useIsFocused();
@@ -64,16 +65,36 @@ export default function HomeCoachScreen() {
       >
         <SafeAreaView style={styles.container}>
           <View style={styles.boxOne}>
-            <Text style={styles.title}>Coachings du jour</Text>
-            <ScrollView contentContainerStyle={styles.containerRdv}>
-              {rdv && rdvList}
-            </ScrollView>
+            <MaskedView
+              style={styles.maskedContainer}
+              maskElement={
+                <LinearGradient
+                  colors={["black", "black", "black", "black", "transparent"]}
+                  style={styles.maskGradient}
+                />
+              }
+            >
+              <Text style={styles.title}>Coachings du jour</Text>
+              <ScrollView contentContainerStyle={styles.containerRdv}>
+                {rdv && rdvList}
+              </ScrollView>
+            </MaskedView>
           </View>
           <View style={styles.boxTwo}>
-            <Text style={styles.secondTitle}>Echéances abonnements</Text>
-            <ScrollView
-              contentContainerStyle={styles.containerAbo}
-            ></ScrollView>
+            <MaskedView
+              style={styles.maskedContainer}
+              maskElement={
+                <LinearGradient
+                  colors={["black", "black", "black", "black", "transparent"]}
+                  style={styles.maskGradient}
+                />
+              }
+            >
+              <Text style={styles.secondTitle}>Echéances abonnements</Text>
+              <ScrollView
+                contentContainerStyle={styles.containerAbo}
+              ></ScrollView>
+            </MaskedView>
           </View>
         </SafeAreaView>
       </KeyboardAvoidingView>
@@ -121,5 +142,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     flexGrow: 1,
+  },
+  maskedContainer: {
+    height: "100%",
+    width: "100%",
+    borderRadius: 10,
+    overflow: "hidden", // Important pour appliquer correctement le masque
+  },
+  maskGradient: {
+    height: "100%", // S'assure que le gradient couvre toute la hauteur
+    width: "100%", // et toute la largeur de l'écran
   },
 });
