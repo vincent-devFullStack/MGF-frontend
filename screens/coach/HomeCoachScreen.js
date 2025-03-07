@@ -16,18 +16,19 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
 import { BACKEND_ADDRESS } from "../../env";
+import { formatDate } from "../../modules/formatDate";
 
 export default function HomeCoachScreen() {
   const isFocused = useIsFocused();
   const coach = useSelector((state) => state.coach.value);
-  const [rdv, setRdv] = useState([]);
 
-  const date = Date.now();
-  const yearCurrent = new Date(date).getFullYear();
-  const monthCurrent = new Date(date).getMonth();
-  const dayCurrent = new Date(date).getDate();
+  const [rdv, setRdv] = useState([]);
+  const [date, setDate] = useState("");
+
+  const dateCurrent = Date.now();
 
   useEffect(() => {
+    setDate(formatDate(dateCurrent));
     // Fetch rdv coach from API
     if (isFocused && coach?.token) {
       fetch(`${BACKEND_ADDRESS}/coach/rdv/${coach.token}`)
@@ -43,11 +44,7 @@ export default function HomeCoachScreen() {
   }, [isFocused, coach]);
 
   const rdvList = rdv.map((data, i) => {
-    const year = new Date(data.date).getFullYear();
-    const month = new Date(data.date).getMonth();
-    const day = new Date(data.date).getDate();
-
-    if (year === yearCurrent && month === monthCurrent && day === dayCurrent) {
+    if (date === formatDate(new Date(data.date))) {
       return <VignetteRdv key={i} {...data} />;
     }
   });

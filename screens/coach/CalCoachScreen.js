@@ -8,10 +8,94 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import VignetteRdv from "../../components/coach/VignetteRdv";
 import { LinearGradient } from "expo-linear-gradient";
-import { Calendar, CalendarList, Agenda } from "react-native-calendars";
+import { Calendar, LocaleConfig } from "react-native-calendars";
+import { useIsFocused } from "@react-navigation/native";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { BACKEND_ADDRESS } from "../../env";
+import { formatDate } from "../../modules/formatDate";
+
+LocaleConfig.locales["fr"] = {
+  monthNames: [
+    "Janvier",
+    "Février",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Août",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Décembre",
+  ],
+  monthNamesShort: [
+    "Janv.",
+    "Févr.",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juil.",
+    "Août",
+    "Sept.",
+    "Oct.",
+    "Nov.",
+    "Déc.",
+  ],
+  dayNames: [
+    "Dimanche",
+    "Lundi",
+    "Mardi",
+    "Mercredi",
+    "Jeudi",
+    "Vendredi",
+    "Samedi",
+  ],
+  dayNamesShort: ["Dim.", "Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam."],
+  today: "Aujourd'hui",
+};
+
+LocaleConfig.defaultLocale = "fr";
 
 export default function CalCoachScreen() {
+  const isFocused = useIsFocused();
+  const coach = useSelector((state) => state.coach.value);
+
+  const [selected, setSelected] = useState("");
+  const [rdv, setRdv] = useState([]);
+
+  const dateCurrent = Date.now();
+
+  useEffect(() => {
+    setSelected(formatDate(dateCurrent));
+    // Fetch rdv coach from API
+    if (isFocused && coach?.token) {
+      fetch(`${BACKEND_ADDRESS}/coach/rdv/${coach.token}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setRdv(data.rdv);
+        })
+        .catch((error) => {
+          console.error("Erreur lors du fetch des RDV:", error);
+          setRdv([]);
+        });
+    }
+  }, [isFocused, coach]);
+
+  const rdvList = rdv.map((data, i) => {
+    if (selected === formatDate(new Date(data.date))) {
+      return <VignetteRdv key={i} {...data} />;
+    }
+  });
+
+  if (!isFocused) {
+    return <View />;
+  }
+
   return (
     <LinearGradient
       colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
@@ -24,15 +108,36 @@ export default function CalCoachScreen() {
         <SafeAreaView style={styles.container}>
           <View style={styles.boxCal}>
             <Calendar
+              style={styles.calendar}
               onDayPress={(day) => {
-                console.log("selected day", day);
+                setSelected(day.dateString);
+              }}
+              theme={{
+                backgroundColor: "transparent",
+                calendarBackground: "transparent",
+                textSectionTitleColor: "#B3B3B3",
+                selectedDayBackgroundColor: "#00adf5",
+                selectedDayTextColor: "#ffffff",
+                todayTextColor: "#101018",
+                todayBackgroundColor: "#DFB81C",
+                dayTextColor: "#ffffff",
+                textDisabledColor: "#616161",
+                monthTextColor: "white",
+                arrowColor: "white",
+              }}
+              markedDates={{
+                [selected]: {
+                  selected: true,
+                  disableTouchEvent: true,
+                  selectedDotColor: "orange",
+                },
               }}
             />
           </View>
           <View style={styles.boxRdv}>
-            <ScrollView
-              contentContainerStyle={styles.containerRdv}
-            ></ScrollView>
+            <ScrollView contentContainerStyle={styles.containerRdv}>
+              {rdv && rdvList}
+            </ScrollView>
           </View>
           <View style={styles.boxBtn}>
             <TouchableOpacity style={styles.button}>
@@ -59,11 +164,14 @@ const styles = StyleSheet.create({
   },
   boxCal: {
     width: "100%",
-    height: "35%",
+    height: "55%",
+  },
+  calendar: {
+    backgroundColor: "transparent",
   },
   boxRdv: {
     width: "100%",
-    height: "60%",
+    height: "40%",
   },
   containerRdv: {
     width: "100%",
