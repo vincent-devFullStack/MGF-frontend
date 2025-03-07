@@ -105,6 +105,7 @@ const CoachTabs = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
+        tabBarStyle: { backgroundColor: "#383853" },
         tabBarIcon: ({ color, size }) => {
           let iconName = "";
 
@@ -123,7 +124,7 @@ const CoachTabs = () => {
           return <FontAwesomeIcon icon={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: "#DFB81C",
-        tabBarInactiveTintColor: "gray",
+        tabBarInactiveTintColor: "#b2b2b2",
         tabBarShowLabel: false,
         headerShown: false,
       })}

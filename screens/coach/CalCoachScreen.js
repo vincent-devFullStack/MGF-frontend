@@ -16,6 +16,9 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { BACKEND_ADDRESS } from "../../env";
 import { formatDate } from "../../modules/formatDate";
+import MaskedView from "@react-native-community/masked-view";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 LocaleConfig.locales["fr"] = {
   monthNames: [
@@ -134,14 +137,22 @@ export default function CalCoachScreen() {
               }}
             />
           </View>
-          <View style={styles.boxRdv}>
+          <MaskedView
+            style={styles.maskedContainer}
+            maskElement={
+              <LinearGradient
+                colors={["black", "black", "black", "black", "transparent"]}
+                style={styles.maskGradient}
+              />
+            }
+          >
             <ScrollView contentContainerStyle={styles.containerRdv}>
               {rdv && rdvList}
             </ScrollView>
-          </View>
+          </MaskedView>
           <View style={styles.boxBtn}>
             <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Ajouter</Text>
+              <FontAwesomeIcon icon={faPlus} color={"#101018"} />
             </TouchableOpacity>
           </View>
         </SafeAreaView>
@@ -169,10 +180,6 @@ const styles = StyleSheet.create({
   calendar: {
     backgroundColor: "transparent",
   },
-  boxRdv: {
-    width: "100%",
-    height: "40%",
-  },
   containerRdv: {
     width: "100%",
     gap: 10,
@@ -188,12 +195,21 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   button: {
-    width: 120,
-    height: 29,
+    width: 40,
+    height: 40,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#DFB81C",
-    borderRadius: 5,
+    borderRadius: 50,
   },
-  buttonText: { fontSize: 14, color: "#21212E", fontWeight: "bold" },
+  maskedContainer: {
+    height: "40%",
+    width: "100%",
+    borderRadius: 10,
+    overflow: "hidden", // Important pour appliquer correctement le masque
+  },
+  maskGradient: {
+    height: "100%", // S'assure que le gradient couvre toute la hauteur
+    width: "100%", // et toute la largeur de l'écran
+  },
 });

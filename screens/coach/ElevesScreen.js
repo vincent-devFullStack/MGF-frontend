@@ -14,6 +14,9 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { BACKEND_ADDRESS } from "../../env";
 import VignetteEleve from "../../components/coach/VignetteEleve";
+import MaskedView from "@react-native-community/masked-view";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 export default function ElevesScreen() {
   const isFocused = useIsFocused();
@@ -55,14 +58,24 @@ export default function ElevesScreen() {
       >
         <SafeAreaView style={styles.container}>
           <View style={styles.box}>
-            <Text style={styles.title}>Elèves</Text>
-            <ScrollView contentContainerStyle={styles.containerEleves}>
-              {eleves && elevesList}
-            </ScrollView>
+            <MaskedView
+              style={styles.maskedContainer}
+              maskElement={
+                <LinearGradient
+                  colors={["black", "black", "black", "black", "transparent"]}
+                  style={styles.maskGradient}
+                />
+              }
+            >
+              <Text style={styles.title}>Elèves</Text>
+              <ScrollView contentContainerStyle={styles.containerEleves}>
+                {eleves && elevesList}
+              </ScrollView>
+            </MaskedView>
           </View>
           <View style={styles.boxBtn}>
             <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Ajouter</Text>
+              <FontAwesomeIcon icon={faPlus} color={"#101018"} />
             </TouchableOpacity>
           </View>
         </SafeAreaView>
@@ -106,12 +119,21 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   button: {
-    width: 120,
-    height: 29,
+    width: 40,
+    height: 40,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#DFB81C",
-    borderRadius: 5,
+    borderRadius: 50,
   },
-  buttonText: { fontSize: 14, color: "#21212E", fontWeight: "bold" },
+  maskedContainer: {
+    height: "100%",
+    width: "100%",
+    borderRadius: 10,
+    overflow: "hidden", // Important pour appliquer correctement le masque
+  },
+  maskGradient: {
+    height: "100%", // S'assure que le gradient couvre toute la hauteur
+    width: "100%", // et toute la largeur de l'écran
+  },
 });
