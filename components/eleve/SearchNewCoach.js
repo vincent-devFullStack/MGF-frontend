@@ -99,11 +99,6 @@ function SearchNewCoach() {
       >
         <ScrollView contentContainerStyle={styles.coachList}>
           {coachs}
-          {coachs}
-          {coachs}
-          {coachs}
-          {coachs}
-          {coachs}
         </ScrollView>
       </LinearGradient>
       <View style={styles.btnPosition}>
