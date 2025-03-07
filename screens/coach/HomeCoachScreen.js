@@ -22,19 +22,34 @@ export default function HomeCoachScreen() {
   const coach = useSelector((state) => state.coach.value);
   const [rdv, setRdv] = useState([]);
 
+  const date = Date.now();
+  const yearCurrent = new Date(date).getFullYear();
+  const monthCurrent = new Date(date).getMonth();
+  const dayCurrent = new Date(date).getDate();
+
   useEffect(() => {
     // Fetch rdv coach from API
-    if (isFocused) {
+    if (isFocused && coach?.token) {
       fetch(`${BACKEND_ADDRESS}/coach/rdv/${coach.token}`)
         .then((response) => response.json())
         .then((data) => {
           setRdv(data.rdv);
+        })
+        .catch((error) => {
+          console.error("Erreur lors du fetch des RDV:", error);
+          setRdv([]);
         });
     }
-  }, [isFocused]);
+  }, [isFocused, coach]);
 
   const rdvList = rdv.map((data, i) => {
-    return <VignetteRdv key={i} {...data} />;
+    const year = new Date(data.date).getFullYear();
+    const month = new Date(data.date).getMonth();
+    const day = new Date(data.date).getDate();
+
+    if (year === yearCurrent && month === monthCurrent && day === dayCurrent) {
+      return <VignetteRdv key={i} {...data} />;
+    }
   });
 
   if (!isFocused) {

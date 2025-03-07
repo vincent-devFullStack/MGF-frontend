@@ -5,6 +5,8 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
+  TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -19,7 +21,16 @@ export default function CalCoachScreen() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <SafeAreaView style={styles.container}>
-          <Text style={styles.title}>Calendrier Coach Screen</Text>
+          <View style={styles.boxRdv}>
+            <ScrollView
+              contentContainerStyle={styles.containerRdv}
+            ></ScrollView>
+          </View>
+          <View style={styles.boxBtn}>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>Ajouter</Text>
+            </TouchableOpacity>
+          </View>
         </SafeAreaView>
       </KeyboardAvoidingView>
     </LinearGradient>
@@ -29,15 +40,40 @@ export default function CalCoachScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
     paddingTop: 70,
+    padding: 40,
+    gap: 10,
   },
   background: {
     flex: 1,
   },
-  title: {
-    fontSize: 36,
-    color: "white",
+  boxRdv: {
+    width: "100%",
+    height: "60%",
   },
+  containerRdv: {
+    width: "100%",
+    gap: 10,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    flexGrow: 1,
+  },
+  boxBtn: {
+    height: "5%",
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
+  button: {
+    width: 120,
+    height: 29,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#DFB81C",
+    borderRadius: 5,
+  },
+  buttonText: { fontSize: 14, color: "#21212E", fontWeight: "bold" },
 });

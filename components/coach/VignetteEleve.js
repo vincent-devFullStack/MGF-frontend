@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMessage } from "@fortawesome/free-solid-svg-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function VignetteREleve(props) {
+export default function VignetteEleve(props) {
   return (
     <LinearGradient
       colors={["#21212E", "#43435C", "#6B6B94"]}
@@ -18,8 +18,8 @@ export default function VignetteREleve(props) {
           />
           <Image
             source={
-              props.eleve.photoProfil
-                ? { uri: props.eleve.photoProfil }
+              props.photoProfil
+                ? { uri: props.photoProfil }
                 : require("../../assets/photo_eleve1.jpg")
             }
             style={styles.image}
@@ -28,8 +28,8 @@ export default function VignetteREleve(props) {
         </TouchableOpacity>
 
         <View style={styles.containerText}>
-          <Text style={styles.text}>Joachim</Text>
-          <Text style={styles.text}>Présentiel</Text>
+          <Text style={styles.text}>{props.firstname || "Nom inconnu"}</Text>
+          <Text style={styles.textType}>Présentiel</Text>
           <Text style={styles.text}>Expire dans :</Text>
           <Text style={styles.text}>16 jours</Text>
         </View>
@@ -78,13 +78,17 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   containerText: {
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "center",
-    gap: 2,
   },
   text: {
     fontSize: 12,
     color: "white",
+  },
+  textType: {
+    fontSize: 12,
+    color: "white",
+    marginBottom: 10,
   },
   containerBtn: {
     gap: 10,

@@ -9,8 +9,41 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useIsFocused } from "@react-navigation/native";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { BACKEND_ADDRESS } from "../../env";
+import VignetteEleve from "../../components/coach/VignetteEleve";
 
 export default function ElevesScreen() {
+  const isFocused = useIsFocused();
+  const coach = useSelector((state) => state.coach.value);
+
+  const [eleves, setEleves] = useState([]);
+
+  useEffect(() => {
+    // Fetch eleves coach from API
+    if (isFocused && coach?.token) {
+      fetch(`${BACKEND_ADDRESS}/coach/${coach.token}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setEleves(data.eleves);
+        })
+        .catch((error) => {
+          console.error("Erreur lors du fetch des élèves:", error);
+          setEleves([]);
+        });
+    }
+  }, [isFocused, coach]);
+
+  const elevesList = eleves.map((data, i) => {
+    return <VignetteEleve key={i} {...data} />;
+  });
+
+  if (!isFocused) {
+    return <View />;
+  }
+
   return (
     <LinearGradient
       colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
@@ -23,9 +56,9 @@ export default function ElevesScreen() {
         <SafeAreaView style={styles.container}>
           <View style={styles.box}>
             <Text style={styles.title}>Elèves</Text>
-            <ScrollView
-              contentContainerStyle={styles.containerEleves}
-            ></ScrollView>
+            <ScrollView contentContainerStyle={styles.containerEleves}>
+              {eleves && elevesList}
+            </ScrollView>
           </View>
           <View style={styles.boxBtn}>
             <TouchableOpacity style={styles.button}>
@@ -50,9 +83,9 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
   },
-  boxOne: {
+  box: {
     width: "100%",
-    height: "80%",
+    height: "95%",
   },
   title: {
     fontSize: 34,
@@ -65,7 +98,13 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     flexGrow: 1,
   },
-  boxBtn: { alignItems: "flex-end", justifyContent: "flex-end" },
+  boxBtn: {
+    height: "5%",
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
   button: {
     width: 120,
     height: 29,
