@@ -5,6 +5,8 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  SafeAreaView,
+  KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
 import * as React from "react";
@@ -16,11 +18,13 @@ import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { RadioButton } from "react-native-paper";
 import { BACKEND_ADDRESS } from "../../env";
 import MiniatureCoach from "../eleve/MiniatureCoach";
+import { useNavigation } from "@react-navigation/native";
 
 function SearchNewCoach() {
   const [search, setSearch] = useState("");
   const [checked, setChecked] = React.useState("first");
   const [coachList, setCoachList] = useState([]);
+  const navigation = useNavigation(); // modification de la navigation, avec la méthode précedente j'obtiens navigation "Undefined"
 
   useEffect(() => {
     fetch(`${BACKEND_ADDRESS}/coach`)
@@ -41,80 +45,88 @@ function SearchNewCoach() {
       colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
       style={styles.background}
     >
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Trouvons un coach</Text>
-        <View style={styles.input}>
-          <TextInput
-            style={styles.inputText1}
-            placeholder="Indiquez un ville, un nom ou une discipline"
-            onChangeText={setSearch}
-            placeholderTextColor={"grey"}
-            value={search}
-          />
-          <FontAwesomeIcon
-            style={styles.icon}
-            icon={faLocationDot}
-            size={20}
-            color={"#DFB81C"}
-          />
-        </View>
-        <View style={styles.radioContainer}>
-          <View style={styles.radioItem}>
-            <Text style={styles.radioText}>Presentiel</Text>
+      <KeyboardAvoidingView style={{ flex: 1 }}>
+        <SafeAreaView style={styles.container}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Trouvons un coach</Text>
+            <View style={styles.input}>
+              <TextInput
+                style={styles.inputText1}
+                placeholder="Indiquez un ville, un nom ou une discipline"
+                onChangeText={setSearch}
+                placeholderTextColor={"grey"}
+                value={search}
+              />
+              <FontAwesomeIcon
+                style={styles.icon}
+                icon={faLocationDot}
+                size={20}
+                color={"#DFB81C"}
+              />
+            </View>
+            <View style={styles.radioContainer}>
+              <View style={styles.radioItem}>
+                <Text style={styles.radioText}>Presentiel</Text>
 
-            <RadioButton
-              value="first"
-              status={checked === "presentiel" ? "checked" : "unchecked"}
-              onPress={() => setChecked("presentiel")}
-              color="#DFB81C"
-            />
-            <Text style={styles.radioText}>Distanciel</Text>
+                <RadioButton
+                  value="first"
+                  status={checked === "presentiel" ? "checked" : "unchecked"}
+                  onPress={() => setChecked("presentiel")}
+                  color="#DFB81C"
+                />
+                <Text style={styles.radioText}>Distanciel</Text>
 
-            <RadioButton
-              value="second"
-              status={checked === "distanciel" ? "checked" : "unchecked"}
-              onPress={() => setChecked("distanciel")}
-              color="#DFB81C"
-            />
-            <Text style={styles.radioText}>Hybride</Text>
-            <RadioButton
-              value="third"
-              status={checked === "hybride" ? "checked" : "unchecked"}
-              onPress={() => setChecked("hybride")}
-              color="#DFB81C"
-            />
-            <Text style={styles.radioText}>Tout</Text>
-            <RadioButton
-              value="fourth"
-              status={checked === "tout" ? "checked" : "unchecked"}
-              onPress={() => setChecked("tout")}
-              color="#DFB81C"
-            />
+                <RadioButton
+                  value="second"
+                  status={checked === "distanciel" ? "checked" : "unchecked"}
+                  onPress={() => setChecked("distanciel")}
+                  color="#DFB81C"
+                />
+                <Text style={styles.radioText}>Hybride</Text>
+                <RadioButton
+                  value="third"
+                  status={checked === "hybride" ? "checked" : "unchecked"}
+                  onPress={() => setChecked("hybride")}
+                  color="#DFB81C"
+                />
+                <Text style={styles.radioText}>Tout</Text>
+                <RadioButton
+                  value="fourth"
+                  status={checked === "tout" ? "checked" : "unchecked"}
+                  onPress={() => setChecked("tout")}
+                  color="#DFB81C"
+                />
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
-      <LinearGradient
-        colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
-        style={styles.background2}
-      >
-        <ScrollView contentContainerStyle={styles.coachList}>
-          {coachs}
-        </ScrollView>
-      </LinearGradient>
-      <View style={styles.btnPosition}>
-        <TouchableOpacity
-          style={styles.nextBtn}
-          onPress={() => handleCheckInputs()}
-        >
-          <Text style={styles.btn}>Ouvrir la carte</Text>
-        </TouchableOpacity>
-      </View>
+          <LinearGradient
+            colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
+            style={styles.background2}
+          >
+            <ScrollView contentContainerStyle={styles.coachList}>
+              {coachs}
+            </ScrollView>
+          </LinearGradient>
+          <View style={styles.btnPosition}>
+            <TouchableOpacity
+              style={styles.nextBtn}
+              onPress={() => navigation.navigate("MapScreen")}
+            >
+              <Text style={styles.btn}>Ouvrir la carte</Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
     </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
   background: {
     height: "100%",
     width: "100%",
