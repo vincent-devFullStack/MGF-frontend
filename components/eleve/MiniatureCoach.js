@@ -131,7 +131,6 @@ const styles = StyleSheet.create({
     color: "white",
     borderBottomColor: "#DFB81C",
     borderBottomWidth: 1,
-    color: "white",
     paddingBottom: 3,
   },
   desc1: {
