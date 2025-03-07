@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { Calendar, CalendarList, Agenda } from "react-native-calendars";
 
 export default function CalCoachScreen() {
   return (
@@ -21,6 +22,13 @@ export default function CalCoachScreen() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <SafeAreaView style={styles.container}>
+          <View style={styles.boxCal}>
+            <Calendar
+              onDayPress={(day) => {
+                console.log("selected day", day);
+              }}
+            />
+          </View>
           <View style={styles.boxRdv}>
             <ScrollView
               contentContainerStyle={styles.containerRdv}
@@ -48,6 +56,10 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
+  },
+  boxCal: {
+    width: "100%",
+    height: "35%",
   },
   boxRdv: {
     width: "100%",
