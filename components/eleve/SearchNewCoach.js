@@ -19,6 +19,7 @@ import { RadioButton } from "react-native-paper";
 import { BACKEND_ADDRESS } from "../../env";
 import MiniatureCoach from "../eleve/MiniatureCoach";
 import { useNavigation } from "@react-navigation/native";
+import MaskedView from "@react-native-community/masked-view";
 
 function SearchNewCoach() {
   const [search, setSearch] = useState("");
@@ -99,14 +100,26 @@ function SearchNewCoach() {
               </View>
             </View>
           </View>
-          <LinearGradient
-            colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
-            style={styles.background2}
+          <MaskedView
+            style={styles.maskedContainer}
+            maskElement={
+              <LinearGradient
+                colors={["black", "black", "black", "transparent"]}
+                style={styles.maskGradient}
+              />
+            }
           >
-            <ScrollView contentContainerStyle={styles.coachList}>
-              {coachs}
-            </ScrollView>
-          </LinearGradient>
+            <LinearGradient
+              colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
+              style={styles.coachListContainer}
+            >
+              <ScrollView contentContainerStyle={styles.coachList}>
+                {coachs}
+                {coachs}
+              </ScrollView>
+            </LinearGradient>
+          </MaskedView>
+
           <View style={styles.btnPosition}>
             <TouchableOpacity
               style={styles.nextBtn}
@@ -136,8 +149,8 @@ const styles = StyleSheet.create({
   },
   background2: {
     flexDirection: "row",
-    height: "60%",
-    width: "90%",
+    height: "62%",
+    width: "95%",
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "flex-start",
@@ -192,13 +205,23 @@ const styles = StyleSheet.create({
   },
   btnPosition: {
     display: "absolute",
-    marginTop: 30,
+    marginTop: 20,
   },
   coachList: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-around",
     paddingVertical: 10,
+  },
+  maskedContainer: {
+    height: "60%",
+    width: "95%",
+    borderRadius: 10,
+    overflow: "hidden", // Important pour appliquer correctement le masque
+  },
+  maskGradient: {
+    height: "100%", // S'assure que le gradient couvre toute la hauteur
+    width: "100%", // et toute la largeur de l'écran
   },
 });
 
