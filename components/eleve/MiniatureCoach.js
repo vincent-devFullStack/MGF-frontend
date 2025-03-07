@@ -55,8 +55,14 @@ function MiniatureCoach(props) {
             style={styles.profilIcon}
             source={{ uri: props.photoProfil }}
           />
-          <Text style={styles.desc}>{props.firstname}</Text>
-          <Text style={styles.desc1}>{props.domaineExpertise}</Text>
+          <View>
+            <Text style={styles.desc}>{props.firstname}</Text>
+            <Text style={styles.desc1}>{props.domaineExpertise}</Text>
+            <Text style={styles.desc1}>
+              {props.diplomes[0]} {props.diplomes[1]} {props.diplomes[2]}{" "}
+              {props.diplomes[3]}
+            </Text>
+          </View>
         </View>
       </LinearGradient>
       <Modal
@@ -92,7 +98,7 @@ function MiniatureCoach(props) {
             <Text style={styles.modalText}>
               {props.diplomes[0]} {props.diplomes[1]} {props.diplomes[2]}
             </Text>
-            <Text style={styles.modalTitle2}>Lieu(x) d'exercice: </Text>
+            <Text style={styles.modalTitle3}>Lieu(x): </Text>
             <Text style={styles.modalText}>
               {props.lieux[0]} {props.lieux[1]} {props.lieux[2]}
             </Text>
@@ -125,10 +131,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 18,
+    color: "white",
+    borderBottomColor: "#DFB81C",
+    borderBottomWidth: 1,
+    color: "white",
+    paddingBottom: 3,
   },
   desc1: {
     textAlign: "center",
     fontSize: 14,
+    color: "white",
   },
   content: {
     flex: 1,
@@ -157,16 +169,33 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     marginBottom: 10,
+    color: "white",
+    borderBottomColor: "#DFB81C",
+    borderBottomWidth: 1,
+    color: "white",
+    paddingBottom: 10,
   },
   modalTitle2: {
+    marginTop: 10,
     textAlign: "left",
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 10,
+    color: "#DFB81C",
+    right: "30%",
+  },
+  modalTitle3: {
+    textAlign: "left",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: "#DFB81C",
+    right: "37%",
   },
   modalText: {
     fontSize: 16,
     marginBottom: 10,
+    color: "white",
   },
   profilIconLarge: {
     height: 100,
