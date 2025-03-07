@@ -41,91 +41,79 @@ export default function VignetteCoach(props) {
       });
   }, []);
   return (
-    <LinearGradient
-      colors={["#21212E", "#43435C", "#6B6B94"]}
-      style={styles.background}
-    >
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.containerImage}>
-          <FontAwesomeIcon
-            icon={faMessage}
-            color={"white"}
-            style={styles.icon}
-          />
-          <Image
-            source={{ uri: props.photoProfil }}
-            style={styles.image}
-            resizeMode="cover"
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <View style={styles.vignette}>
-            <View style={styles.containerText}>
-              <Text style={styles.textName}>{props.firstname}</Text>
-              <Text style={styles.desc1}>{props.domaineExpertise}</Text>
-              <Text style={styles.desc2}>
-                {props.diplomes[0]} {props.diplomes[1]} {props.diplomes[2]}
-                {props.diplomes[3]}
-              </Text>
-            </View>
+    <View style={styles.container}>
+      <TouchableOpacity style={styles.containerImage}>
+        <FontAwesomeIcon icon={faMessage} color={"white"} style={styles.icon} />
+        <Image
+          source={{ uri: props.photoProfil }}
+          style={styles.image}
+          resizeMode="cover"
+        />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => setModalVisible(true)}>
+        <View style={styles.vignette}>
+          <View style={styles.containerText}>
+            <Text style={styles.textName}>{props.firstname}</Text>
+            <Text style={styles.desc1}>{props.domaineExpertise}</Text>
+            <Text style={styles.desc2}>
+              {props.diplomes[0]} {props.diplomes[1]} {props.diplomes[2]}
+              {props.diplomes[3]}
+            </Text>
           </View>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => setModalVisible(false)}
+        </View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <LinearGradient
+            colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
+            style={styles.modalContainer}
           >
-            <LinearGradient
-              colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
-              style={styles.modalContainer}
-            >
-              <View style={styles.modalContent}>
-                <TouchableOpacity
-                  style={styles.cross}
-                  onPress={() => setModalVisible(false)}
-                >
-                  <FontAwesomeIcon
-                    style={styles.icon}
-                    icon={faXmark}
-                    size={20}
-                    color={"white"}
-                  />
-                </TouchableOpacity>
-                <Image
-                  style={styles.profilIconLarge}
-                  source={{ uri: props.photoProfil }}
+            <View style={styles.modalContent}>
+              <TouchableOpacity
+                style={styles.cross}
+                onPress={() => setModalVisible(false)}
+              >
+                <FontAwesomeIcon
+                  style={styles.icon}
+                  icon={faXmark}
+                  size={20}
+                  color={"white"}
                 />
-                <Text style={styles.modalTitle}>{props.firstname}</Text>
-                <Text style={styles.modalTitle2}>Présentation: </Text>
-                <Text style={styles.modalText}>{props.presentation}</Text>
-                <Text style={styles.modalTitle2}>Diplôme(s): </Text>
-                <Text style={styles.modalText}>
-                  {props.diplomes[0]} {props.diplomes[1]} {props.diplomes[2]}
-                </Text>
-                <Text style={styles.modalTitle3}>Lieu(x): </Text>
-                <Text style={styles.modalText}>
-                  {props.lieux[0]} {props.lieux[1]} {props.lieux[2]}
-                </Text>
-                <TouchableOpacity
-                  style={styles.closeButton}
-                  onPress={sendEmail}
-                >
-                  <Text style={styles.closeButtonText}>Me contacter</Text>
-                </TouchableOpacity>
-              </View>
-            </LinearGradient>
-          </Modal>
-        </TouchableOpacity>
-        <View></View>
-      </View>
-    </LinearGradient>
+              </TouchableOpacity>
+              <Image
+                style={styles.profilIconLarge}
+                source={{ uri: props.photoProfil }}
+              />
+              <Text style={styles.modalTitle}>{props.firstname}</Text>
+              <Text style={styles.modalTitle2}>Présentation: </Text>
+              <Text style={styles.modalText}>{props.presentation}</Text>
+              <Text style={styles.modalTitle2}>Diplôme(s): </Text>
+              <Text style={styles.modalText}>
+                {props.diplomes[0]} {props.diplomes[1]} {props.diplomes[2]}
+              </Text>
+              <Text style={styles.modalTitle3}>Lieu(x): </Text>
+              <Text style={styles.modalText}>
+                {props.lieux[0]} {props.lieux[1]} {props.lieux[2]}
+              </Text>
+              <TouchableOpacity style={styles.closeButton} onPress={sendEmail}>
+                <Text style={styles.closeButtonText}>Me contacter</Text>
+              </TouchableOpacity>
+            </View>
+          </LinearGradient>
+        </Modal>
+      </TouchableOpacity>
+      <View></View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   background: {
     width: "95%",
-    height: 100,
+    height: 50,
     borderRadius: 10,
     marginBottom: 10,
   },
@@ -201,6 +189,7 @@ const styles = StyleSheet.create({
     color: "white",
     paddingBottom: 3,
   },
+
   // Styles de la modale
   modalContainer: {
     marginTop: 80,

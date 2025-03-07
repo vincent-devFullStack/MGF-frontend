@@ -4,28 +4,31 @@ import {
   TextInput,
   View,
   TouchableOpacity,
-  SafeAreaView,
   KeyboardAvoidingView,
   ScrollView,
+  Dimensions,
 } from "react-native";
 import * as Location from "expo-location";
 import * as React from "react";
+import { useMemo, useRef } from "react";
+
 import { BACKEND_ADDRESS } from "../../env";
-import { RadioButton } from "react-native-paper";
 import { useState, useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faXmark, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import MapView from "react-native-maps";
 import VignetteCoach from "../../components/eleve/VignetteCoach";
-import MaskedView from "@react-native-community/masked-view";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 
 export default function MapScreen({ navigation }) {
   const [search, setSearch] = useState("");
   const [checked, setChecked] = React.useState("first");
   const [coachList, setCoachList] = useState([]);
   const [currentPosition, setCurrentPosition] = useState(null);
-  const [newPlace, setNewPlace] = useState("");
+  const [Pin, setPin] = useState("");
+  const [region, setRegion] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -46,128 +49,132 @@ export default function MapScreen({ navigation }) {
   }, []);
 
   useEffect(() => {
+    if (currentPosition) {
+      setRegion({
+        latitude: currentPosition.latitude,
+        longitude: currentPosition.longitude,
+        latitudeDelta: 0.5,
+        longitudeDelta: 0.5,
+      });
+    }
+  }, [currentPosition]);
+
+  useEffect(() => {
     fetch(`${BACKEND_ADDRESS}/coach`)
       .then((response) => response.json())
       .then((data) => {
         setCoachList(data);
+        // if (coachList.length > 0) {
+        //   coachList.forEach((coach) => {
+        //     setPin([...coach.villes]);
+        //   });
+        // }
       });
   }, []);
+
+  // console.log(Pin);
+  const bottomSheetRef = useRef(null);
+  const snapPoints = useMemo(() => ["12%", "90%"], []);
 
   const coachs = coachList.map((data, i) => {
     return <VignetteCoach key={i} {...data} />;
   });
 
   return (
-    <LinearGradient
-      colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
-      style={styles.background}
-    >
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <KeyboardAvoidingView style={{ flex: 1 }}>
-        <SafeAreaView style={styles.container}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>Trouvons un coach</Text>
-            <View style={styles.input}>
-              <TextInput
-                style={styles.inputText1}
-                placeholder="Indiquez un ville, un nom ou une discipline"
-                onChangeText={setSearch}
-                placeholderTextColor={"grey"}
-                value={search}
-              />
-              <FontAwesomeIcon
-                style={styles.icon}
-                icon={faLocationDot}
-                size={20}
-                color={"#DFB81C"}
-              />
-            </View>
-          </View>
-          <View style={styles.radioContainer}>
-            <View style={styles.radioItem}>
-              <Text style={styles.radioText}>Presentiel</Text>
-              <RadioButton
-                value="first"
-                status={checked === "presentiel" ? "checked" : "unchecked"}
-                onPress={() => setChecked("presentiel")}
-                color="#DFB81C"
-              />
-              <Text style={styles.radioText}>Distanciel</Text>
-
-              <RadioButton
-                value="second"
-                status={checked === "distanciel" ? "checked" : "unchecked"}
-                onPress={() => setChecked("distanciel")}
-                color="#DFB81C"
-              />
-              <Text style={styles.radioText}>Hybride</Text>
-              <RadioButton
-                value="third"
-                status={checked === "hybride" ? "checked" : "unchecked"}
-                onPress={() => setChecked("hybride")}
-                color="#DFB81C"
-              />
-              <Text style={styles.radioText}>Tout</Text>
-              <RadioButton
-                value="fourth"
-                status={checked === "tout" ? "checked" : "unchecked"}
-                onPress={() => setChecked("tout")}
-                color="#DFB81C"
-              />
-            </View>
-          </View>
-          <TouchableOpacity
-            style={styles.cross}
-            onPress={() =>
-              navigation.navigate("EleveTabs", { screen: "HomeEleve" })
-            }
+        <View style={{ flex: 1 }}>
+          <MapView
+            initialRegion={region}
+            mapType="hybridFlyover"
+            style={styles.map}
           >
-            <FontAwesomeIcon
-              style={styles.icon}
-              icon={faXmark}
-              size={20}
-              color={"white"}
-            />
-          </TouchableOpacity>
-          <LinearGradient
-            colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
-            style={styles.background2}
-          >
-            <MapView
-              initialRegion={currentPosition}
-              mapType="hybridFlyover"
-              style={styles.map}
-            ></MapView>
-
-            <MaskedView
-              style={styles.maskedContainer}
-              maskElement={
-                <LinearGradient
-                  colors={[
-                    "black",
-                    "black",
-                    "black",
-                    "black",
-                    "transparent",
-                    "transparent",
-                  ]}
-                  style={styles.maskGradient}
+            <View style={styles.titleContainer}>
+              <View style={styles.input}>
+                <TextInput
+                  style={styles.inputText1}
+                  placeholder="Trouvons un coach !"
+                  onChangeText={setSearch}
+                  placeholderTextColor={"grey"}
+                  value={search}
                 />
+                <FontAwesomeIcon
+                  style={styles.icon}
+                  icon={faLocationDot}
+                  size={20}
+                  color={"#DFB81C"}
+                />
+              </View>
+              <View style={styles.filter}>
+                {["Presentiel", "Distanciel", "Hybride", "Tout"].map((mode) => (
+                  <TouchableOpacity
+                    key={mode}
+                    onPress={() => setChecked(mode)}
+                    style={[
+                      styles.filterButton,
+                      checked === mode && styles.filterButtonSelected,
+                    ]}
+                  >
+                    <View style={styles.radioItem}>
+                      <Text
+                        style={[
+                          styles.radioText,
+                          checked === mode && styles.radioTextSelected,
+                        ]}
+                      >
+                        {mode}
+                      </Text>
+                      <View
+                        value={mode}
+                        status={checked === mode ? "checked" : "unchecked"}
+                        color="#DFB81C"
+                      />
+                    </View>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+            <TouchableOpacity
+              style={styles.cross}
+              onPress={() =>
+                navigation.navigate("EleveTabs", { screen: "HomeEleve" })
               }
             >
+              <FontAwesomeIcon
+                style={styles.icon}
+                icon={faXmark}
+                size={20}
+                color={"white"}
+              />
+            </TouchableOpacity>
+
+            <BottomSheet
+              ref={bottomSheetRef}
+              index={1}
+              snapPoints={snapPoints}
+              handleStyle={{
+                backgroundColor: "#DFB81C",
+                height: 50,
+                borderRadius: 2,
+                justifyContent: "center",
+              }}
+            >
               <LinearGradient
-                colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
-                style={styles.coachListContainer}
+                colors={["#21212E", "#43435C", "#6B6B94"]}
+                style={styles.background}
               >
-                <ScrollView contentContainerStyle={styles.coachList}>
-                  {coachs}
-                  {coachs}
-                </ScrollView>
+                <BottomSheetView style={styles.contentContainer}>
+                  <ScrollView>
+                    <View style={styles.espace}></View>
+                    {coachs}
+                  </ScrollView>
+                </BottomSheetView>
               </LinearGradient>
-            </MaskedView>
-          </LinearGradient>
-        </SafeAreaView>
+            </BottomSheet>
+          </MapView>
+        </View>
       </KeyboardAvoidingView>
-    </LinearGradient>
+    </GestureHandlerRootView>
   );
 }
 
@@ -175,60 +182,33 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
   },
   background: {
     flex: 1,
   },
-  background2: {
-    flexDirection: "row",
-    height: "76%",
-    width: "90%",
-    borderRadius: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    flexWrap: "wrap",
-  },
-  background3: {
-    flexDirection: "row",
-    height: "50%",
-    width: "90%",
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    flexWrap: "wrap",
-  },
-  maskedContainer: {
-    height: "60%",
-    width: "95%",
-    borderRadius: 10,
-    overflow: "hidden", // Important pour appliquer correctement le masque
-  },
-  maskGradient: {
-    height: "100%", // S'assure que le gradient couvre toute la hauteur
-    width: "100%", // et toute la largeur de l'écran
-  },
+
   cross: {
     position: "absolute",
-    top: 70,
-    right: 20,
+    top: 50,
+    right: 5,
     padding: 10,
   },
   titleContainer: {
+    marginTop: 90,
     alignItems: "center",
     justifyContent: "center",
-  },
-  title: {
-    fontSize: 34,
-    color: "white",
-    fontWeight: 500,
-    marginTop: 40,
-    right: 30,
-    paddingBottom: 20,
+    backgroundColor: "white",
+    height: 80,
+    width: "90%",
+    borderRadius: 15,
+    backgroundColor: "rgba(255, 255, 255, 0.93)",
   },
   input: {
     flexDirection: "row",
     backgroundColor: "white",
+    borderColor: "grey",
+    borderWidth: 1,
     width: "88%",
     height: 35,
     borderRadius: 5,
@@ -237,27 +217,54 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   radioContainer: {
-    marginTop: 10,
     width: "85%",
   },
   radioItem: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
   },
   radioText: {
-    color: "white",
+    color: "grey",
     fontSize: 12,
+    fontWeight: "bold",
+  },
+  radioTextSelected: {
+    color: "white",
   },
   map: {
-    marginTop: 30,
-    width: "90%",
-    height: 250,
-    borderRadius: 2,
-  },
-  coachList: {
-    height: "150%",
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
     alignItems: "center",
+  },
+  filter: {
+    flexDirection: "row",
     marginTop: 10,
+    justifyContent: "space-around",
+    width: "100%",
+  },
+  filterButton: {
+    padding: 3,
+    opacity: 1,
+  },
+  filterButtonSelected: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 3,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "#DFB81C",
+    backgroundColor: "#DFB81C",
+    opacity: 1,
+  },
+
+  contentContainer: {
+    alignItems: "center",
+    flex: 1,
+  },
+  espace: {
+    height: 50,
+  },
+  scrollView: {
+    flex: 1,
   },
 });
