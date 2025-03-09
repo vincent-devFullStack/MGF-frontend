@@ -23,19 +23,50 @@ import MaskedView from "@react-native-community/masked-view";
 
 function SearchNewCoach() {
   const [search, setSearch] = useState("");
-  const [checked, setChecked] = React.useState("first");
+  const [checked, setChecked] = useState("first");
   const [coachList, setCoachList] = useState([]);
-  const navigation = useNavigation(); // modification de la navigation, avec la méthode précedente j'obtiens navigation "Undefined"
+  const [originalCoachList, setOriginalCoachList] = useState([]); // Liste originale des coachs
+  const navigation = useNavigation();
 
   useEffect(() => {
     fetch(`${BACKEND_ADDRESS}/coach`)
       .then((response) => response.json())
       .then((data) => {
         setCoachList(data);
+        setOriginalCoachList(data); // Stocker les coachs originaux
+        console.log(data);
       });
   }, []);
 
-  console.log(coachList);
+  const handleSearch = () => {
+    if (!search) {
+      // Si le champ de recherche est vide, réinitialiser à la liste complète
+      setCoachList(originalCoachList);
+    } else {
+      // Filtrer les coachs selon la recherche
+      const filtered = originalCoachList.filter((coach) => {
+        const lowerCaseSearch = search.toLowerCase();
+
+        // Vérifier si firstname existe
+        const coachName = coach.firstname ? coach.firstname.toLowerCase() : "";
+
+        // Vérifier si villes est défini et est un tableau
+        const coachCities =
+          coach.villes && Array.isArray(coach.villes)
+            ? coach.villes.map((ville) =>
+                ville.nom ? ville.nom.toLowerCase() : ""
+              )
+            : [];
+
+        return (
+          coachName.includes(lowerCaseSearch) ||
+          coachCities.some((ville) => ville.includes(lowerCaseSearch))
+        );
+      });
+
+      setCoachList(filtered); // Mettre à jour les résultats filtrés
+    }
+  };
 
   const coachs = coachList.map((data, i) => {
     return <MiniatureCoach key={i} {...data} />;
@@ -53,50 +84,53 @@ function SearchNewCoach() {
             <View style={styles.input}>
               <TextInput
                 style={styles.inputText1}
-                placeholder="Indiquez un ville, un nom ou une discipline"
+                placeholder="Trouvons un coach !"
                 onChangeText={setSearch}
                 placeholderTextColor={"grey"}
                 value={search}
               />
-              <FontAwesomeIcon
-                style={styles.icon}
-                icon={faLocationDot}
-                size={20}
-                color={"#DFB81C"}
-              />
+              <TouchableOpacity
+                style={styles.searchBtn}
+                onPress={handleSearch} // Appeler la fonction de recherche au clic
+              >
+                <Text>Search </Text>
+                <FontAwesomeIcon
+                  style={styles.icon}
+                  icon={faLocationDot}
+                  size={20}
+                  color={"#DFB81C"}
+                />
+              </TouchableOpacity>
             </View>
             <View style={styles.radioContainer}>
-              <View style={styles.radioItem}>
-                <Text style={styles.radioText}>Presentiel</Text>
-
-                <RadioButton
-                  value="first"
-                  status={checked === "presentiel" ? "checked" : "unchecked"}
-                  onPress={() => setChecked("presentiel")}
-                  color="#DFB81C"
-                />
-                <Text style={styles.radioText}>Distanciel</Text>
-
-                <RadioButton
-                  value="second"
-                  status={checked === "distanciel" ? "checked" : "unchecked"}
-                  onPress={() => setChecked("distanciel")}
-                  color="#DFB81C"
-                />
-                <Text style={styles.radioText}>Hybride</Text>
-                <RadioButton
-                  value="third"
-                  status={checked === "hybride" ? "checked" : "unchecked"}
-                  onPress={() => setChecked("hybride")}
-                  color="#DFB81C"
-                />
-                <Text style={styles.radioText}>Tout</Text>
-                <RadioButton
-                  value="fourth"
-                  status={checked === "tout" ? "checked" : "unchecked"}
-                  onPress={() => setChecked("tout")}
-                  color="#DFB81C"
-                />
+              <View style={styles.filter}>
+                {["Presentiel", "Distanciel", "Hybride", "Tout"].map((mode) => (
+                  <TouchableOpacity
+                    key={mode}
+                    onPress={() => {
+                      setChecked(mode);
+                      if (mode === "Tout") {
+                        // Réinitialiser à la liste complète si "Tout" est sélectionné
+                        setCoachList(originalCoachList);
+                      }
+                    }}
+                    style={[
+                      styles.filterButton,
+                      checked === mode && styles.filterButtonSelected,
+                    ]}
+                  >
+                    <View style={styles.radioItem}>
+                      <Text
+                        style={[
+                          styles.radioText,
+                          checked === mode && styles.radioTextSelected,
+                        ]}
+                      >
+                        {mode}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                ))}
               </View>
             </View>
           </View>
@@ -114,7 +148,6 @@ function SearchNewCoach() {
               style={styles.coachListContainer}
             >
               <ScrollView contentContainerStyle={styles.coachList}>
-                {coachs}
                 {coachs}
               </ScrollView>
             </LinearGradient>
@@ -147,15 +180,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
-  background2: {
-    flexDirection: "row",
-    height: "62%",
-    width: "95%",
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "flex-start",
-    flexWrap: "wrap",
-  },
   titleContainer: {
     alignItems: "center",
     justifyContent: "center",
@@ -174,22 +198,59 @@ const styles = StyleSheet.create({
     width: "88%",
     height: 35,
     borderRadius: 5,
-    padding: 8,
+    padding: 1,
     justifyContent: "space-between",
     alignItems: "center",
   },
+  inputText1: {
+    paddingLeft: 10,
+  },
   radioContainer: {
-    marginTop: 10,
+    marginBottom: 10,
     width: "85%",
   },
-  radioItem: {
+  filter: {
+    flexDirection: "row",
+    marginTop: 10,
+    justifyContent: "space-around",
+    width: "100%",
+  },
+  filterButton: {
+    padding: 3,
+    opacity: 1,
+  },
+  filterButtonSelected: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    padding: 3,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "#DFB81C",
+    backgroundColor: "#DFB81C",
+    opacity: 1,
   },
-  radioText: {
-    color: "white",
-    fontSize: 12,
+  searchBtn: {
+    flexDirection: "row",
+    borderRadius: 5,
+    padding: 5.5,
+    borderWidth: 1,
+    borderColor: "lightgrey",
+  },
+  coachList: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    paddingVertical: 10,
+  },
+  maskedContainer: {
+    height: "60%",
+    width: "95%",
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  maskGradient: {
+    height: "100%",
+    width: "100%",
   },
   nextBtn: {
     backgroundColor: "white",
@@ -206,22 +267,6 @@ const styles = StyleSheet.create({
   btnPosition: {
     display: "absolute",
     marginTop: 20,
-  },
-  coachList: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    paddingVertical: 10,
-  },
-  maskedContainer: {
-    height: "60%",
-    width: "95%",
-    borderRadius: 10,
-    overflow: "hidden", // Important pour appliquer correctement le masque
-  },
-  maskGradient: {
-    height: "100%", // S'assure que le gradient couvre toute la hauteur
-    width: "100%", // et toute la largeur de l'écran
   },
 });
 

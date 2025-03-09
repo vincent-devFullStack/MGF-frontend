@@ -39,10 +39,10 @@ export default function HomeEleveScreen() {
   }, [isFocused]);
 
   useEffect(() => {
-    console.log("Visible state:", visible);
+    // console.log("Visible state:", visible);
   }, [visible]);
 
-  console.log(visible);
+  // console.log(visible);
 
   const researchVisibleCard = () => {
     if (visible) {
