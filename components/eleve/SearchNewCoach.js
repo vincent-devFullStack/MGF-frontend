@@ -40,7 +40,6 @@ function SearchNewCoach() {
 
   const handleSearch = () => {
     if (!search) {
-      // Si le champ de recherche est vide, réinitialiser à la liste complète
       setCoachList(originalCoachList);
     } else {
       // Filtrer les coachs selon la recherche

@@ -8,6 +8,8 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Dimensions,
+  Modal,
+  Linking,
 } from "react-native";
 import * as Location from "expo-location";
 import * as React from "react";
@@ -30,6 +32,8 @@ export default function MapScreen({ navigation }) {
   const [Pin, setPin] = useState([]);
   const [filteredCoaches, setFilteredCoaches] = useState([]);
   const [region, setRegion] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedCoach, setSelectedCoach] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -87,6 +91,9 @@ export default function MapScreen({ navigation }) {
             return {
               firstname: coach.firstname,
               photoProfil: coach.photoProfil,
+              presentation: coach.presentation,
+              diplomes: coach.diplomes,
+              email: coach.email,
               villes: villesAvecCoords.filter(Boolean), // Supprime les villes null
             };
           })
@@ -99,6 +106,21 @@ export default function MapScreen({ navigation }) {
 
     fetchCoaches();
   }, []);
+
+  const sendEmail = () => {
+    const email = selectedCoach.email;
+    const subject = "Premier contact";
+    const body =
+      "Bonjour, je souhaiterais discuter avec vous. Mes numéro de téléphone est le suivant : (Indiquez votre n° de téléphone ici)";
+    const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
+
+    // Ouvre l'application de messagerie
+    Linking.openURL(mailtoUrl).catch((err) =>
+      console.error("Failed to open email client", err)
+    );
+  };
 
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ["12%", "90%"], []);
@@ -143,6 +165,10 @@ export default function MapScreen({ navigation }) {
                     }}
                     title={coach.firstname}
                     description={`Disponible à ${ville.nom}`}
+                    onPress={() => {
+                      setSelectedCoach(coach);
+                      setModalVisible(true);
+                    }}
                   >
                     <View style={styles.markerContainer}>
                       <Image
@@ -236,6 +262,60 @@ export default function MapScreen({ navigation }) {
                     {coachs}
                   </ScrollView>
                 </BottomSheetView>
+                {selectedCoach && (
+                  <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => setModalVisible(false)}
+                  >
+                    <LinearGradient
+                      colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
+                      style={styles.modalContainer}
+                    >
+                      <View style={styles.modalContent}>
+                        <TouchableOpacity
+                          style={styles.cross}
+                          onPress={() => setModalVisible(false)}
+                        >
+                          <FontAwesomeIcon
+                            style={styles.icon}
+                            icon={faXmark}
+                            size={20}
+                            color={"white"}
+                          />
+                        </TouchableOpacity>
+                        <Image
+                          style={styles.profilIconLarge}
+                          source={{ uri: selectedCoach.photoProfil }}
+                        />
+                        <Text style={styles.modalTitle}>
+                          {selectedCoach.firstname}
+                        </Text>
+                        <Text style={styles.modalTitle2}>Présentation: </Text>
+                        <Text style={styles.modalText}>
+                          {selectedCoach.presentation}
+                        </Text>
+                        <Text style={styles.modalTitle2}>Diplôme(s): </Text>
+                        <Text style={styles.modalText}>
+                          {selectedCoach.diplomes?.join(", ")}
+                        </Text>
+                        <Text style={styles.modalTitle3}>Lieu(x): </Text>
+                        <Text style={styles.modalText}>
+                          {selectedCoach.villes.map((v) => v.nom).join(", ")}
+                        </Text>
+                        <TouchableOpacity
+                          style={styles.closeButton}
+                          onPress={sendEmail}
+                        >
+                          <Text style={styles.closeButtonText}>
+                            Me contacter
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </LinearGradient>
+                  </Modal>
+                )}
               </LinearGradient>
             </BottomSheet>
           </MapView>
@@ -355,5 +435,76 @@ const styles = StyleSheet.create({
     padding: 5.5,
     borderWidth: 1,
     borderColor: "lightgrey",
+  },
+  // Styles de la modale
+  modalContainer: {
+    marginTop: 80,
+    height: 750,
+    borderRadius: 10,
+    width: "91%",
+    left: 19,
+    backgroundColor: "rgba(0,0,0,0.6)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    width: 300,
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: "white",
+    borderBottomColor: "#DFB81C",
+    borderBottomWidth: 1,
+    color: "white",
+    paddingBottom: 10,
+  },
+  modalTitle2: {
+    marginTop: 10,
+    textAlign: "left",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: "#DFB81C",
+    right: "30%",
+  },
+  modalTitle3: {
+    textAlign: "left",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: "#DFB81C",
+    right: "37%",
+  },
+  modalText: {
+    fontSize: 16,
+    marginBottom: 10,
+    color: "white",
+  },
+  profilIconLarge: {
+    height: 100,
+    width: 100,
+    borderRadius: 50,
+    marginBottom: 10,
+  },
+  closeButton: {
+    marginTop: 50,
+    backgroundColor: "white",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  closeButtonText: {
+    fontSize: 16,
+  },
+  cross: {
+    position: "absolute",
+    top: -15,
+    right: -5,
+    padding: 10,
   },
 });
