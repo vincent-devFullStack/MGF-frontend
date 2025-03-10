@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
+  Image,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -19,7 +20,12 @@ export default function WalletScreen() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <SafeAreaView style={styles.container}>
-          <Text style={styles.title}>Portefeuilles Coach Screen</Text>
+          <Text style={styles.title}>Portefeuilles</Text>
+          <Image
+            style={styles.image}
+            source={require("../../assets/page_construction.png")}
+            resizeMode="cover"
+          />
         </SafeAreaView>
       </KeyboardAvoidingView>
     </LinearGradient>
@@ -39,5 +45,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 36,
     color: "white",
+  },
+  image: {
+    width: 300,
+    height: 300,
   },
 });

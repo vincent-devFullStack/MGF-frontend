@@ -14,7 +14,7 @@ import * as ImagePicker from "expo-image-picker";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { checkBody } from "../../../modules/checkBody";
+
 import { BACKEND_ADDRESS } from "../../../env";
 
 import {
@@ -23,6 +23,17 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { updateThird } from "../../../reducers/coach";
+
+import * as Yup from "yup";
+
+const signUpSchema = Yup.object().shape({
+  photo: Yup.string().required("Votre photo est requise"),
+  villes: Yup.string().required("Villes d'exercice requises"),
+  salles: Yup.string().required("Salles d'exercice requises"),
+  siret: Yup.string()
+    .matches(/^\d{14}$/, "La valeur doit contenir exactement 14 chiffres")
+    .required("Siret requis"),
+});
 
 export default function InscriptionCoach3({ navigation }) {
   const dispatch = useDispatch();
@@ -33,15 +44,14 @@ export default function InscriptionCoach3({ navigation }) {
   const [salles, setSalles] = useState("");
   const [siret, setSiret] = useState(0);
 
-  const [error, setError] = useState(null);
-  const [errorInput, setErrorInput] = useState(null);
+  const [errors, setErrors] = useState({});
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (status !== "granted") {
       // If permission is denied, show an alert
-      setError("permission Denied");
+      setErrors({ photo: "Permission refusée" });
     } else {
       // Launch the image library and get
       // the selected image
@@ -49,7 +59,7 @@ export default function InscriptionCoach3({ navigation }) {
 
       if (!result.cancelled) {
         // Clear any previous errors
-        setError(null);
+        setErrors({ photo: "" });
 
         formData.append("photoFromFront", {
           uri: result?.assets[0].uri,
@@ -68,17 +78,17 @@ export default function InscriptionCoach3({ navigation }) {
     }
   };
 
-  function handleCheckInputs() {
-    if (
-      !checkBody(
-        { photo: photo, villes: villes, salles: salles, siret: siret },
-        ["photo", "villes", "salles", "siret"]
-      )
-    ) {
-      setErrorInput("Missing or empty fields");
-      return;
-    } else {
-      setErrorInput("");
+  const handleCheckInputs = async () => {
+    try {
+      // Awaiting for Yup to validate text
+      await signUpSchema.validate(
+        { photo, villes, salles, siret },
+        { abortEarly: false }
+      );
+
+      // Reseting Warnings and displaying success message if all goes well
+      setErrors({});
+
       dispatch(
         updateThird({
           photo: photo,
@@ -88,8 +98,20 @@ export default function InscriptionCoach3({ navigation }) {
         })
       );
       navigation.navigate("SignupCoach4");
+    } catch (error) {
+      // Setting error messages identified by Yup
+      if (error instanceof Yup.ValidationError) {
+        // Extracting Yup specific validation errors from list of total errors
+        const yupErrors = {};
+        error.inner.forEach((innerError) => {
+          yupErrors[innerError.path] = innerError.message;
+        });
+
+        // Saving extracted errors
+        setErrors(yupErrors);
+      }
     }
-  }
+  };
 
   return (
     <LinearGradient
@@ -142,13 +164,12 @@ export default function InscriptionCoach3({ navigation }) {
           )}
 
           {photo && (
-            <View style={styles.buttonImage}>
+            <TouchableOpacity style={styles.buttonImage} onPress={pickImage}>
               <Image source={{ uri: photo }} style={styles.image} />
-            </View>
+            </TouchableOpacity>
           )}
-
+          {errors.photo && <Text style={styles.error}>{errors.photo}</Text>}
           <View style={styles.boxInput}>
-            {error && <Text style={styles.error}>{error}</Text>}
             <View>
               <Text style={styles.textInput}>
                 Indiquez vos villes d'exercices :
@@ -162,6 +183,7 @@ export default function InscriptionCoach3({ navigation }) {
                 value={villes}
               ></TextInput>
             </View>
+            {errors.villes && <Text style={styles.error}>{errors.villes}</Text>}
             <View>
               <Text style={styles.textInput}>
                 Listez les salles ou lieux d'exercice :
@@ -175,6 +197,7 @@ export default function InscriptionCoach3({ navigation }) {
                 value={salles}
               ></TextInput>
             </View>
+            {errors.salles && <Text style={styles.error}>{errors.salles}</Text>}
             <View>
               <Text style={styles.textInput}>
                 Indiquez votre numéro de SIRET :
@@ -188,7 +211,7 @@ export default function InscriptionCoach3({ navigation }) {
                 value={siret}
               ></TextInput>
             </View>
-            {errorInput && <Text style={styles.error}>{errorInput}</Text>}
+            {errors.siret && <Text style={styles.error}>{errors.siret}</Text>}
           </View>
 
           <TouchableOpacity style={styles.nextBtn} onPress={handleCheckInputs}>
@@ -267,7 +290,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     color: "#101018",
     width: 314,
-    marginBottom: 15,
+    marginBottom: 5,
     marginTop: 5,
     borderRadius: 5,
   },
@@ -286,9 +309,6 @@ const styles = StyleSheet.create({
   },
   btn: { fontWeight: 600 },
   error: {
-    color: "red",
-  },
-  errorInput: {
     color: "red",
   },
 });

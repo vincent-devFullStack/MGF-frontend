@@ -20,6 +20,15 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { checkBody } from "../../../modules/checkBody";
 import { BACKEND_ADDRESS } from "../../../env";
 
+import * as Yup from "yup";
+
+const signUpSchema = Yup.object().shape({
+  sexe: Yup.string().required("Sexe requis"),
+  taille: Yup.number().required("Taille requise"),
+  dateNaissance: Yup.date().required("Date de naissance requise"),
+  poids: Yup.number().required("Poids requis"),
+});
+
 export default function InscriptionEleve4({ navigation }) {
   const dispatch = useDispatch();
 
@@ -29,10 +38,10 @@ export default function InscriptionEleve4({ navigation }) {
   ];
 
   const [sexe, setSexe] = useState("");
-  const [taille, setTaille] = useState("");
+  const [taille, setTaille] = useState(0);
   const [dateNaissance, setDateNaissance] = useState(new Date());
   const [poids, setPoids] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
   const [show, setShow] = useState(false);
 
   const eleveData = useSelector((state) => state.eleve.value);
@@ -45,13 +54,27 @@ export default function InscriptionEleve4({ navigation }) {
   };
 
   async function registerUser() {
-    if (
-      !checkBody(
-        {
+    try {
+      // Awaiting for Yup to validate text
+      await signUpSchema.validate(
+        { sexe, taille, dateNaissance, poids },
+        { abortEarly: false }
+      );
+
+      // Reseting Warnings and displaying success message if all goes well
+      setErrors({});
+
+      const formattedDateNaissance = dateNaissance.toISOString().split("T")[0];
+      console.log(formattedDateNaissance);
+
+      dispatch(
+        finalUpdate({
+          ...eleveData,
           sexe: sexe,
           taille: taille,
-          dateNaissance: dateNaissance,
+          dateNaissance: formattedDateNaissance,
           poids: poids,
+<<<<<<< HEAD
         },
         ["sexe", "taille", "dateNaissance", "poids"]
       )
@@ -103,12 +126,62 @@ export default function InscriptionEleve4({ navigation }) {
           name: data.data.name,
           email: data.data.email,
           password: data.data.password,
+=======
+>>>>>>> test
         })
       );
 
-      navigation.navigate("EleveTabs", { screen: "HomeEleve" });
-    } else {
-      setError(data.message || "Erreur lors de l'inscription");
+      const response = await fetch(`${BACKEND_ADDRESS}/signupEleve`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          role: eleveData.role,
+          firstname: eleveData.firstname,
+          name: eleveData.name,
+          email: eleveData.email,
+          password: eleveData.password,
+          objectif: eleveData.objectif,
+          dateNaissance: eleveData.dateNaissance,
+          sexe: eleveData.sexe,
+          taille: eleveData.taille,
+          poids: eleveData.poids,
+        }),
+      });
+
+      const data = await response.json();
+      // console.log(data);
+
+      if (data.result) {
+        dispatch(
+          updateEleve({
+            token: data.data.token,
+            role: data.data.role,
+            firstname: data.data.firstname,
+            name: data.data.name,
+            email: data.data.email,
+            password: data.data.password,
+          })
+        );
+
+        navigation.navigate("EleveTabs", { screen: "HomeEleve" });
+      } else {
+        setErrors({
+          ...errors,
+          data: data.message || "Erreur lors de l'inscription",
+        });
+      }
+    } catch (error) {
+      // Setting error messages identified by Yup
+      if (error instanceof Yup.ValidationError) {
+        // Extracting Yup specific validation errors from list of total errors
+        const yupErrors = {};
+        error.inner.forEach((innerError) => {
+          yupErrors[innerError.path] = innerError.message;
+        });
+
+        // Saving extracted errors
+        setErrors(yupErrors);
+      }
     }
   }
 
@@ -144,7 +217,7 @@ export default function InscriptionEleve4({ navigation }) {
           </View>
 
           <View style={styles.progressbar}>
-            <Text style={styles.pourcent}>80 %</Text>
+            <Text style={styles.pourcent}>100 %</Text>
           </View>
 
           <View style={styles.titleContainer}>
@@ -218,10 +291,35 @@ export default function InscriptionEleve4({ navigation }) {
               </View>
             </View>
           </View>
+          {errors.sexe && (
+            <Text style={{ color: "red", textAlign: "center" }}>
+              {errors.sexe}
+            </Text>
+          )}
 
-          {error ? (
-            <Text style={{ color: "red", textAlign: "center" }}>{error}</Text>
-          ) : null}
+          {errors.taille && (
+            <Text style={{ color: "red", textAlign: "center" }}>
+              {errors.taille}
+            </Text>
+          )}
+
+          {errors.dateNaissance && (
+            <Text style={{ color: "red", textAlign: "center" }}>
+              {errors.dateNaissance}
+            </Text>
+          )}
+
+          {errors.poids && (
+            <Text style={{ color: "red", textAlign: "center" }}>
+              {errors.poids}
+            </Text>
+          )}
+
+          {errors.data && (
+            <Text style={{ color: "red", textAlign: "center" }}>
+              {errors.data}
+            </Text>
+          )}
 
           <View style={styles.btnPosition}>
             <TouchableOpacity style={styles.nextBtn} onPress={registerUser}>
