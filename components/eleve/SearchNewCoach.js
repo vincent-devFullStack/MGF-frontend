@@ -23,7 +23,7 @@ import MaskedView from "@react-native-community/masked-view";
 
 function SearchNewCoach() {
   const [search, setSearch] = useState("");
-  const [checked, setChecked] = useState("first");
+  // const [checked, setChecked] = useState("first");
   const [coachList, setCoachList] = useState([]);
   const [originalCoachList, setOriginalCoachList] = useState([]); // Liste originale des coachs
   const navigation = useNavigation();
@@ -102,6 +102,7 @@ function SearchNewCoach() {
                 />
               </TouchableOpacity>
             </View>
+            {/*  Barre de filtre à activer lorsque l'option sera en place coté coatch
             <View style={styles.radioContainer}>
               <View style={styles.filter}>
                 {["Presentiel", "Distanciel", "Hybride", "Tout"].map((mode) => (
@@ -132,7 +133,7 @@ function SearchNewCoach() {
                   </TouchableOpacity>
                 ))}
               </View>
-            </View>
+            </View> */}
           </View>
           <MaskedView
             style={styles.maskedContainer}
@@ -201,6 +202,7 @@ const styles = StyleSheet.create({
     padding: 1,
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 10,
   },
   inputText1: {
     paddingLeft: 10,

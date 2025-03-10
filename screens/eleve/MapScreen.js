@@ -23,12 +23,12 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 
 export default function MapScreen({ navigation }) {
-  const [search, setSearch] = useState(""); // Champ de recherche
-  const [checked, setChecked] = React.useState("first");
+  const [search, setSearch] = useState("");
+  // const [checked, setChecked] = React.useState("first");
   const [coachList, setCoachList] = useState([]);
   const [currentPosition, setCurrentPosition] = useState(null);
   const [Pin, setPin] = useState([]);
-  const [filteredCoaches, setFilteredCoaches] = useState([]); // Nouvel état pour les résultats filtrés
+  const [filteredCoaches, setFilteredCoaches] = useState([]);
   const [region, setRegion] = useState(null);
 
   useEffect(() => {
@@ -92,8 +92,8 @@ export default function MapScreen({ navigation }) {
           })
         );
 
-        setPin(coachDetails); // Garde les coachs non filtrés
-        setFilteredCoaches(coachDetails); // Initialisation des coachs affichés
+        setPin(coachDetails);
+        setFilteredCoaches(coachDetails);
       }
     };
 
@@ -109,9 +109,8 @@ export default function MapScreen({ navigation }) {
 
   // Fonction de recherche de coachs par ville ou nom
   const handleSearch = () => {
-    // Recherche de coachs uniquement au clic sur le bouton
     const filtered = Pin.filter((coach) => {
-      if (!search) return true; // Si le champ de recherche est vide, on affiche tous les coachs
+      if (!search) return true;
       const lowerCaseSearch = search.toLowerCase();
       return (
         coach.firstname.toLowerCase().includes(lowerCaseSearch) ||
@@ -121,7 +120,7 @@ export default function MapScreen({ navigation }) {
       );
     });
 
-    setFilteredCoaches(filtered); // Met à jour les résultats filtrés
+    setFilteredCoaches(filtered);
   };
 
   return (
@@ -133,7 +132,6 @@ export default function MapScreen({ navigation }) {
             mapType="hybridFlyover"
             style={styles.map}
           >
-            {/* Affichage des Markers filtrés pour chaque coach */}
             {filteredCoaches &&
               filteredCoaches.map((coach, index) =>
                 coach.villes.map((ville, i) => (
@@ -148,7 +146,7 @@ export default function MapScreen({ navigation }) {
                   >
                     <View style={styles.markerContainer}>
                       <Image
-                        source={{ uri: coach.photoProfil }} // Utilisation de la photo du coach
+                        source={{ uri: coach.photoProfil }}
                         style={styles.markerImage}
                       />
                     </View>
@@ -166,7 +164,7 @@ export default function MapScreen({ navigation }) {
                 />
                 <TouchableOpacity
                   style={styles.searchBtn}
-                  onPress={handleSearch} // Appeler la fonction de recherche au clic
+                  onPress={handleSearch}
                 >
                   <Text>Search </Text>
                   <FontAwesomeIcon
@@ -177,6 +175,7 @@ export default function MapScreen({ navigation }) {
                   />
                 </TouchableOpacity>
               </View>
+              {/* A activer lorsque l'option sera disponible coté coatch
               <View style={styles.filter}>
                 {["Presentiel", "Distanciel", "Hybride", "Tout"].map((mode) => (
                   <TouchableOpacity
@@ -199,7 +198,7 @@ export default function MapScreen({ navigation }) {
                     </View>
                   </TouchableOpacity>
                 ))}
-              </View>
+              </View> */}
             </View>
 
             <TouchableOpacity
