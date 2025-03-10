@@ -16,7 +16,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { BACKEND_ADDRESS } from "../../env";
 import Vignette from "../../components/coach/Vignette";
 
-export default function ProgsScreen() {
+export default function ProgsScreen({ navigation }) {
   const isFocused = useIsFocused();
   const coach = useSelector((state) => state.coach.value);
 
@@ -51,10 +51,6 @@ export default function ProgsScreen() {
   const progsList = progs.map((prog, i) => <Vignette key={i} {...prog} />);
 
   const exosList = exos.map((exo, i) => <Vignette key={i} {...exo} />);
-
-  if (!isFocused) {
-    return <View />;
-  }
 
   return (
     <LinearGradient
@@ -91,9 +87,22 @@ export default function ProgsScreen() {
             </MaskedView>
             <View style={styles.boxBtn}>
               <TouchableOpacity style={styles.buttonWhite}>
-                <Text style={styles.buttonText}>Voir tout</Text>
+                <Text
+                  style={styles.buttonText}
+                  onPress={() =>
+                    navigation.navigate("ModalProgs", {
+                      titre: "Programmes",
+                      path: "programme",
+                    })
+                  }
+                >
+                  Voir tout
+                </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate("ModalCreateProg")}
+              >
                 <Text style={styles.buttonText}>Nouveau programme</Text>
               </TouchableOpacity>
             </View>
@@ -123,9 +132,22 @@ export default function ProgsScreen() {
             </MaskedView>
             <View style={styles.boxBtn}>
               <TouchableOpacity style={styles.buttonWhite}>
-                <Text style={styles.buttonText}>Voir tout</Text>
+                <Text
+                  style={styles.buttonText}
+                  onPress={() =>
+                    navigation.navigate("ModalProgs", {
+                      titre: "Exercices",
+                      path: "exercice",
+                    })
+                  }
+                >
+                  Voir tout
+                </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate("ModalCreateExo")}
+              >
                 <Text style={styles.buttonText}>Nouveau exercice</Text>
               </TouchableOpacity>
             </View>

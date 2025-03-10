@@ -9,6 +9,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import eleve from "./reducers/eleve";
 import coach from "./reducers/coach";
+import programme from "./reducers/programme";
 
 // Import des screens
 import LoginScreen from "./screens/LoginScreen";
@@ -38,6 +39,9 @@ import CalCoachScreen from "./screens/coach/CalCoachScreen";
 import ElevesScreen from "./screens/coach/ElevesScreen";
 import ProgsScreen from "./screens/coach/ProgsScreen";
 import WalletScreen from "./screens/coach/WalletScreen";
+import ModalProgsScreen from "./screens/coach/modals/ModalProgsScreen";
+import ModalCreateProgScreen from "./screens/coach/modals/ModalCreateProgScreen";
+import ModalCreateExoScreen from "./screens/coach/modals/ModalCreateExoScreen";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -51,7 +55,7 @@ import {
   faWallet,
 } from "@fortawesome/free-solid-svg-icons";
 
-const reducers = combineReducers({ eleve, coach });
+const reducers = combineReducers({ eleve, coach, programme });
 
 const persistConfig = { key: "MGF", storage: AsyncStorage };
 
@@ -161,6 +165,21 @@ export default function App() {
             <Stack.Screen name="SignupCoach2" component={SignupCoach2Screen} />
             <Stack.Screen name="SignupCoach3" component={SignupCoach3Screen} />
             <Stack.Screen name="SignupCoach4" component={SignupCoach4Screen} />
+            <Stack.Screen
+              name="ModalProgs"
+              component={ModalProgsScreen}
+              options={{ presentation: "modal" }}
+            />
+            <Stack.Screen
+              name="ModalCreateProg"
+              component={ModalCreateProgScreen}
+              options={{ presentation: "modal" }}
+            />
+            <Stack.Screen
+              name="ModalCreateExo"
+              component={ModalCreateExoScreen}
+              options={{ presentation: "modal" }}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
