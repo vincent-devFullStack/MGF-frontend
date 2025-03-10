@@ -83,7 +83,7 @@ export default function InscriptionEleve3({ navigation }) {
           </View>
 
           <View style={styles.progressbar}>
-            <Text style={styles.pourcent}>60 %</Text>
+            <Text style={styles.pourcent}>75 %</Text>
           </View>
 
           <View style={styles.titleContainer}>

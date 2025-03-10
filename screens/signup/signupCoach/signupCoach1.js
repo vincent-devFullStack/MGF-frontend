@@ -13,6 +13,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateFirst } from "../../../reducers/coach";
+
+import * as Yup from "yup";
+
 import { BACKEND_ADDRESS } from "../../../env";
 
 import {
@@ -22,21 +25,34 @@ import {
   faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 
+const signUpSchema = Yup.object().shape({
+  email: Yup.string().email("L'email est invalide").required("Email requis"),
+  password: Yup.string().required("Mot de passe requis"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Le mot de passe n'est pas identique")
+    .required("Merci de confirmer le mot de passe"),
+});
+
 export default function InscriptionCoach1({ navigation }) {
   const dispatch = useDispatch();
 
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleCheckInputs = async () => {
-    if (password !== confirmPassword) {
-      setError("Les mots de passe ne correspondent pas");
-    } else {
-      setError("");
+    try {
+      // Awaiting for Yup to validate text
+      await signUpSchema.validate(
+        { email, password, confirmPassword },
+        { abortEarly: false }
+      );
+
+      // Reseting Warnings and displaying success message if all goes well
+      setErrors({});
 
       const response = await fetch(`${BACKEND_ADDRESS}/checkEmail`, {
         method: "POST",
@@ -57,6 +73,18 @@ export default function InscriptionCoach1({ navigation }) {
           })
         );
         navigation.navigate("SignupCoach2");
+      }
+    } catch (error) {
+      // Setting error messages identified by Yup
+      if (error instanceof Yup.ValidationError) {
+        // Extracting Yup specific validation errors from list of total errors
+        const yupErrors = {};
+        error.inner.forEach((innerError) => {
+          yupErrors[innerError.path] = innerError.message;
+        });
+
+        // Saving extracted errors
+        setErrors(yupErrors);
       }
     }
   };
@@ -109,7 +137,7 @@ export default function InscriptionCoach1({ navigation }) {
                 paddingBottom={10}
                 inputMode="email"
               ></TextInput>
-
+              {errors.email && <Text style={styles.error}>{errors.email}</Text>}
               <View style={styles.passwordInput}>
                 <TextInput
                   style={styles.inputPass}
@@ -131,6 +159,9 @@ export default function InscriptionCoach1({ navigation }) {
                   />
                 </TouchableOpacity>
               </View>
+              {errors.password && (
+                <Text style={styles.error}>{errors.password}</Text>
+              )}
               <View style={styles.passwordInput}>
                 <TextInput
                   style={styles.inputPass}
@@ -153,7 +184,9 @@ export default function InscriptionCoach1({ navigation }) {
                   />
                 </TouchableOpacity>
               </View>
-              {error && <Text style={styles.error}>{error}</Text>}
+              {errors.confirmPassword && (
+                <Text style={styles.error}>{errors.confirmPassword}</Text>
+              )}
             </View>
           </View>
           <View style={styles.btnPosition}>

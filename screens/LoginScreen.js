@@ -19,17 +19,25 @@ import {
 
 import { BACKEND_ADDRESS } from "../env";
 
+import * as Yup from "yup";
+
 import { updateEleve } from "../reducers/eleve";
 import { updateCoach } from "../reducers/coach";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+
+// Yup Validation Schema for Sign Up
+const signInSchema = Yup.object().shape({
+  email: Yup.string().email("L'email est invalide").required("Email requis"),
+  password: Yup.string().required("Mot de passe requis"),
+});
 
 export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [type, setType] = useState("eleve");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,67 +52,87 @@ export default function LoginScreen({ navigation }) {
   }
 
   //Pour vérifier les identifiants et naviguer vers la page d'accueil
-  function connexionUser() {
-    if (type === "eleve") {
-      fetch(`${BACKEND_ADDRESS}/signinEleve`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.result) {
-            dispatch(
-              updateEleve({
-                token: data.data.token,
-                role: data.data.role,
-                firstname: data.data.firstname,
-                name: data.data.name,
-                email: data.data.email,
-                password: data.data.password,
-              })
-            );
-            setEmail("");
-            setPassword("");
-            navigation.navigate("EleveTabs", { screen: "HomeEleve" });
-          } else {
-            setError(data.error);
-          }
+  const connexionUser = async () => {
+    try {
+      // Awaiting for Yup to validate text
+      await signInSchema.validate({ email, password }, { abortEarly: false });
+
+      // Reseting Warnings and displaying success message if all goes well
+      setErrors({});
+
+      if (type === "eleve") {
+        fetch(`${BACKEND_ADDRESS}/signinEleve`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.result) {
+              dispatch(
+                updateEleve({
+                  token: data.data.token,
+                  role: data.data.role,
+                  firstname: data.data.firstname,
+                  name: data.data.name,
+                  email: data.data.email,
+                  password: data.data.password,
+                })
+              );
+              setEmail("");
+              setPassword("");
+              navigation.navigate("EleveTabs", { screen: "HomeEleve" });
+            } else {
+              setErrors({ email: data.error });
+            }
+          });
+      } else if (type === "coach") {
+        fetch(`${BACKEND_ADDRESS}/signinCoach`, {
+          method: "Post",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.result) {
+              dispatch(
+                updateCoach({
+                  token: data.data.token,
+                  role: data.data.role,
+                  firstname: data.data.firstname,
+                  name: data.data.name,
+                  email: data.data.email,
+                  password: data.data.password,
+                })
+              );
+              setEmail("");
+              setPassword("");
+              navigation.navigate("CoachTabs", { screen: "HomeCoach" });
+            } else {
+              setErrors({ email: data.error });
+            }
+          });
+      }
+    } catch (error) {
+      // Setting error messages identified by Yup
+      if (error instanceof Yup.ValidationError) {
+        // Extracting Yup specific validation errors from list of total errors
+        const yupErrors = {};
+        error.inner.forEach((innerError) => {
+          yupErrors[innerError.path] = innerError.message;
         });
-    } else if (type === "coach") {
-      fetch(`${BACKEND_ADDRESS}/signinCoach`, {
-        method: "Post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.result) {
-            dispatch(
-              updateCoach({
-                token: data.data.token,
-                role: data.data.role,
-                firstname: data.data.firstname,
-                name: data.data.name,
-                email: data.data.email,
-                password: data.data.password,
-              })
-            );
-            setEmail("");
-            setPassword("");
-            navigation.navigate("CoachTabs", { screen: "HomeCoach" });
-          } else {
-            setError(data.error);
-          }
-        });
+
+        // Saving extracted errors
+        setErrors(yupErrors);
+      }
     }
-  }
+  };
 
   return (
     <LinearGradient
@@ -131,7 +159,7 @@ export default function LoginScreen({ navigation }) {
               value={email}
               paddingBottom={10}
             ></TextInput>
-            {error && <Text style={styles.error}>{error}</Text>}
+            {errors.email && <Text style={styles.error}>{errors.email}</Text>}
             <View style={styles.passwordInput}>
               <TextInput
                 style={styles.inputPass}
@@ -153,6 +181,9 @@ export default function LoginScreen({ navigation }) {
                 />
               </TouchableOpacity>
             </View>
+            {errors.password && (
+              <Text style={styles.error}>{errors.password}</Text>
+            )}
           </View>
           <View style={styles.boxToggle}>
             <Text style={styles.textToggle}>Élève</Text>

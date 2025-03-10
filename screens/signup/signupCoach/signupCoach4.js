@@ -12,11 +12,19 @@ import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { checkBody } from "../../../modules/checkBody";
+
 import { BACKEND_ADDRESS } from "../../../env";
 
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { updateFourth, updateCoach } from "../../../reducers/coach";
+
+import * as Yup from "yup";
+
+const signUpSchema = Yup.object().shape({
+  description: Yup.string().required("Votre description est requise"),
+  diplomes: Yup.string().required("Vos diplomes sont requis"),
+  domaines: Yup.string().required("Vos domaines sont requis"),
+});
 
 export default function InscriptionCoach4({ navigation }) {
   const dispatch = useDispatch();
@@ -25,19 +33,19 @@ export default function InscriptionCoach4({ navigation }) {
   const [description, setDescription] = useState("");
   const [diplomes, setDiplomes] = useState("");
   const [domaines, setDomaines] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
 
   const handleCheckInputs = async () => {
-    if (
-      !checkBody(
-        { domaines: domaines, description: description, diplomes: diplomes },
-        ["domaines", "description", "diplomes"]
-      )
-    ) {
-      setError("Missing or empty fields");
-      return;
-    } else {
-      setError("");
+    try {
+      // Awaiting for Yup to validate text
+      await signUpSchema.validate(
+        { description, domaines, diplomes },
+        { abortEarly: false }
+      );
+
+      // Reseting Warnings and displaying success message if all goes well
+      setErrors({});
+
       dispatch(
         updateFourth({
           domaines: domaines.split(", "),
@@ -80,7 +88,19 @@ export default function InscriptionCoach4({ navigation }) {
         );
         navigation.navigate("CoachTabs", { screen: "HomeCoach" });
       } else {
-        setError(data.error);
+        setErrors({ ...errors, data: data.error });
+      }
+    } catch (error) {
+      // Setting error messages identified by Yup
+      if (error instanceof Yup.ValidationError) {
+        // Extracting Yup specific validation errors from list of total errors
+        const yupErrors = {};
+        error.inner.forEach((innerError) => {
+          yupErrors[innerError.path] = innerError.message;
+        });
+
+        // Saving extracted errors
+        setErrors(yupErrors);
       }
     }
   };
@@ -138,6 +158,9 @@ export default function InscriptionCoach4({ navigation }) {
                 value={domaines}
               ></TextInput>
             </View>
+            {errors.domaines && (
+              <Text style={styles.error}>{errors.domaines}</Text>
+            )}
             <View>
               <Text style={styles.textInput}>
                 Présentez-vous pour vos futurs clients :
@@ -152,6 +175,9 @@ export default function InscriptionCoach4({ navigation }) {
                 value={description}
               ></TextInput>
             </View>
+            {errors.description && (
+              <Text style={styles.error}>{errors.description}</Text>
+            )}
             <View>
               <Text style={styles.textInput}>Indiquez vos diplômes :</Text>
               <TextInput
@@ -163,7 +189,10 @@ export default function InscriptionCoach4({ navigation }) {
                 value={diplomes}
               ></TextInput>
             </View>
-            {error && <Text style={styles.error}>{error}</Text>}
+            {errors.diplomes && (
+              <Text style={styles.error}>{errors.diplomes}</Text>
+            )}
+            {errors.data && <Text style={styles.error}>{errors.data}</Text>}
           </View>
 
           <TouchableOpacity style={styles.nextBtn} onPress={handleCheckInputs}>
@@ -230,7 +259,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     color: "#101018",
     width: 314,
-    marginBottom: 15,
+    marginBottom: 5,
     marginTop: 5,
     borderRadius: 5,
   },
@@ -239,7 +268,7 @@ const styles = StyleSheet.create({
     color: "#101018",
     width: 314,
     height: 230,
-    marginBottom: 15,
+    marginBottom: 5,
     marginTop: 5,
     borderRadius: 5,
     textAlignVertical: "top",

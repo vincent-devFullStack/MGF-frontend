@@ -16,18 +16,28 @@ import { updateSecond } from "../../../reducers/eleve";
 
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 
+import * as Yup from "yup";
+
+const signUpSchema = Yup.object().shape({
+  name: Yup.string().required("Nom requis"),
+  firstname: Yup.string().required("Prénom requis"),
+});
+
 export default function InscriptionEleve2({ navigation }) {
   const dispatch = useDispatch();
 
   const [firstname, setFirstname] = useState("");
   const [name, setName] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
 
-  const handleCheckInputs = () => {
-    if (!name || !firstname) {
-      setError("Les champs prénom et nom sont requis");
-    } else {
-      setError("");
+  const handleCheckInputs = async () => {
+    try {
+      // Awaiting for Yup to validate text
+      await signUpSchema.validate({ name, firstname }, { abortEarly: false });
+
+      // Reseting Warnings and displaying success message if all goes well
+      setErrors({});
+
       dispatch(
         updateSecond({
           firstname: firstname,
@@ -35,6 +45,18 @@ export default function InscriptionEleve2({ navigation }) {
         })
       );
       navigation.navigate("SignupEleve3");
+    } catch (error) {
+      // Setting error messages identified by Yup
+      if (error instanceof Yup.ValidationError) {
+        // Extracting Yup specific validation errors from list of total errors
+        const yupErrors = {};
+        error.inner.forEach((innerError) => {
+          yupErrors[innerError.path] = innerError.message;
+        });
+
+        // Saving extracted errors
+        setErrors(yupErrors);
+      }
     }
   };
 
@@ -69,7 +91,7 @@ export default function InscriptionEleve2({ navigation }) {
             </TouchableOpacity>
           </View>
           <View style={styles.progressbar}>
-            <Text style={styles.pourcent}>40 %</Text>
+            <Text style={styles.pourcent}>50 %</Text>
           </View>
 
           <View style={styles.titleContainer}>
@@ -85,8 +107,10 @@ export default function InscriptionEleve2({ navigation }) {
                 value={firstname}
                 paddingBottom={10}
               ></TextInput>
-              {error && <Text style={styles.error}>{error}</Text>}
             </View>
+            {errors.firstname && (
+              <Text style={styles.error}>{errors.firstname}</Text>
+            )}
             <View>
               <TextInput
                 style={styles.input}
@@ -96,8 +120,8 @@ export default function InscriptionEleve2({ navigation }) {
                 value={name}
                 paddingBottom={10}
               ></TextInput>
-              {error && <Text style={styles.error}>{error}</Text>}
             </View>
+            {errors.name && <Text style={styles.error}>{errors.name}</Text>}
           </View>
           <View style={styles.btnPosition}>
             <TouchableOpacity
@@ -176,7 +200,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: 314,
     color: "white",
-    marginBottom: 20,
+    marginBottom: 10,
   },
 
   inputPass: { color: "white", width: "100%" },

@@ -13,21 +13,30 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateSecond } from "../../../reducers/coach";
-
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
+
+import * as Yup from "yup";
+
+const signUpSchema = Yup.object().shape({
+  name: Yup.string().required("Nom requis"),
+  firstname: Yup.string().required("Prénom requis"),
+});
 
 export default function InscriptionCoach2({ navigation }) {
   const dispatch = useDispatch();
 
   const [firstname, setFirstname] = useState("");
   const [name, setName] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
 
-  function handleCheckInputs() {
-    if (firstname === "" && name === "") {
-      setError("Missing or empty fields");
-    } else {
-      setError("");
+  const handleCheckInputs = async () => {
+    try {
+      // Awaiting for Yup to validate text
+      await signUpSchema.validate({ name, firstname }, { abortEarly: false });
+
+      // Reseting Warnings and displaying success message if all goes well
+      setErrors({});
+
       dispatch(
         updateSecond({
           firstname: firstname,
@@ -35,8 +44,20 @@ export default function InscriptionCoach2({ navigation }) {
         })
       );
       navigation.navigate("SignupCoach3");
+    } catch (error) {
+      // Setting error messages identified by Yup
+      if (error instanceof Yup.ValidationError) {
+        // Extracting Yup specific validation errors from list of total errors
+        const yupErrors = {};
+        error.inner.forEach((innerError) => {
+          yupErrors[innerError.path] = innerError.message;
+        });
+
+        // Saving extracted errors
+        setErrors(yupErrors);
+      }
     }
-  }
+  };
 
   return (
     <LinearGradient
@@ -87,6 +108,9 @@ export default function InscriptionCoach2({ navigation }) {
                 paddingBottom={10}
               ></TextInput>
             </View>
+            {errors.firstname && (
+              <Text style={styles.error}>{errors.firstname}</Text>
+            )}
             <View>
               <TextInput
                 style={styles.input}
@@ -97,7 +121,7 @@ export default function InscriptionCoach2({ navigation }) {
                 paddingBottom={10}
               ></TextInput>
             </View>
-            {error && <Text style={styles.error}>{error}</Text>}
+            {errors.name && <Text style={styles.error}>{errors.name}</Text>}
           </View>
           <View style={styles.btnPosition}>
             <TouchableOpacity
@@ -163,7 +187,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "90%",
     height: 250,
-    gap: 10,
     padding: 40,
   },
   input: {
@@ -171,7 +194,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: 314,
     color: "white",
-    marginBottom: 20,
+    marginBottom: 10,
   },
 
   inputPass: { color: "white", width: "100%" },
