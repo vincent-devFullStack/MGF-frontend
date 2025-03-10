@@ -17,7 +17,7 @@ import { finalUpdate, updateEleve } from "../../../reducers/eleve";
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "react-native-element-dropdown";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { checkBody } from "../../../modules/checkBody";
+
 import { BACKEND_ADDRESS } from "../../../env";
 
 import * as Yup from "yup";
@@ -74,60 +74,6 @@ export default function InscriptionEleve4({ navigation }) {
           taille: taille,
           dateNaissance: formattedDateNaissance,
           poids: poids,
-<<<<<<< HEAD
-        },
-        ["sexe", "taille", "dateNaissance", "poids"]
-      )
-    ) {
-      setError("Tous les champs sont requis");
-      return;
-    }
-
-    setError("");
-    const formattedDateNaissance = dateNaissance.toISOString().split("T")[0];
-    // console.log(formattedDateNaissance);
-
-    dispatch(
-      finalUpdate({
-        ...eleveData,
-        sexe: sexe,
-        taille: taille,
-        dateNaissance: formattedDateNaissance,
-        poids: poids,
-      })
-    );
-
-    const response = await fetch(`${BACKEND_ADDRESS}/signupEleve`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        role: eleveData.role,
-        firstname: eleveData.firstname,
-        name: eleveData.name,
-        email: eleveData.email,
-        password: eleveData.password,
-        objectif: eleveData.objectif,
-        dateNaissance: eleveData.dateNaissance,
-        sexe: eleveData.sexe,
-        taille: eleveData.taille,
-        poids: eleveData.poids,
-      }),
-    });
-
-    const data = await response.json();
-    // console.log(data);
-
-    if (data.result) {
-      dispatch(
-        updateEleve({
-          token: data.data.token,
-          role: data.data.role,
-          firstname: data.data.firstname,
-          name: data.data.name,
-          email: data.data.email,
-          password: data.data.password,
-=======
->>>>>>> test
         })
       );
 
