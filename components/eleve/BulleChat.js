@@ -20,7 +20,10 @@ export default function BulleChat({ conversation, fullData }) {
 
   return (
     <View style={styles.background}>
-      <Image style={styles.profilIcon} source={{ uri: photoProfil }} />
+      <Image
+        style={[styles.profilIcon, isCoach ? styles.coachPosition : null]}
+        source={{ uri: photoProfil }}
+      />
       <View style={styles.contenuMessage}>
         <Text style={styles.desc2}>{formattedDate}</Text>
         <Text style={styles.desc1}>{conversation.texte}</Text>
