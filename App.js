@@ -30,6 +30,8 @@ import NutritionScreen from "./screens/eleve/NutritionScreen";
 import ProfilScreen from "./screens/eleve/ProfilScreen";
 import StatsScreen from "./screens/eleve/StatsScreen";
 import MapScreen from "./screens/eleve/MapScreen";
+import TrainingScreen from "./screens/eleve/TrainingScreen";
+
 // Import des screens Coach
 import HomeCoachScreen from "./screens/coach/HomeCoachScreen";
 import CalCoachScreen from "./screens/coach/CalCoachScreen";
@@ -153,6 +155,7 @@ export default function App() {
             <Stack.Screen name="SignupEleve3" component={SignupEleve3Screen} />
             <Stack.Screen name="SignupEleve4" component={SignupEleve4Screen} />
             <Stack.Screen name="MapScreen" component={MapScreen} />
+            <Stack.Screen name="TrainingScreen" component={TrainingScreen} />
 
             <Stack.Screen name="SignupCoach1" component={SignupCoach1Screen} />
             <Stack.Screen name="SignupCoach2" component={SignupCoach2Screen} />
