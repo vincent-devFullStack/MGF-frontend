@@ -1,17 +1,52 @@
 import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import "moment/locale/fr";
 import moment from "moment";
+import { BACKEND_ADDRESS } from "../../env";
 
-import * as React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import React, { useState, useEffect } from "react";
 
-export default function BulleChat({ conversation, fullData }) {
-  if (!conversation) {
-    return (
-      <View style={styles.background}>
-        <Text style={styles.desc1}>Aucune conversation disponible</Text>
-      </View>
-    );
-  }
+export default function BulleChat({ conversation, fullData, onRefresh }) {
+  const [deletedMessage, setDeletedMessage] = useState(false);
+
+  const deleteMessage = async () => {
+    if (!conversation?._id) return;
+
+    const payload = {
+      token: fullData?.data?.token,
+      texte: conversation.texte,
+    };
+
+    try {
+      const response = await fetch(`${BACKEND_ADDRESS}/eleve/delete-message`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+      console.log("Réponse du serveur :", data);
+
+      if (data.result) {
+        console.log("Message supprimé avec succès !");
+        setDeletedMessage(true);
+      } else {
+        console.error("Erreur suppression :", data.error);
+      }
+    } catch (error) {
+      console.error("Erreur réseau :", error);
+    }
+  };
+
+  useEffect(() => {
+    if (deletedMessage && onRefresh) {
+      onRefresh();
+    }
+  }, [deletedMessage, onRefresh]);
+
+  if (deletedMessage) return null;
+
   const formattedDate = moment(conversation.date).fromNow();
   const photoProfil =
     fullData?.data?.photoProfil || require("../../assets/icon.png");
@@ -28,6 +63,9 @@ export default function BulleChat({ conversation, fullData }) {
         <Text style={styles.desc2}>{formattedDate}</Text>
         <Text style={styles.desc1}>{conversation.texte}</Text>
       </View>
+      <TouchableOpacity onPress={deleteMessage}>
+        <Text style={styles.desc2}>Supprimer</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -61,13 +99,15 @@ const styles = StyleSheet.create({
     width: "70%",
   },
   desc1: {
-    textAlign: "center",
+    textAlign: "flex-start",
+    paddingLeft: 10,
+    paddingBottom: 10,
     fontSize: 15,
     color: "black",
   },
   desc2: {
     textAlign: "center",
-    fontSize: 13,
+    fontSize: 10,
     color: "grey",
   },
   content: {
@@ -84,6 +124,9 @@ const styles = StyleSheet.create({
   },
   coachPosition: {
     left: 20, // Déplace l'image à gauche
+    position: "absolute",
+  },
+  icon: {
     position: "absolute",
   },
 });

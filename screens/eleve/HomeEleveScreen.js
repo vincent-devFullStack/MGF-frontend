@@ -29,9 +29,21 @@ export default function HomeEleveScreen({ navigation }) {
   const [visible, setVisible] = useState(false);
   const [message, setMessage] = useState("");
   const [fullData, setFullData] = useState([]);
+  const [messageSent, setMessageSent] = useState(false);
   const isFocused = useIsFocused();
-
   const eleveData = useSelector((state) => state.eleve.value);
+
+  const fetchMessages = async () => {
+    try {
+      const response = await fetch(
+        `${BACKEND_ADDRESS}/eleve/${eleveData.token}`
+      );
+      const data = await response.json();
+      setFullData(data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des messages :", error);
+    }
+  };
 
   const sendMessage = async () => {
     if (!message.trim()) return; // Évite d'envoyer un message vide
@@ -53,6 +65,7 @@ export default function HomeEleveScreen({ navigation }) {
 
       if (data.result) {
         setMessage("");
+        setMessageSent(messageSent === false ? true : false);
       } else {
         console.error("Erreur lors de l'envoi :", data.error);
       }
@@ -60,6 +73,10 @@ export default function HomeEleveScreen({ navigation }) {
       console.error("Erreur réseau :", error);
     }
   };
+
+  useEffect(() => {
+    fetchMessages();
+  }, [messageSent]);
 
   useEffect(() => {
     fetch(`${BACKEND_ADDRESS}/eleve/${eleveData.token}`)
@@ -221,7 +238,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   messages: {
-    height: "85%",
+    height: "80%",
     width: "100%",
     alignItems: "center",
   },
@@ -229,7 +246,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "white",
     width: "100%",
-    height: 35,
+    height: 50,
     borderRadius: 5,
     padding: 1,
     justifyContent: "space-between",
@@ -240,6 +257,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   icon: {
-    right: 5,
+    position: "absolute",
+    right: 10,
+    bottom: -10,
   },
 });
