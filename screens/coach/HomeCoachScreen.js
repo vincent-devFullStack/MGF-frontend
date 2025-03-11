@@ -76,6 +76,13 @@ export default function HomeCoachScreen() {
             >
               <Text style={styles.title}>Coachings du jour</Text>
               <ScrollView contentContainerStyle={styles.containerRdv}>
+                {rdvList[0] === undefined && (
+                  <Image
+                    style={{ width: 200, height: 200 }}
+                    source={require("../../assets/nordv.png")}
+                    resizeMode="contain"
+                  />
+                )}
                 {rdv && rdvList}
               </ScrollView>
             </MaskedView>

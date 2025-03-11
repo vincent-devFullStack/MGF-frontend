@@ -518,6 +518,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 3, height: 6 },
     shadowOpacity: 0.4,
     shadowRadius: 3,
+    position: "absolute",
+    bottom: 5,
   },
   buttonText: {
     fontWeight: 600,
