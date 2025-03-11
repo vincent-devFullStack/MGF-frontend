@@ -11,8 +11,11 @@ export const programmeSlice = createSlice({
     updateProgramme: (state, action) => {
       state.value.push(action.payload);
     },
+    removeProgramme: (state, action) => {
+      state.value = [];
+    },
   },
 });
 
-export const { updateProgramme } = programmeSlice.actions;
+export const { updateProgramme, removeProgramme } = programmeSlice.actions;
 export default programmeSlice.reducer;
