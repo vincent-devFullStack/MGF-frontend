@@ -62,6 +62,7 @@ export default function InscriptionCoach4({ navigation }) {
           firstname: coach.firstname,
           email: coach.email,
           password: coach.password,
+          secreWord: coach.secretWord,
           photoProfil: coach.photo,
           role: coach.role,
           siret: coach.siret,
