@@ -9,34 +9,41 @@ import React, { useState, useEffect } from "react";
 
 export default function BulleChat({ conversation, fullData, onRefresh }) {
   const [deletedMessage, setDeletedMessage] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const deleteMessage = async () => {
     if (!conversation?._id) return;
 
+    setShowConfirmation(true);
+  };
+
+  const confirmDelete = async () => {
     const payload = {
       token: fullData?.data?.token,
       texte: conversation.texte,
     };
 
-    try {
-      const response = await fetch(`${BACKEND_ADDRESS}/eleve/delete-message`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+    const response = await fetch(`${BACKEND_ADDRESS}/eleve/delete-message`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
 
-      const data = await response.json();
-      console.log("Réponse du serveur :", data);
+    const data = await response.json();
+    console.log("Réponse du serveur :", data);
 
-      if (data.result) {
-        console.log("Message supprimé avec succès !");
-        setDeletedMessage(true);
-      } else {
-        console.error("Erreur suppression :", data.error);
-      }
-    } catch (error) {
-      console.error("Erreur réseau :", error);
+    if (data.result) {
+      console.log("Message supprimé avec succès !");
+      setDeletedMessage(true);
+    } else {
+      console.error("Erreur suppression :", data.error);
     }
+
+    setShowConfirmation(false);
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmation(false);
   };
 
   useEffect(() => {
@@ -59,13 +66,26 @@ export default function BulleChat({ conversation, fullData, onRefresh }) {
         style={[styles.profilIcon, isCoach ? styles.coachPosition : null]}
         source={{ uri: photoProfil }}
       />
-      <View style={styles.contenuMessage}>
+      <TouchableOpacity
+        onLongPress={deleteMessage}
+        style={styles.contenuMessage}
+      >
         <Text style={styles.desc2}>{formattedDate}</Text>
         <Text style={styles.desc1}>{conversation.texte}</Text>
-      </View>
-      <TouchableOpacity onPress={deleteMessage}>
-        <Text style={styles.desc2}>Supprimer</Text>
       </TouchableOpacity>
+      {showConfirmation && (
+        <View style={styles.confirmation}>
+          <Text>Voulez-vous supprimer le message ?</Text>
+          <View style={styles.choices}>
+            <TouchableOpacity style={styles.btnYes} onPress={confirmDelete}>
+              <Text>Oui</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnNo} onPress={cancelDelete}>
+              <Text>Non</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </View>
   );
 }
@@ -110,6 +130,11 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: "grey",
   },
+  desc3: {
+    right: 60,
+    fontSize: 10,
+    color: "grey",
+  },
   content: {
     flex: 1,
     alignItems: "center",
@@ -128,5 +153,34 @@ const styles = StyleSheet.create({
   },
   icon: {
     position: "absolute",
+  },
+  confirmation: {
+    position: "absolute",
+    backgroundColor: "white",
+    borderRadius: 5,
+    height: 70,
+    justifyContent: "space-between",
+  },
+  btnYes: {
+    height: 30,
+    width: 120,
+    backgroundColor: "#e8e9ea",
+    justifyContent: "center",
+    alignItems: "center",
+    borderBottomLeftRadius: 5,
+    borderRightWidth: 1,
+    borderRightColor: "#c8c9ca",
+  },
+  btnNo: {
+    height: 30,
+    width: 120,
+    backgroundColor: "#e8e9ea",
+    justifyContent: "center",
+    alignItems: "center",
+    borderBottomRightRadius: 5,
+  },
+  choices: {
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
 });

@@ -119,6 +119,7 @@ export default function HomeEleveScreen({ navigation }) {
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={100}
       >
         <SafeAreaView style={styles.container}>
           {researchVisibleCard()}
@@ -151,7 +152,14 @@ export default function HomeEleveScreen({ navigation }) {
             />
           </TouchableOpacity>
           <LinearGradient
-            colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
+            colors={[
+              "#101018",
+              "#383853",
+              "#4B4B70",
+              "#54547E",
+              "#54547E",
+              "#54547E",
+            ]}
             style={styles.background2}
           >
             <View style={styles.messages}>
@@ -231,14 +239,14 @@ const styles = StyleSheet.create({
   },
   background2: {
     marginTop: 20,
-    height: "43%",
+    height: "70%",
     width: "90%",
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "flex-start",
   },
   messages: {
-    height: "80%",
+    height: "50%",
     width: "100%",
     alignItems: "center",
   },

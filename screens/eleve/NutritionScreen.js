@@ -2,6 +2,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
   SafeAreaView,
   KeyboardAvoidingView,
 } from "react-native";
@@ -15,7 +16,10 @@ export default function NutritionScreen() {
     >
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
-          <Text>Nutrition élève Screen</Text>
+          <Image
+            style={styles.chantier}
+            source={require("../../assets/page_construction.png")}
+          />
         </SafeAreaView>
       </KeyboardAvoidingView>
     </LinearGradient>
@@ -30,5 +34,9 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
+  },
+  chantier: {
+    height: 500,
+    width: 500,
   },
 });
