@@ -203,7 +203,7 @@ export default function InscriptionEleve1({ navigation }) {
                 <TextInput
                   style={styles.inputPass}
                   placeholder="Indiquez votre mot secret"
-                  secureTextEntry={!passwordVisible}
+                  secureTextEntry={!secretWordVisible}
                   placeholderTextColor={"white"}
                   onChangeText={(value) => setSecretWord(value)}
                   value={secretWord}
@@ -214,9 +214,9 @@ export default function InscriptionEleve1({ navigation }) {
                 >
                   <FontAwesomeIcon
                     style={styles.icon}
-                    icon={passwordVisible ? faEye : faEyeSlash}
+                    icon={secretWordVisible ? faEye : faEyeSlash}
                     size={15}
-                    color={passwordVisible ? "#DFB81C" : "white"}
+                    color={secretWordVisible ? "#DFB81C" : "white"}
                   />
                 </TouchableOpacity>
               </View>
@@ -336,6 +336,5 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     marginBottom: 10,
     marginTop: 10,
-    textDecorationLine: "underline",
   },
 });
