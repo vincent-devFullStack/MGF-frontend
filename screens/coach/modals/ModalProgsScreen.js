@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -62,6 +63,23 @@ export default function ModalProgs({ route, navigation }) {
     }
   };
 
+  let texte = "";
+  if (path === "programme") {
+    texte = "ce programme";
+  }
+  if (path === "exercice") {
+    texte = "cet exercice";
+  }
+
+  const buttonAlertDelete = (data) =>
+    Alert.alert(`Êtes-vous sûre de supprimer ${texte} ?`, `${data}`, [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      { text: "OK", onPress: () => handleDelete(data) },
+    ]);
+
   const list = lists.map((data, i) => {
     return (
       <View style={styles.container} key={i}>
@@ -85,7 +103,7 @@ export default function ModalProgs({ route, navigation }) {
           <TouchableOpacity>
             <FontAwesomeIcon icon={faPen} size={20} color="#DFB81C" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleDelete(data.name)}>
+          <TouchableOpacity onPress={() => buttonAlertDelete(data.name)}>
             <FontAwesomeIcon icon={faTrashCan} size={20} color="#B9B8B7" />
           </TouchableOpacity>
         </View>
