@@ -80,6 +80,14 @@ export default function ModalProgs({ route, navigation }) {
       { text: "OK", onPress: () => handleDelete(data) },
     ]);
 
+  const butttonAlertModify = () =>
+    Alert.alert("En cours de développement", "Veuillez nous en excuser", [
+      {
+        text: "Ok",
+        style: "cancel",
+      },
+    ]);
+
   const list = lists.map((data, i) => {
     return (
       <View style={styles.container} key={i}>
@@ -100,7 +108,7 @@ export default function ModalProgs({ route, navigation }) {
           <Text style={styles.textMini}>{data.description}</Text>
         </View>
         <View style={styles.containerIcon}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={butttonAlertModify}>
             <FontAwesomeIcon icon={faPen} size={20} color="#DFB81C" />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => buttonAlertDelete(data.name)}>
