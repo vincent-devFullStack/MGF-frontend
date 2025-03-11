@@ -8,6 +8,7 @@ const initialState = {
     name: "",
     email: "",
     password: "",
+    secretWord: "",
     objectif: "",
     dateNaissance: null,
     sexe: "",

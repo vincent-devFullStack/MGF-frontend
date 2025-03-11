@@ -86,6 +86,7 @@ export default function InscriptionEleve4({ navigation }) {
           name: eleveData.name,
           email: eleveData.email,
           password: eleveData.password,
+          secretWord: eleveData.secretWord,
           objectif: eleveData.objectif,
           dateNaissance: eleveData.dateNaissance,
           sexe: eleveData.sexe,

@@ -31,23 +31,26 @@ const signUpSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Le mot de passe n'est pas identique")
     .required("Merci de confirmer le mot de passe"),
+  secretWord: Yup.string().required("Mot secret requis"),
 });
 
 export default function InscriptionCoach1({ navigation }) {
   const dispatch = useDispatch();
 
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [secretWordVisible, setSecretWordVisible] = useState(false);
 
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState({});
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [secretWord, setSecretWord] = useState("");
 
   const handleCheckInputs = async () => {
     try {
       // Awaiting for Yup to validate text
       await signUpSchema.validate(
-        { email, password, confirmPassword },
+        { email, password, confirmPassword, secretWord },
         { abortEarly: false }
       );
 
@@ -70,6 +73,7 @@ export default function InscriptionCoach1({ navigation }) {
             role: "coach",
             email: email,
             password: password,
+            secretWord: secretWord,
           })
         );
         navigation.navigate("SignupCoach2");
@@ -127,16 +131,18 @@ export default function InscriptionCoach1({ navigation }) {
           </View>
           <View style={styles.boxInput}>
             <View>
-              <TextInput
-                style={styles.input}
-                placeholder="Indiquez votre adresse email"
-                keyboardType="email-address"
-                placeholderTextColor={"white"}
-                onChangeText={(value) => setEmail(value)}
-                value={email}
-                paddingBottom={10}
-                inputMode="email"
-              ></TextInput>
+              <View>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Indiquez votre adresse email"
+                  keyboardType="email-address"
+                  placeholderTextColor={"white"}
+                  onChangeText={(value) => setEmail(value)}
+                  value={email}
+                  paddingBottom={10}
+                  inputMode="email"
+                ></TextInput>
+              </View>
               {errors.email && <Text style={styles.error}>{errors.email}</Text>}
               <View style={styles.passwordInput}>
                 <TextInput
@@ -187,6 +193,31 @@ export default function InscriptionCoach1({ navigation }) {
               {errors.confirmPassword && (
                 <Text style={styles.error}>{errors.confirmPassword}</Text>
               )}
+              <Text style={styles.text}>
+                Indiquez votre mot secret pour la rénitilisation de votre mot de
+                passe :
+              </Text>
+              <View style={styles.passwordInput}>
+                <TextInput
+                  style={styles.inputPass}
+                  placeholder="Indiquez votre mot secret"
+                  secureTextEntry={!passwordVisible}
+                  placeholderTextColor={"white"}
+                  onChangeText={(value) => setSecretWord(value)}
+                  value={secretWord}
+                  paddingBottom={10}
+                ></TextInput>
+                <TouchableOpacity
+                  onPress={() => setSecretWordVisible(!secretWordVisible)}
+                >
+                  <FontAwesomeIcon
+                    style={styles.icon}
+                    icon={passwordVisible ? faEye : faEyeSlash}
+                    size={15}
+                    color={passwordVisible ? "#DFB81C" : "white"}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
           <View style={styles.btnPosition}>
@@ -264,7 +295,7 @@ const styles = StyleSheet.create({
   input: {
     borderBottomColor: "#DFB81C",
     borderBottomWidth: 1,
-    width: 314,
+    width: "100%",
     color: "white",
     marginBottom: 10,
   },
@@ -292,5 +323,13 @@ const styles = StyleSheet.create({
   btnPosition: {
     display: "absolute",
     marginTop: 170,
+  },
+  text: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: 600,
+    marginBottom: 10,
+    marginTop: 10,
+    textDecorationLine: "underline",
   },
 });
