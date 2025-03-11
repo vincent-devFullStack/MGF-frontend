@@ -101,16 +101,22 @@ const styles = StyleSheet.create({
     borderColor: "gray",
   },
   button: {
-    backgroundColor: "#007BFF",
     padding: 15,
     borderRadius: 5,
     alignItems: "center",
     width: "80%",
+    backgroundColor: "#DFB81C",
+    borderRadius: 5,
+    shadowColor: "black",
+    shadowOffset: { width: 3, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
   },
   buttonText: {
-    color: "#fff",
+    color: "#000",
     fontSize: 16,
     textAlign: "center",
+    fontWeight: "bold",
   },
 });
 

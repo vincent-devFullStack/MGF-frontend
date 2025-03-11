@@ -1,20 +1,34 @@
-import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import "moment/locale/fr";
 import moment from "moment";
 import { BACKEND_ADDRESS } from "../../env";
 
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useEffect } from "react";
 
 export default function BulleChat({ conversation, fullData, onRefresh }) {
   const [deletedMessage, setDeletedMessage] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const deleteMessage = async () => {
+  const deleteMessage = () => {
     if (!conversation?._id) return;
 
-    setShowConfirmation(true);
+    Alert.alert("Confirmation", "Voulez-vous vraiment supprimer ce message ?", [
+      {
+        text: "Annuler",
+        style: "cancel",
+      },
+      {
+        text: "Supprimer",
+        onPress: () => confirmDelete(),
+      },
+    ]);
   };
 
   const confirmDelete = async () => {
@@ -23,27 +37,27 @@ export default function BulleChat({ conversation, fullData, onRefresh }) {
       texte: conversation.texte,
     };
 
-    const response = await fetch(`${BACKEND_ADDRESS}/eleve/delete-message`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    try {
+      const response = await fetch(`${BACKEND_ADDRESS}/eleve/delete-message`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-    const data = await response.json();
-    console.log("Réponse du serveur :", data);
+      const data = await response.json();
+      console.log("Réponse du serveur :", data);
 
-    if (data.result) {
-      console.log("Message supprimé avec succès !");
-      setDeletedMessage(true);
-    } else {
-      console.error("Erreur suppression :", data.error);
+      if (data.result) {
+        console.log("Message supprimé avec succès !");
+        setDeletedMessage(true);
+      } else {
+        console.error("Erreur suppression :", data.error);
+        Alert.alert("Erreur", "Impossible de supprimer le message.");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la suppression :", error);
+      Alert.alert("Erreur", "Une erreur est survenue.");
     }
-
-    setShowConfirmation(false);
-  };
-
-  const cancelDelete = () => {
-    setShowConfirmation(false);
   };
 
   useEffect(() => {

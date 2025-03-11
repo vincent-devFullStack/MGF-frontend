@@ -4,18 +4,161 @@ import {
   View,
   SafeAreaView,
   KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity,
+  ScrollView,
 } from "react-native";
+import VignetteSeancesEtRdv from "../../components/eleve/VignetteSeancesEtRdv";
 import { LinearGradient } from "expo-linear-gradient";
+import { Calendar, LocaleConfig } from "react-native-calendars";
+import { useIsFocused } from "@react-navigation/native";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { BACKEND_ADDRESS } from "../../env";
+import { formatDate } from "../../modules/formatDate";
+import MaskedView from "@react-native-community/masked-view";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
+LocaleConfig.locales["fr"] = {
+  monthNames: [
+    "Janvier",
+    "Février",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Août",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Décembre",
+  ],
+  monthNamesShort: [
+    "Janv.",
+    "Févr.",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juil.",
+    "Août",
+    "Sept.",
+    "Oct.",
+    "Nov.",
+    "Déc.",
+  ],
+  dayNames: [
+    "Dimanche",
+    "Lundi",
+    "Mardi",
+    "Mercredi",
+    "Jeudi",
+    "Vendredi",
+    "Samedi",
+  ],
+  dayNamesShort: ["Dim.", "Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam."],
+  today: "Aujourd'hui",
+};
+
+LocaleConfig.defaultLocale = "fr";
 
 export default function CalEleveScreen() {
+  const isFocused = useIsFocused();
+  const eleve = useSelector((state) => state.eleve.value);
+
+  const [selected, setSelected] = useState("");
+  const [rdv, setRdv] = useState([]);
+  const [programmes, setProgrammes] = useState([]);
+
+  const dateCurrent = Date.now();
+
+  useEffect(() => {
+    setSelected(formatDate(dateCurrent));
+    // Fetch rdv eleve from API
+    if (isFocused && eleve?.token) {
+      fetch(`${BACKEND_ADDRESS}/eleve/rdv/${eleve.token}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setRdv(data.rdv || []);
+          setProgrammes(data.programmes || []);
+        })
+        .catch((error) => {
+          console.error("Erreur lors du fetch des RDV:", error);
+          setRdv([]);
+          setProgrammes([]);
+        });
+    }
+  }, [isFocused, eleve]);
+
+  const rdvList = rdv
+    .filter((data) => selected === formatDate(new Date(data.date)))
+    .map((data, i) => {
+      return <VignetteSeancesEtRdv key={i} rdv={rdv} programmes={programmes} />;
+    });
+
+  if (!isFocused) {
+    return <View />;
+  }
+
   return (
     <LinearGradient
       colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
       style={styles.background}
     >
-      <KeyboardAvoidingView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         <SafeAreaView style={styles.container}>
-          <Text>Calendrier élève Screen</Text>
+          <View style={styles.boxCal}>
+            <Calendar
+              style={styles.calendar}
+              onDayPress={(day) => {
+                setSelected(day.dateString);
+              }}
+              theme={{
+                backgroundColor: "transparent",
+                calendarBackground: "transparent",
+                textSectionTitleColor: "#B3B3B3",
+                selectedDayBackgroundColor: "#00adf5",
+                selectedDayTextColor: "#ffffff",
+                todayTextColor: "#101018",
+                todayBackgroundColor: "#DFB81C",
+                dayTextColor: "#ffffff",
+                textDisabledColor: "#616161",
+                monthTextColor: "white",
+                arrowColor: "white",
+              }}
+              markedDates={{
+                [selected]: {
+                  selected: true,
+                  disableTouchEvent: true,
+                  selectedDotColor: "orange",
+                },
+              }}
+            />
+          </View>
+          <MaskedView
+            style={styles.maskedContainer}
+            maskElement={
+              <LinearGradient
+                colors={["black", "black", "black", "black", "transparent"]}
+                style={styles.maskGradient}
+              />
+            }
+          >
+            <ScrollView contentContainerStyle={styles.containerRdv}>
+              {rdv && rdvList}
+            </ScrollView>
+          </MaskedView>
+          <View style={styles.boxBtn}>
+            <TouchableOpacity style={styles.button}>
+              <FontAwesomeIcon icon={faPlus} color={"#101018"} />
+            </TouchableOpacity>
+          </View>
         </SafeAreaView>
       </KeyboardAvoidingView>
     </LinearGradient>
@@ -25,10 +168,53 @@ export default function CalEleveScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    paddingTop: 70,
+    padding: 40,
+    gap: 10,
   },
   background: {
     flex: 1,
+  },
+  boxCal: {
+    width: "100%",
+    height: "50%",
+  },
+  calendar: {
+    backgroundColor: "transparent",
+  },
+  containerRdv: {
+    width: "100%",
+    gap: 10,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    flexGrow: 1,
+  },
+  boxBtn: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    zIndex: 10,
+  },
+  button: {
+    width: 40,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#DFB81C",
+    borderRadius: 50,
+    right: 10,
+  },
+  maskedContainer: {
+    height: "40%",
+    width: "100%",
+    borderRadius: 10,
+    overflow: "hidden", // Important pour appliquer correctement le masque
+  },
+  maskGradient: {
+    height: "100%", // S'assure que le gradient couvre toute la hauteur
+    width: "100%", // et toute la largeur de l'écran
   },
 });
