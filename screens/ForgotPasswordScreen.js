@@ -6,7 +6,6 @@ import {
   View,
   Alert,
   TouchableOpacity,
-  Image,
   SafeAreaView,
   KeyboardAvoidingView,
 } from "react-native";
@@ -15,13 +14,18 @@ import { BACKEND_ADDRESS } from "../env";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
+  const [secretWord, setSecretWord] = useState("");
 
   const handlePasswordReset = async () => {
+    if (!email.trim() || !secretWord.trim()) {
+      return Alert.alert("Erreur", "Veuillez remplir tous les champs.");
+    }
+
     try {
       const response = await fetch(`${BACKEND_ADDRESS}/password-reset`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, secretWord }),
       });
 
       const data = await response.json();
@@ -43,13 +47,25 @@ const ForgotPassword = () => {
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
           <Text style={styles.title}>Réinitialiser votre mot de passe</Text>
+
           <TextInput
             style={styles.input}
             placeholder="Entrez votre email"
             keyboardType="email-address"
             autoCapitalize="none"
+            placeholderTextColor="gray"
             onChangeText={setEmail}
           />
+
+          <TextInput
+            style={styles.input}
+            placeholder="Entrez votre secretWord"
+            secureTextEntry
+            autoCapitalize="none"
+            placeholderTextColor="gray"
+            onChangeText={setSecretWord}
+          />
+
           <TouchableOpacity style={styles.button} onPress={handlePasswordReset}>
             <Text style={styles.buttonText}>Envoyer l'email</Text>
           </TouchableOpacity>
@@ -58,6 +74,7 @@ const ForgotPassword = () => {
     </LinearGradient>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -67,30 +84,34 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
   },
-  chantier: {
-    height: 500,
-    width: 500,
-  },
   title: {
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 20,
+    color: "white",
   },
   input: {
+    width: "80%",
     borderWidth: 1,
     padding: 10,
     marginBottom: 20,
     borderRadius: 5,
     color: "white",
+    borderColor: "gray",
   },
   button: {
     backgroundColor: "#007BFF",
     padding: 15,
     borderRadius: 5,
     alignItems: "center",
+    width: "80%",
   },
-  buttonText: { color: "#fff", fontSize: 16 },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    textAlign: "center",
+  },
 });
 
 export default ForgotPassword;

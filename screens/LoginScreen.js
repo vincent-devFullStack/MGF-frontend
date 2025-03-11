@@ -204,7 +204,7 @@ export default function LoginScreen({ navigation }) {
             <TouchableOpacity
               onPress={() => navigation.navigate("ForgotPassword")}
             >
-              <Text style={styles.textBottom}>Mot de passe oublié</Text>
+              <Text style={styles.textBottom1}>Mot de passe oublié</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
               <Text style={styles.textBottom}>Inscription</Text>
@@ -315,4 +315,5 @@ const styles = StyleSheet.create({
   error: {
     color: "red",
   },
+  textBottom1: { fontSize: 12, color: "white", right: 10 },
 });
