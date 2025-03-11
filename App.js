@@ -13,6 +13,7 @@ import programme from "./reducers/programme";
 
 // Import des screens
 import LoginScreen from "./screens/LoginScreen";
+import ForgotPassword from "./screens/ForgotPasswordScreen";
 //Import des screens inscription
 import SignupScreen from "./screens/signup/SignupScreen";
 import SignupEleve1Screen from "./screens/signup/signupEleve/signupEleve1";
@@ -151,6 +152,7 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
             <Stack.Screen name="EleveTabs" component={EleveTabs} />
             <Stack.Screen name="CoachTabs" component={CoachTabs} />
             <Stack.Screen name="Signup" component={SignupScreen} />

@@ -60,7 +60,10 @@ export default function ProfilScreen({ navigation }) {
               />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => dispatch(logout()) && navigation.navigate("Login")}
+              onPress={() => {
+                dispatch(logout());
+                navigation.navigate("Login");
+              }}
             >
               <FontAwesomeIcon
                 style={styles.icon}
