@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import VignetteSeancesEtRdv from "../../components/eleve/VignetteSeancesEtRdv";
+import VignetteRdv from "../../components/eleve/VignetteRdv";
+import VignetteProgramme from "../../components/eleve/VignetteProgramme";
 import { LinearGradient } from "expo-linear-gradient";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import { useIsFocused } from "@react-navigation/native";
@@ -81,7 +82,6 @@ export default function CalEleveScreen() {
       fetch(`${BACKEND_ADDRESS}/eleve/rdv/${eleve.token}`)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           setRdv(data.rdv || []);
           setProgrammes(data.programmes || []);
         })
@@ -93,11 +93,19 @@ export default function CalEleveScreen() {
     }
   }, [isFocused, eleve]);
 
-  const rdvList = rdv
-    .filter((data) => selected === formatDate(new Date(data.date)))
-    .map((data, i) => {
-      return <VignetteSeancesEtRdv key={i} rdv={rdv} programmes={programmes} />;
-    });
+  console.log("rdv is:", rdv);
+  console.log("programmes is:", programmes);
+
+  const rdvList = rdv.map((data, i) => {
+    if (selected === formatDate(new Date(data.date))) {
+      return <VignetteRdv key={i} {...data} />;
+    }
+  });
+  const ProgrammesList = programmes.map((data, i) => {
+    if (selected === formatDate(new Date(data.date))) {
+      return <VignetteProgramme key={i} {...data} />;
+    }
+  });
 
   if (!isFocused) {
     return <View />;
@@ -152,6 +160,7 @@ export default function CalEleveScreen() {
           >
             <ScrollView contentContainerStyle={styles.containerRdv}>
               {rdv && rdvList}
+              {programmes && ProgrammesList}
             </ScrollView>
           </MaskedView>
           <View style={styles.boxBtn}>
@@ -179,7 +188,7 @@ const styles = StyleSheet.create({
   },
   boxCal: {
     width: "100%",
-    height: "50%",
+    height: "55%",
   },
   calendar: {
     backgroundColor: "transparent",
@@ -192,11 +201,12 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   boxBtn: {
-    width: "100%",
+    position: "absolute",
+    height: "208%",
+    width: "95%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
-    zIndex: 10,
   },
   button: {
     width: 40,
@@ -205,7 +215,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#DFB81C",
     borderRadius: 50,
-    right: 10,
   },
   maskedContainer: {
     height: "40%",
