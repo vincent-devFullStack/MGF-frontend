@@ -9,10 +9,13 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-
+import * as Progress from "react-native-progress";
 import { faArrowLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { useState, useEffect } from "react";
 
 export default function Inscription({ navigation }) {
+  const [progress, setProgress] = useState(0);
+
   return (
     <LinearGradient
       colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
@@ -38,8 +41,15 @@ export default function Inscription({ navigation }) {
               />
             </TouchableOpacity>
           </View>
-          <View style={styles.progressbar}>
-            <Text style={styles.pourcent}>0 %</Text>
+          <View style={styles.container2}>
+            <Progress.Circle
+              size={50}
+              progress={progress}
+              showsText
+              thickness={8}
+              textStyle={{ fontWeight: "bold", fontSize: 12 }}
+              color="#DFB81C"
+            />
           </View>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Qui êtes vous ?</Text>
@@ -82,6 +92,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
+  container2: {
+    marginTop: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 50,
+  },
   background: {
     flex: 1,
   },
@@ -91,20 +107,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     position: "absolute",
     paddingTop: 70,
-  },
-  progressbar: {
-    marginTop: 70,
-    height: 50,
-    width: 50,
-    backgroundColor: "white",
-    border: 10,
-    borderColor: "white",
-    borderRadius: 50,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  pourcent: {
-    fontWeight: "bold",
   },
   titleContainer: {
     width: "100%",

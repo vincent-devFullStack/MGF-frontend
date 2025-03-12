@@ -12,9 +12,9 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import * as ImagePicker from "expo-image-picker";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-
+import * as Progress from "react-native-progress";
 import { BACKEND_ADDRESS } from "../../../env";
 
 import {
@@ -43,6 +43,7 @@ export default function InscriptionCoach3({ navigation }) {
   const [villes, setVilles] = useState("");
   const [salles, setSalles] = useState("");
   const [siret, setSiret] = useState(0);
+  const [progress, setProgress] = useState(0.5);
 
   const [errors, setErrors] = useState({});
 
@@ -113,6 +114,17 @@ export default function InscriptionCoach3({ navigation }) {
     }
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((oldProgress) => {
+        const newProgress = oldProgress + 0.15;
+        return newProgress > 0.75 ? 0.75 : newProgress;
+      });
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <LinearGradient
       colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
@@ -144,8 +156,15 @@ export default function InscriptionCoach3({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.progressbar}>
-            <Text style={styles.pourcent}>75 %</Text>
+          <View style={styles.container2}>
+            <Progress.Circle
+              size={50}
+              progress={progress}
+              showsText
+              thickness={8}
+              textStyle={{ fontWeight: "bold", fontSize: 10 }}
+              color="#DFB81C"
+            />
           </View>
 
           <View style={styles.titleContainer}>
@@ -229,6 +248,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
+  container2: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   background: {
     flex: 1,
   },
@@ -238,20 +262,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     position: "absolute",
     paddingTop: 70,
-  },
-  progressbar: {
-    marginTop: 70,
-    height: 50,
-    width: 50,
-    backgroundColor: "white",
-    border: 10,
-    borderColor: "white",
-    borderRadius: 50,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  pourcent: {
-    fontWeight: "bold",
   },
   titleContainer: {
     width: "100%",

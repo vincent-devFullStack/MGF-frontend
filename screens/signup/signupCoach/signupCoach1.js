@@ -10,9 +10,10 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { updateFirst } from "../../../reducers/coach";
+import * as Progress from "react-native-progress";
 
 import * as Yup from "yup";
 
@@ -39,7 +40,7 @@ export default function InscriptionCoach1({ navigation }) {
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [secretWordVisible, setSecretWordVisible] = useState(false);
-
+  const [progress, setProgress] = useState(0);
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState({});
   const [password, setPassword] = useState("");
@@ -93,6 +94,17 @@ export default function InscriptionCoach1({ navigation }) {
     }
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((oldProgress) => {
+        const newProgress = oldProgress + 0.15;
+        return newProgress > 0.25 ? 0.25 : newProgress;
+      });
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <LinearGradient
       colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
@@ -122,8 +134,15 @@ export default function InscriptionCoach1({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.progressbar}>
-            <Text style={styles.pourcent}>25 %</Text>
+          <View style={styles.container2}>
+            <Progress.Circle
+              size={50}
+              progress={progress}
+              showsText
+              thickness={8}
+              textStyle={{ fontWeight: "bold", fontSize: 10 }}
+              color="#DFB81C"
+            />
           </View>
 
           <View style={styles.titleContainer}>
@@ -240,6 +259,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
+  container2: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   background: {
     flex: 1,
   },
@@ -249,20 +273,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     position: "absolute",
     paddingTop: 70,
-  },
-  progressbar: {
-    marginTop: 70,
-    height: 50,
-    width: 50,
-    backgroundColor: "white",
-    border: 10,
-    borderColor: "white",
-    borderRadius: 50,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  pourcent: {
-    fontWeight: "bold",
   },
   titleContainer: {
     width: "100%",

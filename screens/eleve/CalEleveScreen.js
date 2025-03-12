@@ -160,11 +160,6 @@ export default function CalEleveScreen() {
               {programmes && ProgrammesList}
             </ScrollView>
           </MaskedView>
-          <View style={styles.boxBtn}>
-            <TouchableOpacity style={styles.button}>
-              <FontAwesomeIcon icon={faPlus} color={"#101018"} />
-            </TouchableOpacity>
-          </View>
         </SafeAreaView>
       </KeyboardAvoidingView>
     </LinearGradient>
@@ -196,22 +191,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     flexGrow: 1,
-  },
-  boxBtn: {
-    position: "absolute",
-    height: "208%",
-    width: "95%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
-  button: {
-    width: 40,
-    height: 40,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#DFB81C",
-    borderRadius: 50,
   },
   maskedContainer: {
     height: "40%",
