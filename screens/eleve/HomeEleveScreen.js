@@ -140,7 +140,7 @@ export default function HomeEleveScreen({ navigation }) {
           </Text>
           <TouchableOpacity
             style={styles.seance}
-            onPress={() => navigation.navigate("TrainingScreen")}
+            onPress={() => navigation.navigate("TrainingScreen", { fullData })}
           >
             <Image
               style={styles.imgSeance}

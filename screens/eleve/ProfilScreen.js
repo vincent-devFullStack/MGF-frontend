@@ -9,7 +9,6 @@ import {
   Image,
   Alert,
   Modal,
-  Platform,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { BACKEND_ADDRESS } from "../../env";

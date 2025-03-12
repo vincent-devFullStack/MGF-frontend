@@ -76,6 +76,7 @@ const EleveTabs = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarStyle: { backgroundColor: "#383853" },
+
         tabBarIcon: ({ color, size }) => {
           let iconName = "";
 

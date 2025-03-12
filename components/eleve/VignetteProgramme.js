@@ -11,7 +11,6 @@ export default function VignetteProgramme(props) {
       style={styles.background}
     >
       <View style={styles.container}>
-        {/* Image du programme */}
         <Image
           source={
             props.photo
@@ -22,7 +21,6 @@ export default function VignetteProgramme(props) {
           resizeMode="cover"
         />
 
-        {/* Infos du programme */}
         <TouchableOpacity
           style={styles.infoContainer}
           onPress={() => navigation.navigate("TrainingScreen")}
