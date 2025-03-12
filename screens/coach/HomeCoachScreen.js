@@ -64,6 +64,24 @@ export default function HomeCoachScreen() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <SafeAreaView style={styles.container}>
+          <View style={styles.boxTitle}>
+            <TouchableOpacity style={styles.containerImage}>
+              <Image
+                source={
+                  coach.photoProfil
+                    ? { uri: coach.photoProfil }
+                    : require("../../assets/photo_eleve1.jpg")
+                }
+                style={styles.image}
+                resizeMode="cover"
+              />
+            </TouchableOpacity>
+            <Text style={styles.title}>Bonjour</Text>
+            <Text style={[styles.title, { color: "#DFB81C" }]}>
+              {coach?.firstname}
+            </Text>
+          </View>
+
           <View style={styles.boxOne}>
             <MaskedView
               style={styles.maskedContainer}
@@ -74,19 +92,13 @@ export default function HomeCoachScreen() {
                 />
               }
             >
-              <Text style={styles.title}>Coachings du jour</Text>
+              <Text style={styles.secondTitle}>Coachings du jour</Text>
               <ScrollView contentContainerStyle={styles.containerRdv}>
-                {rdvList[0] === undefined && (
-                  <Image
-                    style={{ width: 200, height: 200 }}
-                    source={require("../../assets/nordv.png")}
-                    resizeMode="contain"
-                  />
-                )}
                 {rdv && rdvList}
               </ScrollView>
             </MaskedView>
           </View>
+
           <View style={styles.boxTwo}>
             <MaskedView
               style={styles.maskedContainer}
@@ -121,13 +133,32 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
   },
+  boxTitle: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    gap: 10,
+    marginBottom: 20,
+  },
+  containerImage: {
+    width: 70,
+    height: 70,
+    borderRadius: 50,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 50,
+    overflow: "hidden",
+  },
   boxOne: {
     width: "100%",
-    height: "60%",
+    height: 350,
   },
   boxTwo: {
     width: "100%",
-    height: "40%",
+    height: 250,
   },
   title: {
     fontSize: 34,

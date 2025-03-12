@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   TextInput,
+  ScrollView,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import * as ImagePicker from "expo-image-picker";
@@ -23,12 +24,26 @@ import { useSelector } from "react-redux";
 import { BACKEND_ADDRESS } from "../../../env";
 import { useEffect, useState } from "react";
 
+import * as Yup from "yup";
+
+const newExoSchema = Yup.object().shape({
+  name: Yup.string().required("Nom de l'exercice requis"),
+  description: Yup.string().required("Description de l'exercice requise"),
+  image: Yup.string().required("Photo de l'exercice requise"),
+  video: Yup.string().required("Vidéo de l'exercice requise"),
+  ciblage: Yup.string().required("Ciblage de l'exercice requis"),
+  utilisationMuscle: Yup.number().required(
+    "Utilisation musculaire de l'exercice requise"
+  ),
+  categorie: Yup.string().required("Catégorie de l'exercice requise"),
+});
+
 export default function ModalCreateExo({ route, navigation }) {
   const formData = new FormData();
 
   const coach = useSelector((state) => state.coach.value);
 
-  const [erros, setErrors] = useState({});
+  const [errors, setErrors] = useState({});
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -36,7 +51,7 @@ export default function ModalCreateExo({ route, navigation }) {
   const [image, setImage] = useState("");
   const [video, setVideo] = useState("");
   const [ciblage, setCiblage] = useState("");
-  const [utilisationMuscle, setUtilisationMuscle] = useState("");
+  const [utilisationMuscle, setUtilisationMuscle] = useState(0);
 
   // Upload image
   const pickImage = async () => {
@@ -44,13 +59,13 @@ export default function ModalCreateExo({ route, navigation }) {
 
     if (status !== "granted") {
       // If permission is denied, show an alert
-      setErrors({ photo: "Permission refusée" });
+      setErrors({ image: "Permission refusée" });
     } else {
       const result = await ImagePicker.launchImageLibraryAsync();
 
       if (!result.cancelled) {
         // Clear any previous errors
-        setErrors({ photo: "" });
+        setErrors({ image: "" });
 
         formData.append("photoFromFront", {
           uri: result?.assets[0].uri,
@@ -69,6 +84,7 @@ export default function ModalCreateExo({ route, navigation }) {
     }
   };
 
+  // Upload video
   const pickVideo = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -76,8 +92,8 @@ export default function ModalCreateExo({ route, navigation }) {
       // If permission is denied, show an alert
       setErrors({ photo: "Permission refusée" });
     } else {
-      const result = await ImagePicker.launchMediaLibraryAsync({
-        mediaType: "video",
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: "videos",
         allowsEditing: true,
         quality: 1,
       });
@@ -99,6 +115,59 @@ export default function ModalCreateExo({ route, navigation }) {
         const data = await response.json();
 
         setVideo(data.url);
+      }
+    }
+  };
+
+  //Création de l'exercice
+  const createExo = async () => {
+    try {
+      await newExoSchema.validate(
+        {
+          name,
+          description,
+          image,
+          video,
+          ciblage,
+          utilisationMuscle,
+          categorie,
+        },
+        { abortEarly: false }
+      );
+
+      setErrors({});
+
+      const response = await fetch(`${BACKEND_ADDRESS}/exercice/new`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name,
+          description: description,
+          photo: image,
+          video: video,
+          ciblage: ciblage,
+          utilisationMuscle: utilisationMuscle,
+          categorie: categorie,
+          coachToken: coach.token,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.result) {
+        navigation.navigate("Progs");
+      } else {
+        setErrors({ ...errors, error: data.error });
+      }
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        const yupErrors = {};
+
+        error.inner.forEach((innerError) => {
+          yupErrors[innerError.path] = innerError.message;
+        });
+
+        setErrors(yupErrors);
       }
     }
   };
@@ -182,9 +251,38 @@ export default function ModalCreateExo({ route, navigation }) {
               </TouchableOpacity>
             </View>
           </View>
+          <View style={styles.boxErrors}>
+            <ScrollView contentContainerStyle={styles.containerErrors}>
+              {errors.name && <Text style={styles.error}>{errors.name}</Text>}
+
+              {errors.video && <Text style={styles.error}>{errors.video}</Text>}
+
+              {errors.description && (
+                <Text style={styles.error}>{errors.description}</Text>
+              )}
+
+              {errors.image && <Text style={styles.error}>{errors.image}</Text>}
+
+              {errors.ciblage && (
+                <Text style={styles.error}>{errors.ciblage}</Text>
+              )}
+
+              {errors.utilisationMuscle && (
+                <Text style={styles.error}>{errors.utilisationMuscle}</Text>
+              )}
+
+              {errors.categorie && (
+                <Text style={styles.error}>{errors.categorie}</Text>
+              )}
+
+              {errors.error && <Text style={styles.error}>{errors.error}</Text>}
+            </ScrollView>
+          </View>
+
           <Text style={styles.textUpload}>
             Ajouter muscles ciblés et sollicités
           </Text>
+
           <View style={styles.box1}>
             <TextInput
               style={styles.inputBottom}
@@ -203,7 +301,7 @@ export default function ModalCreateExo({ route, navigation }) {
           </View>
 
           <View style={styles.containerButton}>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={createExo}>
               <Text style={styles.buttonText}>Valider</Text>
             </TouchableOpacity>
           </View>
@@ -318,8 +416,8 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    position: "absolute",
-    bottom: 5,
+    display: "absolute",
+    bottom: -20,
   },
   button: {
     alignItems: "center",
@@ -336,5 +434,21 @@ const styles = StyleSheet.create({
   buttonText: {
     fontWeight: 600,
     fontSize: 12,
+  },
+  boxErrors: {
+    width: "100%",
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
+  },
+  containerErrors: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    flexGrow: 1,
+  },
+  error: {
+    color: "red",
   },
 });
