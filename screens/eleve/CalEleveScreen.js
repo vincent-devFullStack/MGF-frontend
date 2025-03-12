@@ -93,9 +93,6 @@ export default function CalEleveScreen() {
     }
   }, [isFocused, eleve]);
 
-  console.log("rdv is:", rdv);
-  console.log("programmes is:", programmes);
-
   const rdvList = rdv.map((data, i) => {
     if (selected === formatDate(new Date(data.date))) {
       return <VignetteRdv key={i} {...data} />;
@@ -220,10 +217,10 @@ const styles = StyleSheet.create({
     height: "40%",
     width: "100%",
     borderRadius: 10,
-    overflow: "hidden", // Important pour appliquer correctement le masque
+    overflow: "hidden",
   },
   maskGradient: {
-    height: "100%", // S'assure que le gradient couvre toute la hauteur
-    width: "100%", // et toute la largeur de l'écran
+    height: "100%",
+    width: "100%",
   },
 });
