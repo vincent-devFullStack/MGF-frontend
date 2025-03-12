@@ -1,6 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 // import modules redux
 import { Provider } from "react-redux";
 import { persistStore, persistReducer } from "redux-persist";
@@ -43,6 +44,7 @@ import WalletScreen from "./screens/coach/WalletScreen";
 import ModalProgsScreen from "./screens/coach/modals/ModalProgsScreen";
 import ModalCreateProgScreen from "./screens/coach/modals/ModalCreateProgScreen";
 import ModalCreateExoScreen from "./screens/coach/modals/ModalCreateExoScreen";
+import ModalProfilScreen from "./screens/coach/modals/ModalProfilScreen";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -153,13 +155,17 @@ export default function App() {
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+
             <Stack.Screen name="EleveTabs" component={EleveTabs} />
             <Stack.Screen name="CoachTabs" component={CoachTabs} />
+
             <Stack.Screen name="Signup" component={SignupScreen} />
+
             <Stack.Screen name="SignupEleve1" component={SignupEleve1Screen} />
             <Stack.Screen name="SignupEleve2" component={SignupEleve2Screen} />
             <Stack.Screen name="SignupEleve3" component={SignupEleve3Screen} />
             <Stack.Screen name="SignupEleve4" component={SignupEleve4Screen} />
+
             <Stack.Screen name="MapScreen" component={MapScreen} />
             <Stack.Screen name="TrainingScreen" component={TrainingScreen} />
 
@@ -167,6 +173,7 @@ export default function App() {
             <Stack.Screen name="SignupCoach2" component={SignupCoach2Screen} />
             <Stack.Screen name="SignupCoach3" component={SignupCoach3Screen} />
             <Stack.Screen name="SignupCoach4" component={SignupCoach4Screen} />
+
             <Stack.Screen
               name="ModalProgs"
               component={ModalProgsScreen}
@@ -180,6 +187,11 @@ export default function App() {
             <Stack.Screen
               name="ModalCreateExo"
               component={ModalCreateExoScreen}
+              options={{ presentation: "modal" }}
+            />
+            <Stack.Screen
+              name="ModalProfil"
+              component={ModalProfilScreen}
               options={{ presentation: "modal" }}
             />
           </Stack.Navigator>

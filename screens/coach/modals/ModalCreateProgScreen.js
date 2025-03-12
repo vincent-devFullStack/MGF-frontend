@@ -146,7 +146,7 @@ export default function ModalCreateProg({ route, navigation }) {
         dispatch(removeProgramme());
         navigation.navigate("Progs");
       } else {
-        setErrors(data.error);
+        setErrors({ ...errors, error: data.error });
       }
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
@@ -269,20 +269,25 @@ export default function ModalCreateProg({ route, navigation }) {
             </View>
           </View>
 
-          {errors.name && <Text style={styles.error}>{errors.name}</Text>}
+          <View style={styles.boxErrors}>
+            <ScrollView contentContainerStyle={styles.containerErrors}>
+              {errors.name && <Text style={styles.error}>{errors.name}</Text>}
 
-          {errors.duree && <Text style={styles.error}>{errors.duree}</Text>}
+              {errors.duree && <Text style={styles.error}>{errors.duree}</Text>}
 
-          {errors.description && (
-            <Text style={styles.error}>{errors.description}</Text>
-          )}
+              {errors.description && (
+                <Text style={styles.error}>{errors.description}</Text>
+              )}
 
-          {errors.photo && <Text style={styles.error}>{errors.photo}</Text>}
+              {errors.photo && <Text style={styles.error}>{errors.photo}</Text>}
 
-          {errors.seances && <Text style={styles.error}>{errors.seances}</Text>}
+              {errors.seances && (
+                <Text style={styles.error}>{errors.seances}</Text>
+              )}
 
-          {errors.error && <Text style={styles.error}>{errors.error}</Text>}
-
+              {errors.error && <Text style={styles.error}>{errors.error}</Text>}
+            </ScrollView>
+          </View>
           <View style={styles.containerSeances}>
             <View style={styles.box3}>
               <Text style={styles.text2}>Ajouter une séance :</Text>
@@ -613,6 +618,19 @@ const styles = StyleSheet.create({
   textProg: {
     color: "white",
     fontSize: 16,
+  },
+  boxErrors: {
+    width: "100%",
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
+  },
+  containerErrors: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    flexGrow: 1,
   },
   error: {
     color: "red",

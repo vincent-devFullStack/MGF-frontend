@@ -7,6 +7,8 @@ import {
   Platform,
   TouchableOpacity,
   ScrollView,
+  Modal,
+  TextInput,
 } from "react-native";
 import VignetteRdv from "../../components/coach/VignetteRdv";
 import { LinearGradient } from "expo-linear-gradient";
@@ -18,7 +20,7 @@ import { BACKEND_ADDRESS } from "../../env";
 import { formatDate } from "../../modules/formatDate";
 import MaskedView from "@react-native-community/masked-view";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 LocaleConfig.locales["fr"] = {
   monthNames: [
@@ -68,6 +70,8 @@ export default function CalCoachScreen() {
   const isFocused = useIsFocused();
   const coach = useSelector((state) => state.coach.value);
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   const [selected, setSelected] = useState("");
   const [rdv, setRdv] = useState([]);
 
@@ -109,6 +113,47 @@ export default function CalCoachScreen() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <SafeAreaView style={styles.container}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <View style={styles.iconClose}>
+                  <TouchableOpacity
+                    onPress={() => setModalVisible(!modalVisible)}
+                  >
+                    <FontAwesomeIcon icon={faXmark} size={20} />
+                  </TouchableOpacity>
+                </View>
+
+                <Text style={styles.modalText}>
+                  Rentrer le nom de l'élève :
+                </Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Nom"
+                  placeholderTextColor={"#B9B8B7"}
+                ></TextInput>
+                <Text style={styles.modalText}>L'heure du rendez-vous:</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Heure"
+                  placeholderTextColor={"#B9B8B7"}
+                ></TextInput>
+
+                <TouchableOpacity
+                  style={[styles.buttonModal, styles.buttonClose]}
+                >
+                  <Text style={styles.textStyle}>Ajouter</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
           <View style={styles.boxCal}>
             <Calendar
               style={styles.calendar}
@@ -151,7 +196,10 @@ export default function CalCoachScreen() {
             </ScrollView>
           </MaskedView>
           <View style={styles.boxBtn}>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => setModalVisible(true)}
+            >
               <FontAwesomeIcon icon={faPlus} color={"#101018"} />
             </TouchableOpacity>
           </View>
@@ -172,6 +220,61 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalView: {
+    width: "70%",
+    height: 300,
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    gap: 12,
+  },
+  iconClose: {
+    width: "100%",
+    alignItems: "flex-end",
+  },
+  modalText: {
+    textAlign: "center",
+  },
+  input: {
+    width: "100%",
+    height: 40,
+    backgroundColor: "white",
+    color: "#B9B8B7",
+    fontSize: 13,
+    borderRadius: 5,
+    borderColor: "#B9B8B7",
+    borderWidth: 1,
+    marginBottom: 5,
+  },
+  textStyle: {
+    fontWeight: "bold",
+  },
+  buttonModal: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonClose: {
+    backgroundColor: "#DFB81C",
+    width: 100,
+    alignItems: "center",
+    justifyContent: "center",
   },
   boxCal: {
     width: "100%",
