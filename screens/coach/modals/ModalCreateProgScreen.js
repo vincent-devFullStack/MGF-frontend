@@ -231,14 +231,14 @@ export default function ModalCreateProg({ route, navigation }) {
             <View style={styles.box1}>
               <TextInput
                 style={styles.input}
-                placeholder="Nom"
+                placeholder=" Nom"
                 placeholderTextColor={"#B9B8B7"}
                 onChangeText={(value) => setName(value)}
                 value={name}
               ></TextInput>
               <TextInput
                 style={styles.input}
-                placeholder="Durée en semaines"
+                placeholder=" Durée en semaines"
                 placeholderTextColor={"#B9B8B7"}
                 onChangeText={(value) => setDuree(value)}
                 value={duree}
@@ -248,7 +248,7 @@ export default function ModalCreateProg({ route, navigation }) {
 
             <TextInput
               style={styles.inputDescription}
-              placeholder="Description du programme"
+              placeholder=" Description du programme"
               placeholderTextColor={"#B9B8B7"}
               onChangeText={(value) => setDescription(value)}
               value={description}
@@ -270,7 +270,10 @@ export default function ModalCreateProg({ route, navigation }) {
           </View>
 
           <View style={styles.boxErrors}>
-            <ScrollView contentContainerStyle={styles.containerErrors}>
+            <ScrollView
+              contentContainerStyle={styles.containerErrors}
+              showsVerticalScrollIndicator={false}
+            >
               {errors.name && <Text style={styles.error}>{errors.name}</Text>}
 
               {errors.duree && <Text style={styles.error}>{errors.duree}</Text>}
@@ -335,7 +338,7 @@ export default function ModalCreateProg({ route, navigation }) {
                       onSelectItem={(item) => item && setExercice(item)}
                       dataSet={dataSet}
                       textInputProps={{
-                        placeholder: "Rechercher un exercice",
+                        placeholder: " Rechercher un exercice",
                         placeholderTextColor: "#B9B8B7",
                       }}
                       inputContainerStyle={styles.inputContainer}
@@ -357,7 +360,7 @@ export default function ModalCreateProg({ route, navigation }) {
                       ></TextInput>
                       <TextInput
                         style={styles.input}
-                        placeholder="Répétitions"
+                        placeholder=" Répétitions"
                         placeholderTextColor={"#B9B8B7"}
                         onChangeText={(value) => setRepetitions(value)}
                         value={repetitions}
@@ -489,7 +492,7 @@ const styles = StyleSheet.create({
   },
   containerSeances: {
     width: "100%",
-    height: 300,
+    height: 220,
     alignItems: "flex-start",
     justifyContent: "flex-start",
   },
@@ -527,8 +530,8 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    width: 130,
-    height: 30,
+    width: 140,
+    height: 40,
     backgroundColor: "#DFB81C",
     borderRadius: 5,
     shadowColor: "black",
@@ -545,6 +548,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    marginBottom: 30,
   },
   buttonText: {
     fontWeight: 600,

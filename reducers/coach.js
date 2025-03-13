@@ -36,7 +36,8 @@ export const coachSlice = createSlice({
     updateFirst: (state, action) => {
       (state.value.role = action.payload.role),
         (state.value.email = action.payload.email),
-        (state.value.password = action.payload.password);
+        (state.value.password = action.payload.password),
+        (state.value.secretWord = action.payload.secretWord);
     },
     updateSecond: (state, action) => {
       (state.value.firstname = action.payload.firstname),

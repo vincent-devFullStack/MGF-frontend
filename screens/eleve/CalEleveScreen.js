@@ -155,7 +155,10 @@ export default function CalEleveScreen() {
               />
             }
           >
-            <ScrollView contentContainerStyle={styles.containerRdv}>
+            <ScrollView
+              contentContainerStyle={styles.containerRdv}
+              showsVerticalScrollIndicator={false}
+            >
               {rdv && rdvList}
               {programmes && ProgrammesList}
             </ScrollView>

@@ -176,31 +176,17 @@ export default function App() {
             <Stack.Screen name="SignupCoach3" component={SignupCoach3Screen} />
             <Stack.Screen name="SignupCoach4" component={SignupCoach4Screen} />
 
-            <Stack.Screen
-              name="ModalProgs"
-              component={ModalProgsScreen}
-              options={{ presentation: "modal" }}
-            />
+            <Stack.Screen name="ModalProgs" component={ModalProgsScreen} />
             <Stack.Screen
               name="ModalCreateProg"
               component={ModalCreateProgScreen}
-              options={{ presentation: "modal" }}
             />
             <Stack.Screen
               name="ModalCreateExo"
               component={ModalCreateExoScreen}
-              options={{ presentation: "modal" }}
             />
-            <Stack.Screen
-              name="ModalProfil"
-              component={ModalProfilScreen}
-              options={{ presentation: "modal" }}
-            />
-            <Stack.Screen
-              name="ModalChat"
-              component={ModalChatScreen}
-              options={{ presentation: "modal" }}
-            />
+            <Stack.Screen name="ModalProfil" component={ModalProfilScreen} />
+            <Stack.Screen name="ModalChat" component={ModalChatScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

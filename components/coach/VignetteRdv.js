@@ -12,7 +12,12 @@ export default function VignetteRdv(props) {
       style={styles.background}
     >
       <View style={styles.container}>
-        <TouchableOpacity style={styles.containerImage}>
+        <TouchableOpacity
+          style={styles.containerImage}
+          onPress={() =>
+            navigation.navigate("ModalChat", { eleve: props.eleve })
+          }
+        >
           <FontAwesomeIcon
             icon={faMessage}
             color={"white"}
@@ -43,7 +48,10 @@ export default function VignetteRdv(props) {
           >
             <Text style={styles.textButton}>Profil</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Wallet")}
+          >
             <Text style={styles.textButton}>Abonnement</Text>
           </TouchableOpacity>
         </View>

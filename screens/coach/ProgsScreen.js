@@ -73,6 +73,8 @@ export default function ProgsScreen({ navigation }) {
                     "black",
                     "black",
                     "black",
+                    "black",
+                    "black",
                     "transparent",
                     "transparent",
                   ]}
@@ -81,23 +83,24 @@ export default function ProgsScreen({ navigation }) {
               }
             >
               <Text style={styles.title}>Programmes</Text>
-              <ScrollView contentContainerStyle={styles.containerProg}>
+              <ScrollView
+                contentContainerStyle={styles.containerProg}
+                showsVerticalScrollIndicator={false}
+              >
                 {progs && progsList}
               </ScrollView>
             </MaskedView>
             <View style={styles.boxBtn}>
-              <TouchableOpacity style={styles.buttonWhite}>
-                <Text
-                  style={styles.buttonText}
-                  onPress={() =>
-                    navigation.navigate("ModalProgs", {
-                      titre: "Programmes",
-                      path: "programme",
-                    })
-                  }
-                >
-                  Voir tout
-                </Text>
+              <TouchableOpacity
+                style={styles.buttonWhite}
+                onPress={() =>
+                  navigation.navigate("ModalProgs", {
+                    titre: "Programmes",
+                    path: "programme",
+                  })
+                }
+              >
+                <Text style={styles.buttonText}>Voir tout</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.button}
@@ -118,6 +121,8 @@ export default function ProgsScreen({ navigation }) {
                     "black",
                     "black",
                     "black",
+                    "black",
+                    "black",
                     "transparent",
                     "transparent",
                   ]}
@@ -126,23 +131,24 @@ export default function ProgsScreen({ navigation }) {
               }
             >
               <Text style={styles.secondTitle}>Exercices</Text>
-              <ScrollView contentContainerStyle={styles.containerExo}>
+              <ScrollView
+                contentContainerStyle={styles.containerExo}
+                showsVerticalScrollIndicator={false}
+              >
                 {exos && exosList}
               </ScrollView>
             </MaskedView>
             <View style={styles.boxBtn}>
-              <TouchableOpacity style={styles.buttonWhite}>
-                <Text
-                  style={styles.buttonText}
-                  onPress={() =>
-                    navigation.navigate("ModalProgs", {
-                      titre: "Exercices",
-                      path: "exercice",
-                    })
-                  }
-                >
-                  Voir tout
-                </Text>
+              <TouchableOpacity
+                style={styles.buttonWhite}
+                onPress={() =>
+                  navigation.navigate("ModalProgs", {
+                    titre: "Exercices",
+                    path: "exercice",
+                  })
+                }
+              >
+                <Text style={styles.buttonText}>Voir tout</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.button}
@@ -169,6 +175,7 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
+    padding: 15,
   },
   boxOne: {
     width: "100%",
@@ -183,6 +190,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     flexGrow: 1,
+    paddingHorizontal: 25,
   },
   boxTwo: {
     width: "100%",
@@ -197,6 +205,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     flexGrow: 1,
+    paddingHorizontal: 25,
   },
   boxBtn: {
     flexDirection: "row",
@@ -210,7 +219,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: 130,
-    height: 30,
+    height: 35,
     backgroundColor: "#DFB81C",
     borderRadius: 5,
     shadowColor: "black",
@@ -222,7 +231,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: 130,
-    height: 30,
+    height: 35,
     backgroundColor: "white",
     borderRadius: 5,
     shadowColor: "black",

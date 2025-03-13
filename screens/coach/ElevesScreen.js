@@ -151,13 +151,24 @@ export default function ElevesScreen() {
               style={styles.maskedContainer}
               maskElement={
                 <LinearGradient
-                  colors={["black", "black", "black", "black", "transparent"]}
+                  colors={[
+                    "black",
+                    "black",
+                    "black",
+                    "black",
+                    "black",
+                    "black",
+                    "transparent",
+                  ]}
                   style={styles.maskGradient}
                 />
               }
             >
               <Text style={styles.title}>Elèves</Text>
-              <ScrollView contentContainerStyle={styles.containerEleves}>
+              <ScrollView
+                contentContainerStyle={styles.containerEleves}
+                showsVerticalScrollIndicator={false}
+              >
                 {eleves && elevesList}
               </ScrollView>
             </MaskedView>
@@ -187,6 +198,7 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
+    padding: 15,
   },
   centeredView: {
     flex: 1,
@@ -257,6 +269,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     flexGrow: 1,
+    marginTop: 20,
   },
   boxBtn: {
     height: "5%",
@@ -264,6 +277,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
+    marginTop: -10,
   },
   button: {
     width: 40,

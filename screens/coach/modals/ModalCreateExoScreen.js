@@ -194,7 +194,7 @@ export default function ModalCreateExo({ route, navigation }) {
             <Text style={styles.text}>Indiquez le nom</Text>
             <TextInput
               style={styles.input}
-              placeholder="Nom"
+              placeholder=" Nom"
               placeholderTextColor={"#B9B8B7"}
               onChangeText={(value) => setName(value)}
               value={name}
@@ -205,7 +205,7 @@ export default function ModalCreateExo({ route, navigation }) {
             <Text style={styles.text}>Description</Text>
             <TextInput
               style={styles.inputDescription}
-              placeholder="Description"
+              placeholder=" Description"
               placeholderTextColor={"#B9B8B7"}
               multiline={true}
               onChangeText={(value) => setDescription(value)}
@@ -217,7 +217,7 @@ export default function ModalCreateExo({ route, navigation }) {
             <Text style={styles.text}>Catégorie</Text>
             <TextInput
               style={styles.input}
-              placeholder="Catégorie"
+              placeholder=" Catégorie"
               placeholderTextColor={"#B9B8B7"}
               onChangeText={(value) => setCategorie(value)}
               value={categorie}
@@ -252,7 +252,10 @@ export default function ModalCreateExo({ route, navigation }) {
             </View>
           </View>
           <View style={styles.boxErrors}>
-            <ScrollView contentContainerStyle={styles.containerErrors}>
+            <ScrollView
+              contentContainerStyle={styles.containerErrors}
+              showsVerticalScrollIndicator={false}
+            >
               {errors.name && <Text style={styles.error}>{errors.name}</Text>}
 
               {errors.video && <Text style={styles.error}>{errors.video}</Text>}
@@ -286,14 +289,14 @@ export default function ModalCreateExo({ route, navigation }) {
           <View style={styles.box1}>
             <TextInput
               style={styles.inputBottom}
-              placeholder="Ciblage"
+              placeholder=" Ciblage"
               placeholderTextColor={"#B9B8B7"}
               onChangeText={(value) => setCiblage(value)}
               value={ciblage}
             ></TextInput>
             <TextInput
               style={styles.inputBottom}
-              placeholder="Sollicitation musculaire"
+              placeholder=" Sollicitation musculaire"
               placeholderTextColor={"#B9B8B7"}
               onChangeText={(value) => setUtilisationMuscle(value)}
               value={utilisationMuscle}
@@ -362,10 +365,11 @@ const styles = StyleSheet.create({
   containerUpload: {
     flexDirection: "row",
     width: "100%",
-    height: 150,
+    height: 100,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 10,
+    paddingTop: 30,
   },
   textUpload: {
     color: "white",
@@ -422,14 +426,15 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    width: 130,
-    height: 30,
+    width: 140,
+    height: 40,
     backgroundColor: "#DFB81C",
     borderRadius: 5,
     shadowColor: "black",
     shadowOffset: { width: 3, height: 6 },
     shadowOpacity: 0.4,
     shadowRadius: 3,
+    marginBottom: 30,
   },
   buttonText: {
     fontWeight: 600,
@@ -441,6 +446,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 10,
+    paddingTop: 10,
   },
   containerErrors: {
     width: "100%",

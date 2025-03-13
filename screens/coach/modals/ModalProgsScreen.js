@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   containerList: {
-    width: "100%",
+    width: "93%",
     alignItems: "center",
     justifyContent: "flex-start",
     flexGrow: 1,
@@ -227,14 +227,15 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    width: 130,
-    height: 30,
+    width: 140,
+    height: 40,
     backgroundColor: "#DFB81C",
     borderRadius: 5,
     shadowColor: "black",
     shadowOffset: { width: 3, height: 6 },
     shadowOpacity: 0.4,
     shadowRadius: 3,
+    marginBottom: 40,
   },
   buttonText: {
     fontWeight: 600,

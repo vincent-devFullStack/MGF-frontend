@@ -396,12 +396,7 @@ export default function ModalProfil({ route, navigation }) {
           </View>
 
           <View style={styles.boxTitle}>
-            <TouchableOpacity style={styles.containerImage}>
-              <FontAwesomeIcon
-                icon={faMessage}
-                color={"white"}
-                style={styles.icon}
-              />
+            <View style={styles.containerImage}>
               <Image
                 source={
                   eleve.photoProfil
@@ -411,7 +406,8 @@ export default function ModalProfil({ route, navigation }) {
                 style={styles.image}
                 resizeMode="cover"
               />
-            </TouchableOpacity>
+            </View>
+
             <Text style={styles.title}>Profil</Text>
             <Text style={[styles.title, { color: "#DFB81C" }]}>
               {eleve?.firstname}
@@ -534,8 +530,7 @@ export default function ModalProfil({ route, navigation }) {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    paddingTop: 70,
-    padding: 40,
+    padding: 25,
   },
   container: {
     width: "100%",

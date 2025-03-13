@@ -336,8 +336,8 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   btnPosition: {
-    display: "absolute",
     marginTop: 170,
+    marginBottom: 40,
   },
   text: {
     color: "white",

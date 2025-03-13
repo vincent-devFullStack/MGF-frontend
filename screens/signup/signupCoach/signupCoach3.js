@@ -294,11 +294,11 @@ const styles = StyleSheet.create({
   },
   boxInput: {
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    marginTop: 30,
     width: "90%",
-    height: 350,
+    height: 200,
     gap: 10,
-    padding: 40,
   },
   input: {
     backgroundColor: "white",
@@ -324,6 +324,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 3, height: 6 },
     shadowOpacity: 0.4,
     shadowRadius: 3,
+    marginTop: 32,
+    marginBottom: 40,
   },
   btn: { fontWeight: 600 },
   error: {

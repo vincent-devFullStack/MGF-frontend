@@ -161,6 +161,7 @@ const styles = StyleSheet.create({
   },
   container2: {
     flex: 1,
+    marginTop: -20,
     justifyContent: "center",
     alignItems: "center",
   },

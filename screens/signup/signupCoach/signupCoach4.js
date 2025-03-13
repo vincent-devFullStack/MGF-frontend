@@ -62,7 +62,7 @@ export default function InscriptionCoach4({ navigation }) {
           firstname: coach.firstname,
           email: coach.email,
           password: coach.password,
-          secreWord: coach.secretWord,
+          secretWord: coach.secretWord,
           photoProfil: coach.photo,
           role: coach.role,
           siret: coach.siret,
@@ -75,6 +75,7 @@ export default function InscriptionCoach4({ navigation }) {
       });
 
       const data = await response.json();
+      console.log(data);
 
       if (data.result) {
         dispatch(
@@ -265,7 +266,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "90%",
-    height: 500,
+    height: 370,
     gap: 10,
     padding: 40,
     marginBottom: 20,
@@ -282,7 +283,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     color: "#101018",
     width: 314,
-    height: 230,
+    height: 115,
     marginBottom: 5,
     marginTop: 5,
     borderRadius: 5,
@@ -304,6 +305,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 3, height: 6 },
     shadowOpacity: 0.4,
     shadowRadius: 3,
+    marginTop: 32,
+    marginBottom: 40,
   },
   btn: { fontWeight: 600 },
   error: {

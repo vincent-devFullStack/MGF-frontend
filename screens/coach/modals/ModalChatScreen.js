@@ -38,6 +38,13 @@ export default function ModalCreateExo({ route, navigation }) {
     }
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchMessages();
+    }, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
   const sendMessage = async () => {
     if (!message.trim()) return; // Évite d'envoyer un message vide
 
@@ -102,7 +109,9 @@ export default function ModalCreateExo({ route, navigation }) {
             </TouchableOpacity>
 
             <View style={styles.messages}>
-              <ScrollView>{Chat}</ScrollView>
+              <ScrollView showsVerticalScrollIndicator={false}>
+                {Chat}
+              </ScrollView>
             </View>
             <View style={styles.input}>
               <TextInput
@@ -132,11 +141,11 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     paddingTop: 70,
-    padding: 40,
+    padding: 20,
   },
   container: {
     width: "100%",
-    height: "100%",
+    height: "95%",
     alignItems: "flex-start",
     justifyContent: "flex-start",
   },
@@ -148,8 +157,7 @@ const styles = StyleSheet.create({
     height: "90%",
     width: "100%",
     alignItems: "center",
-    borderColor: "white",
-    borderWidth: 1,
+
     marginBottom: 10,
     marginTop: 10,
   },

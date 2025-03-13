@@ -46,7 +46,10 @@ export default function VignetteEleve(props) {
           >
             <Text style={styles.textButton}>Profil</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Wallet")}
+          >
             <Text style={styles.textButton}>Abonnement</Text>
           </TouchableOpacity>
         </View>

@@ -268,7 +268,7 @@ export default function CalCoachScreen() {
                       <DateTimePicker
                         mode="date"
                         value={date}
-                        display={Platform.OS === "ios" ? "inline" : "default"}
+                        display={Platform.OS === "ios" ? "default" : "default"}
                         onChange={onChange}
                       ></DateTimePicker>
                     )}
@@ -286,7 +286,7 @@ export default function CalCoachScreen() {
 
                     <TextInput
                       style={styles.input}
-                      placeholder="Heure"
+                      placeholder="heure..."
                       placeholderTextColor={"#B9B8B7"}
                       onChangeText={(value) => setHeure(value)}
                       value={heure}
@@ -350,7 +350,10 @@ export default function CalCoachScreen() {
               />
             }
           >
-            <ScrollView contentContainerStyle={styles.containerRdv}>
+            <ScrollView
+              contentContainerStyle={styles.containerRdv}
+              showsVerticalScrollIndicator={false}
+            >
               {rdv && rdvList}
             </ScrollView>
           </MaskedView>
@@ -387,12 +390,13 @@ const styles = StyleSheet.create({
   },
   modalView: {
     width: "70%",
-    height: 400,
+    height: 450,
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 20,
     alignItems: "center",
+    justifyContent: "space-between",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -421,6 +425,7 @@ const styles = StyleSheet.create({
     borderColor: "#B9B8B7",
     borderWidth: 1,
     marginBottom: 5,
+    paddingHorizontal: 10,
   },
   textStyle: {
     fontWeight: "bold",
@@ -445,7 +450,7 @@ const styles = StyleSheet.create({
   },
   boxCal: {
     width: "100%",
-    height: "55%",
+    height: "50%",
   },
   calendar: {
     backgroundColor: "transparent",
@@ -456,6 +461,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     flexGrow: 1,
+    paddingHorizontal: 15,
   },
   boxBtn: {
     height: 50,
@@ -463,6 +469,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
+    padding: 10,
   },
   button: {
     width: 40,

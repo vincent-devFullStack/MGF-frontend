@@ -144,13 +144,24 @@ export default function HomeCoachScreen({ navigation }) {
               style={styles.maskedContainer}
               maskElement={
                 <LinearGradient
-                  colors={["black", "black", "black", "black", "transparent"]}
+                  colors={[
+                    "black",
+                    "black",
+                    "black",
+                    "black",
+                    "black",
+                    "black",
+                    "transparent",
+                  ]}
                   style={styles.maskGradient}
                 />
               }
             >
               <Text style={styles.secondTitle}>Coachings du jour</Text>
-              <ScrollView contentContainerStyle={styles.containerRdv}>
+              <ScrollView
+                contentContainerStyle={styles.containerRdv}
+                showsVerticalScrollIndicator={false}
+              >
                 {rdv && rdvList}
               </ScrollView>
             </MaskedView>
@@ -161,7 +172,15 @@ export default function HomeCoachScreen({ navigation }) {
               style={styles.maskedContainer}
               maskElement={
                 <LinearGradient
-                  colors={["black", "black", "black", "black", "transparent"]}
+                  colors={[
+                    "black",
+                    "black",
+                    "black",
+                    "black",
+                    "black",
+                    "black",
+                    "transparent",
+                  ]}
                   style={styles.maskGradient}
                 />
               }
@@ -169,6 +188,7 @@ export default function HomeCoachScreen({ navigation }) {
               <Text style={styles.secondTitle}>Echéances abonnements</Text>
               <ScrollView
                 contentContainerStyle={styles.containerAbo}
+                showsVerticalScrollIndicator={false}
               ></ScrollView>
             </MaskedView>
           </View>
@@ -189,6 +209,7 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
+    padding: 15,
   },
   boxTitle: {
     width: "100%",
@@ -225,7 +246,8 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 10,
     alignItems: "center",
-    justifyContent: "flex-start",
+    paddingTop: 10,
+    // justifyContent: "flex-start",
     flexGrow: 1,
   },
   secondTitle: {
@@ -237,6 +259,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     flexGrow: 1,
+    paddingTop: 10,
   },
   maskedContainer: {
     height: "100%",
