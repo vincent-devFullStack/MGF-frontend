@@ -67,13 +67,15 @@ export default function BulleChat({ conversation, fullData, onRefresh, role }) {
   const photoProfil =
     fullData?.data?.photoProfil || require("../../assets/icon.png");
 
-  const isCoach = conversation.role === "coach";
+  const isEleve = role === "eleve";
 
   console.log(fullData);
 
+  console.log(conversation);
+
   return (
     <View style={styles.background}>
-      {!isCoach ? (
+      {isEleve ? (
         <Image style={styles.profilIcon} source={{ uri: photoProfil }} />
       ) : (
         <Image

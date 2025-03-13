@@ -45,6 +45,7 @@ export default function ModalCreateExo({ route, navigation }) {
       token: eleve.token,
       texte: message,
       firstname: eleve.firstname,
+      role: "coach",
     };
 
     try {
