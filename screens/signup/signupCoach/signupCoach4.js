@@ -171,9 +171,10 @@ export default function InscriptionCoach4({ navigation }) {
               </Text>
               <TextInput
                 style={styles.input}
-                placeholder="Domaine..."
+                placeholder=" Domaine..."
                 placeholderTextColor={"#b9b8b7"}
-                paddingBottom={10}
+                paddingTop={5}
+                paddingBottom={5}
                 onChangeText={(value) => setDomaines(value)}
                 value={domaines}
               ></TextInput>
@@ -187,9 +188,10 @@ export default function InscriptionCoach4({ navigation }) {
               </Text>
               <TextInput
                 style={styles.inputDescription}
-                placeholder="Décrivez-vous..."
+                placeholder=" Décrivez-vous..."
                 placeholderTextColor={"#b9b8b7"}
-                paddingBottom={10}
+                paddingTop={5}
+                paddingBottom={5}
                 multiline={true}
                 onChangeText={(value) => setDescription(value)}
                 value={description}
@@ -202,9 +204,10 @@ export default function InscriptionCoach4({ navigation }) {
               <Text style={styles.textInput}>Indiquez vos diplômes :</Text>
               <TextInput
                 style={styles.input}
-                placeholder="Diplômes..."
+                placeholder=" Diplômes..."
                 placeholderTextColor={"#b9b8b7"}
-                paddingBottom={10}
+                paddingTop={5}
+                paddingBottom={5}
                 onChangeText={(value) => setDiplomes(value)}
                 value={diplomes}
               ></TextInput>

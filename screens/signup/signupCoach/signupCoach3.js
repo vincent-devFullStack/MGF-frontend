@@ -196,9 +196,10 @@ export default function InscriptionCoach3({ navigation }) {
               </Text>
               <TextInput
                 style={styles.input}
-                placeholder="Villes..."
+                placeholder=" Villes..."
                 placeholderTextColor={"#b9b8b7"}
-                paddingBottom={10}
+                paddingTop={5}
+                paddingBottom={5}
                 onChangeText={(value) => setVilles(value)}
                 value={villes}
               ></TextInput>
@@ -210,9 +211,10 @@ export default function InscriptionCoach3({ navigation }) {
               </Text>
               <TextInput
                 style={styles.input}
-                placeholder="Salles..."
+                placeholder=" Salles..."
                 placeholderTextColor={"#b9b8b7"}
-                paddingBottom={10}
+                paddingTop={5}
+                paddingBottom={5}
                 onChangeText={(value) => setSalles(value)}
                 value={salles}
               ></TextInput>
@@ -224,9 +226,10 @@ export default function InscriptionCoach3({ navigation }) {
               </Text>
               <TextInput
                 style={styles.input}
-                placeholder="Siret..."
+                placeholder=" Siret..."
                 placeholderTextColor={"#b9b8b7"}
-                paddingBottom={10}
+                paddingTop={5}
+                paddingBottom={5}
                 onChangeText={(value) => setSiret(value)}
                 value={siret}
               ></TextInput>
