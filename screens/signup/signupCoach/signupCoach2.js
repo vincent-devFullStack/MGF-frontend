@@ -218,6 +218,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
+    shadowColor: "black",
+    shadowOffset: { width: 3, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
   },
   btnPosition: {
     display: "absolute",
