@@ -18,7 +18,11 @@ import { BACKEND_ADDRESS } from "../../env";
 import { useState, useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faXmark, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import {
+  faXmark,
+  faLocationDot,
+  faArrowLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import MapView, { Marker } from "react-native-maps";
 import VignetteCoach from "../../components/eleve/VignetteCoach";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -65,43 +69,39 @@ export default function MapScreen({ navigation }) {
       const data = await response.json();
       setCoachList(data);
 
-      if (data.length > 0) {
-        const coachDetails = await Promise.all(
-          data.map(async (coach) => {
-            const villesAvecCoords = await Promise.all(
-              coach.villes.map(async (ville) => {
-                const geoResponse = await fetch(
-                  `https://api-adresse.data.gouv.fr/search/?q=${ville}`
-                );
-                const geoData = await geoResponse.json();
+      let coachDetails = [];
 
-                if (geoData.features.length > 0) {
-                  const { coordinates } = geoData.features[0].geometry;
+      for (let coach of data) {
+        let villesAvecCoords = [];
 
-                  return {
-                    nom: ville,
-                    latitude: coordinates[1],
-                    longitude: coordinates[0],
-                  };
-                }
-                return null;
-              })
-            );
+        for (let ville of coach.villes) {
+          const geoResponse = await fetch(
+            `https://api-adresse.data.gouv.fr/search/?q=${ville}`
+          );
+          const geoData = await geoResponse.json();
 
-            return {
-              firstname: coach.firstname,
-              photoProfil: coach.photoProfil,
-              presentation: coach.presentation,
-              diplomes: coach.diplomes,
-              email: coach.email,
-              villes: villesAvecCoords.filter(Boolean), // Supprime les villes null
-            };
-          })
-        );
+          if (geoData.features.length > 0) {
+            const { coordinates } = geoData.features[0].geometry;
+            villesAvecCoords.push({
+              nom: ville,
+              latitude: coordinates[1],
+              longitude: coordinates[0],
+            });
+          }
+        }
 
-        setPin(coachDetails);
-        setFilteredCoaches(coachDetails);
+        coachDetails.push({
+          firstname: coach.firstname,
+          photoProfil: coach.photoProfil,
+          presentation: coach.presentation,
+          diplomes: coach.diplomes,
+          email: coach.email,
+          villes: villesAvecCoords,
+        });
       }
+
+      setPin(coachDetails);
+      setFilteredCoaches(coachDetails);
     };
 
     fetchCoaches();
@@ -129,7 +129,6 @@ export default function MapScreen({ navigation }) {
     return <VignetteCoach key={i} {...data} />;
   });
 
-  // Fonction de recherche de coachs par ville ou nom
   const handleSearch = () => {
     const filtered = Pin.filter((coach) => {
       if (!search) return true;
@@ -154,6 +153,18 @@ export default function MapScreen({ navigation }) {
             mapType="hybridFlyover"
             style={styles.map}
           >
+            <View style={styles.iconBack}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("HomeEleve")}
+              >
+                <FontAwesomeIcon
+                  style={styles.icon}
+                  icon={faArrowLeft}
+                  size={20}
+                  color={"#DFB81C"}
+                />
+              </TouchableOpacity>
+            </View>
             {filteredCoaches &&
               filteredCoaches.map((coach, index) =>
                 coach.villes.map((ville, i) => (
@@ -302,7 +313,9 @@ export default function MapScreen({ navigation }) {
                         </Text>
                         <Text style={styles.modalTitle3}>Lieu(x): </Text>
                         <Text style={styles.modalText}>
-                          {selectedCoach.villes.map((v) => v.nom).join(", ")}
+                          {selectedCoach.villes
+                            .map((data) => data.nom)
+                            .join(", ")}
                         </Text>
                         <TouchableOpacity
                           style={styles.closeButton}
@@ -506,5 +519,18 @@ const styles = StyleSheet.create({
     top: -15,
     right: -5,
     padding: 10,
+  },
+  iconBack: {
+    flexDirection: "row",
+    width: "10%",
+    height: "4%",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    marginTop: 48,
+    borderRadius: 25,
+    backgroundColor: "rgba(255, 255, 255, 0.93)",
+    zIndex: 10,
+    left: 25,
   },
 });

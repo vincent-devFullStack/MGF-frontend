@@ -23,9 +23,8 @@ import MaskedView from "@react-native-community/masked-view";
 
 function SearchNewCoach() {
   const [search, setSearch] = useState("");
-  // const [checked, setChecked] = useState("first");
   const [coachList, setCoachList] = useState([]);
-  const [originalCoachList, setOriginalCoachList] = useState([]); // Liste originale des coachs
+  const [originalCoachList, setOriginalCoachList] = useState([]);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -33,8 +32,7 @@ function SearchNewCoach() {
       .then((response) => response.json())
       .then((data) => {
         setCoachList(data);
-        setOriginalCoachList(data); // Stocker les coachs originaux
-        console.log(data);
+        setOriginalCoachList(data);
       });
   }, []);
 
@@ -42,34 +40,22 @@ function SearchNewCoach() {
     if (!search) {
       setCoachList(originalCoachList);
     } else {
-      // Filtrer les coachs selon la recherche
+      const lowerCaseSearch = search.toLowerCase();
+
       const filtered = originalCoachList.filter((coach) => {
-        const lowerCaseSearch = search.toLowerCase();
-
-        // Vérifier si firstname existe
-        const coachName = coach.firstname ? coach.firstname.toLowerCase() : "";
-
-        // Vérifier si villes est défini et est un tableau
-        const coachCities =
-          coach.villes && Array.isArray(coach.villes)
-            ? coach.villes.map((ville) =>
-                ville.nom ? ville.nom.toLowerCase() : ""
-              )
-            : [];
+        const villes = coach.villes || [];
+        console.log(villes);
 
         return (
-          coachName.includes(lowerCaseSearch) ||
-          coachCities.some((ville) => ville.includes(lowerCaseSearch))
+          villes.some((ville) =>
+            ville.toLowerCase().includes(lowerCaseSearch)
+          ) || coach.name.toLowerCase().includes(lowerCaseSearch)
         );
       });
 
-      setCoachList(filtered); // Mettre à jour les résultats filtrés
+      setCoachList(filtered);
     }
   };
-
-  const coachs = coachList.map((data, i) => {
-    return <MiniatureCoach key={i} {...data} />;
-  });
 
   return (
     <LinearGradient
@@ -88,10 +74,7 @@ function SearchNewCoach() {
                 placeholderTextColor={"grey"}
                 value={search}
               />
-              <TouchableOpacity
-                style={styles.searchBtn}
-                onPress={handleSearch} // Appeler la fonction de recherche au clic
-              >
+              <TouchableOpacity style={styles.searchBtn} onPress={handleSearch}>
                 <Text>Search </Text>
                 <FontAwesomeIcon
                   style={styles.icon}
@@ -101,39 +84,8 @@ function SearchNewCoach() {
                 />
               </TouchableOpacity>
             </View>
-            {/*  Barre de filtre à activer lorsque l'option sera en place coté coatch
-            <View style={styles.radioContainer}>
-              <View style={styles.filter}>
-                {["Presentiel", "Distanciel", "Hybride", "Tout"].map((mode) => (
-                  <TouchableOpacity
-                    key={mode}
-                    onPress={() => {
-                      setChecked(mode);
-                      if (mode === "Tout") {
-                        // Réinitialiser à la liste complète si "Tout" est sélectionné
-                        setCoachList(originalCoachList);
-                      }
-                    }}
-                    style={[
-                      styles.filterButton,
-                      checked === mode && styles.filterButtonSelected,
-                    ]}
-                  >
-                    <View style={styles.radioItem}>
-                      <Text
-                        style={[
-                          styles.radioText,
-                          checked === mode && styles.radioTextSelected,
-                        ]}
-                      >
-                        {mode}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            </View> */}
           </View>
+
           <MaskedView
             style={styles.maskedContainer}
             maskElement={
@@ -148,7 +100,13 @@ function SearchNewCoach() {
               style={styles.coachListContainer}
             >
               <ScrollView contentContainerStyle={styles.coachList}>
-                {coachs}
+                {coachList.length > 0 ? (
+                  coachList.map((data, i) => (
+                    <MiniatureCoach key={i} {...data} />
+                  ))
+                ) : (
+                  <Text style={styles.noResults}>Aucun coach trouvé</Text>
+                )}
               </ScrollView>
             </LinearGradient>
           </MaskedView>
@@ -206,30 +164,6 @@ const styles = StyleSheet.create({
   inputText1: {
     paddingLeft: 10,
   },
-  radioContainer: {
-    marginBottom: 10,
-    width: "85%",
-  },
-  filter: {
-    flexDirection: "row",
-    marginTop: 10,
-    justifyContent: "space-around",
-    width: "100%",
-  },
-  filterButton: {
-    padding: 3,
-    opacity: 1,
-  },
-  filterButtonSelected: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 3,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: "#DFB81C",
-    backgroundColor: "#DFB81C",
-    opacity: 1,
-  },
   searchBtn: {
     flexDirection: "row",
     borderRadius: 5,
@@ -244,7 +178,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   maskedContainer: {
-    height: "60%",
+    height: "65%",
     width: "95%",
     borderRadius: 10,
     overflow: "hidden",
@@ -267,7 +201,7 @@ const styles = StyleSheet.create({
   },
   btnPosition: {
     display: "absolute",
-    marginTop: 20,
+    marginTop: 40,
   },
 });
 

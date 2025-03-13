@@ -230,6 +230,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "space-around",
+    marginBottom: 80,
   },
   eleveBtn: {
     height: 100,

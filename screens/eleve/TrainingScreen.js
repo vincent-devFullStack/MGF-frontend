@@ -4,12 +4,17 @@ import {
   View,
   SafeAreaView,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from "react-native";
 
 import { LinearGradient } from "expo-linear-gradient";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-export default function TrainingScreen({ route }) {
+export default function TrainingScreen({ route, navigation }) {
   const { fullData } = route.params || {};
+
+  console.log(fullData);
 
   return (
     <LinearGradient
@@ -18,6 +23,14 @@ export default function TrainingScreen({ route }) {
     >
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
+          <TouchableOpacity onPress={() => navigation.navigate("HomeEleve")}>
+            <FontAwesomeIcon
+              style={styles.iconBack}
+              icon={faArrowLeft}
+              size={20}
+              color={"white"}
+            />
+          </TouchableOpacity>
           <Text>Séance du jour</Text>
 
           {/* Affichage du composant Video */}
@@ -34,7 +47,9 @@ export default function TrainingScreen({ route }) {
             ]}
             style={styles.background2}
           >
-            <Text>Training élève Screen</Text>
+            <Text style={styles.title}>Soulevé de terre</Text>
+            <Text style={styles.desc}>Carge recommandée : 140 kg</Text>
+            <Text style={styles.desc}>Mouvement demandé: Contrôlé</Text>
           </LinearGradient>
         </SafeAreaView>
       </KeyboardAvoidingView>
@@ -67,7 +82,21 @@ const styles = StyleSheet.create({
     height: "70%",
     width: "90%",
     borderRadius: 10,
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "flex-start",
+    padding: 20,
+  },
+  title: {
+    color: "#fff",
+    fontSize: 22,
+    fontWeight: "bold",
+  },
+  desc: {
+    color: "#fff",
+  },
+  iconBack: {
+    position: "absolute",
+    marginTop: "15%",
+    right: "40%",
   },
 });
