@@ -8,6 +8,7 @@ import {
   Platform,
   Image,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import VignetteRdv from "../../components/coach/VignetteRdv";
 
@@ -18,10 +19,14 @@ import { useIsFocused } from "@react-navigation/native";
 import { BACKEND_ADDRESS } from "../../env";
 import { formatDate } from "../../modules/formatDate";
 import MaskedView from "@react-native-community/masked-view";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
-export default function HomeCoachScreen() {
+export default function HomeCoachScreen({ navigation }) {
   const isFocused = useIsFocused();
   const coach = useSelector((state) => state.coach.value);
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [rdv, setRdv] = useState([]);
   const [date, setDate] = useState("");
@@ -64,8 +69,60 @@ export default function HomeCoachScreen() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <SafeAreaView style={styles.container}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <LinearGradient
+                colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
+                style={styles.modalView}
+              >
+                <View style={styles.iconClose}>
+                  <TouchableOpacity
+                    onPress={() => setModalVisible(!modalVisible)}
+                  >
+                    <FontAwesomeIcon icon={faXmark} size={20} color="white" />
+                  </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity style={styles.containerImage}>
+                  <Image
+                    source={
+                      coach.photoProfil
+                        ? { uri: coach.photoProfil }
+                        : require("../../assets/photo_eleve1.jpg")
+                    }
+                    style={styles.image}
+                    resizeMode="cover"
+                  />
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                  <Text style={styles.text}>Modifier mon profil</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.buttonDeco}
+                  onPress={() => {
+                    navigation.navigate("Login");
+                  }}
+                >
+                  <Text style={styles.buttonDecoText}>Déconnexion</Text>
+                </TouchableOpacity>
+              </LinearGradient>
+            </View>
+          </Modal>
+
           <View style={styles.boxTitle}>
-            <TouchableOpacity style={styles.containerImage}>
+            <TouchableOpacity
+              style={styles.containerImage}
+              onPress={() => setModalVisible(true)}
+            >
               <Image
                 source={
                   coach.photoProfil
@@ -190,5 +247,61 @@ const styles = StyleSheet.create({
   maskGradient: {
     height: "100%", // S'assure que le gradient couvre toute la hauteur
     width: "100%", // et toute la largeur de l'écran
+  },
+  //Modal
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalView: {
+    width: "70%",
+    height: 280,
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    gap: 20,
+  },
+  iconClose: {
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
+  },
+  buttonDeco: {
+    width: 150,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#DFB81C",
+    padding: 10,
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    marginTop: 20,
+  },
+  buttonDecoText: {
+    color: "#101018",
+    fontWeight: "bold",
+  },
+  text: {
+    color: "white",
+    fontSize: 18,
   },
 });

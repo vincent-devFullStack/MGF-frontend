@@ -2,8 +2,10 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMessage } from "@fortawesome/free-solid-svg-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
 
 export default function VignetteRdv(props) {
+  const navigation = useNavigation();
   return (
     <LinearGradient
       colors={["#21212E", "#43435C", "#6B6B94"]}
@@ -33,7 +35,12 @@ export default function VignetteRdv(props) {
           <Text style={styles.text}>Présentiel</Text>
         </View>
         <View style={styles.containerBtn}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+              navigation.navigate("ModalProfil", { eleve: props.eleve })
+            }
+          >
             <Text style={styles.textButton}>Profil</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}>
