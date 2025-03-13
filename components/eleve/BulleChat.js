@@ -12,7 +12,7 @@ import { BACKEND_ADDRESS } from "../../env";
 
 import React, { useState, useEffect } from "react";
 
-export default function BulleChat({ conversation, fullData, onRefresh, role }) {
+export default function BulleChat({ conversation, fullData, onRefresh }) {
   const [deletedMessage, setDeletedMessage] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
 

@@ -79,6 +79,13 @@ export default function HomeEleveScreen({ navigation }) {
   }, [messageSent]);
 
   useEffect(() => {
+    const interval = setInterval(() => {
+      fetchMessages();
+    }, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
     fetch(`${BACKEND_ADDRESS}/eleve/${eleveData.token}`)
       .then((response) => response.json())
       .then((data) => {
