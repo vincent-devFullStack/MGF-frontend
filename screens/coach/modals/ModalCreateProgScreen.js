@@ -307,73 +307,85 @@ export default function ModalCreateProg({ route, navigation }) {
           >
             <View style={styles.centeredView}>
               <AutocompleteDropdownContextProvider>
-                <LinearGradient
-                  colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
-                  style={styles.modalView}
+                <View
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
                 >
-                  <View style={styles.iconXmodal}>
-                    <TouchableOpacity
-                      onPress={() => setDisplayModal(!displayModal)}
-                    >
-                      <FontAwesomeIcon
-                        icon={faXmark}
-                        color="#B9B8B7"
-                        size={26}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                  <AutocompleteDropdown
-                    onChangeText={(value) => searchExercices(value)}
-                    onSelectItem={(item) => item && setExercice(item)}
-                    dataSet={dataSet}
-                    textInputProps={{
-                      placeholder: "Rechercher un exercice",
-                      placeholderTextColor: "#B9B8B7",
-                    }}
-                    inputContainerStyle={styles.inputContainer}
-                    containerStyle={styles.dropdownContainer}
-                    suggestionsListContainerStyle={
-                      styles.suggestionListContainer
-                    }
-                    closeOnSubmit
-                  ></AutocompleteDropdown>
+                  <LinearGradient
+                    colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
+                    style={styles.modalView}
+                  >
+                    <View style={styles.iconXmodal}>
+                      <TouchableOpacity
+                        onPress={() => setDisplayModal(!displayModal)}
+                      >
+                        <FontAwesomeIcon
+                          icon={faXmark}
+                          color="#B9B8B7"
+                          size={26}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <AutocompleteDropdown
+                      onChangeText={(value) => searchExercices(value)}
+                      onSelectItem={(item) => item && setExercice(item)}
+                      dataSet={dataSet}
+                      textInputProps={{
+                        placeholder: "Rechercher un exercice",
+                        placeholderTextColor: "#B9B8B7",
+                      }}
+                      inputContainerStyle={styles.inputContainer}
+                      containerStyle={styles.dropdownContainer}
+                      suggestionsListContainerStyle={
+                        styles.suggestionListContainer
+                      }
+                      closeOnSubmit
+                    ></AutocompleteDropdown>
 
-                  <View style={styles.box1}>
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Séries"
-                      placeholderTextColor={"#B9B8B7"}
-                      onChangeText={(value) => setSeries(value)}
-                      value={series}
-                      keyboardType="numeric"
-                    ></TextInput>
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Répétitions"
-                      placeholderTextColor={"#B9B8B7"}
-                      onChangeText={(value) => setRepetitions(value)}
-                      value={repetitions}
-                      keyboardType="numeric"
-                    ></TextInput>
-                  </View>
+                    <View style={styles.box1}>
+                      <TextInput
+                        style={styles.input}
+                        placeholder="Séries"
+                        placeholderTextColor={"#B9B8B7"}
+                        onChangeText={(value) => setSeries(value)}
+                        value={series}
+                        keyboardType="numeric"
+                      ></TextInput>
+                      <TextInput
+                        style={styles.input}
+                        placeholder="Répétitions"
+                        placeholderTextColor={"#B9B8B7"}
+                        onChangeText={(value) => setRepetitions(value)}
+                        value={repetitions}
+                        keyboardType="numeric"
+                      ></TextInput>
+                    </View>
 
-                  <View style={styles.boxBtn}>
-                    <TouchableOpacity
-                      style={styles.buttonPlus}
-                      onPress={addExo}
-                    >
-                      <FontAwesomeIcon icon={faPlus} color={"#101018"} />
-                    </TouchableOpacity>
-                  </View>
+                    <View style={styles.boxBtn}>
+                      <TouchableOpacity
+                        style={styles.buttonPlus}
+                        onPress={addExo}
+                      >
+                        <FontAwesomeIcon icon={faPlus} color={"#101018"} />
+                      </TouchableOpacity>
+                    </View>
 
-                  <View style={styles.containerSeance}>{exosList}</View>
+                    <View style={styles.containerSeance}>{exosList}</View>
 
-                  <View style={styles.buttonModal}>
-                    <TouchableOpacity style={styles.button} onPress={AddSeance}>
-                      <Text style={styles.buttonText}>Ajouter</Text>
-                    </TouchableOpacity>
-                  </View>
-                </LinearGradient>
+                    <View style={styles.buttonModal}>
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={AddSeance}
+                      >
+                        <Text style={styles.buttonText}>Ajouter</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </LinearGradient>
+                </View>
               </AutocompleteDropdownContextProvider>
             </View>
           </Modal>
@@ -523,8 +535,16 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 3, height: 6 },
     shadowOpacity: 0.4,
     shadowRadius: 3,
-    position: "absolute",
+    display: "absolute",
     bottom: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   buttonText: {
     fontWeight: 600,
@@ -537,9 +557,9 @@ const styles = StyleSheet.create({
   },
   modalView: {
     width: "90%",
-    height: "95%",
+    height: 700,
     borderRadius: 20,
-    padding: 35,
+    padding: 20,
     alignItems: "center",
     justifyContent: "center",
     shadowColor: "#000",
@@ -572,8 +592,8 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    position: "absolute",
-    bottom: 30,
+    display: "absolute",
+    bottom: -30,
   },
   containerSeance: {
     alignItems: "flex-start",
@@ -583,12 +603,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   boxBtn: {
-    height: "5%",
+    height: 40,
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
     marginTop: 20,
-    marginBottom: 20,
   },
   buttonPlus: {
     width: 30,
@@ -597,6 +616,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#DFB81C",
     borderRadius: 50,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   textList: {
     color: "white",

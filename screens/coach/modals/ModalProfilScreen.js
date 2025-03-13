@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faXmark, faMessage } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { BACKEND_ADDRESS } from "../../../env";
 import { useEffect, useState } from "react";
@@ -396,17 +396,22 @@ export default function ModalProfil({ route, navigation }) {
           </View>
 
           <View style={styles.boxTitle}>
-            <View style={styles.containerImage}>
+            <TouchableOpacity style={styles.containerImage}>
+              <FontAwesomeIcon
+                icon={faMessage}
+                color={"white"}
+                style={styles.icon}
+              />
               <Image
                 source={
-                  coach.photoProfil
+                  eleve.photoProfil
                     ? { uri: eleve.photoProfil }
                     : require("../../../assets/photo_eleve1.jpg")
                 }
                 style={styles.image}
                 resizeMode="cover"
               />
-            </View>
+            </TouchableOpacity>
             <Text style={styles.title}>Profil</Text>
             <Text style={[styles.title, { color: "#DFB81C" }]}>
               {eleve?.firstname}
@@ -565,6 +570,12 @@ const styles = StyleSheet.create({
     height: "100%",
     borderRadius: 50,
     overflow: "hidden",
+  },
+  icon: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    zIndex: 1,
   },
   containerMain: {
     width: "100%",

@@ -19,8 +19,13 @@ import { useSelector } from "react-redux";
 import { BACKEND_ADDRESS } from "../../env";
 import { formatDate } from "../../modules/formatDate";
 import MaskedView from "@react-native-community/masked-view";
+import {
+  AutocompleteDropdown,
+  AutocompleteDropdownContextProvider,
+} from "react-native-autocomplete-dropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 LocaleConfig.locales["fr"] = {
   monthNames: [
@@ -66,11 +71,33 @@ LocaleConfig.locales["fr"] = {
 
 LocaleConfig.defaultLocale = "fr";
 
+import * as Yup from "yup";
+
+const newRdvSchema = Yup.object().shape({
+  eleve: Yup.object({
+    name: Yup.string().required(),
+    firstname: Yup.string().required(),
+    token: Yup.string().required(),
+    title: Yup.string().required(),
+    id: Yup.number().required(),
+  }).required("Veuillez sélectionner un élève"),
+  date: Yup.date().required("La date est requise"),
+  heure: Yup.string().required("L'heure est requise"),
+});
+
 export default function CalCoachScreen() {
   const isFocused = useIsFocused();
   const coach = useSelector((state) => state.coach.value);
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [dataSet, setDataSet] = useState([]);
+
+  const [show, setShow] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const [eleve, setEleve] = useState({});
+  const [heure, setHeure] = useState("");
+  const [date, setDate] = useState(new Date());
 
   const [selected, setSelected] = useState("");
   const [rdv, setRdv] = useState([]);
@@ -93,15 +120,91 @@ export default function CalCoachScreen() {
     }
   }, [isFocused, coach]);
 
+  //Fetch eleves coach
+  useEffect(() => {
+    // Fetch eleves coach from API
+    if (isFocused && coach?.token) {
+      fetch(`${BACKEND_ADDRESS}/coach/${coach.token}`)
+        .then((response) => response.json())
+        .then((data) => {
+          const suggestions = data?.eleves.map((eleve, i) => {
+            return {
+              id: i,
+              title: `${eleve.name} ${eleve.firstname}`,
+              name: eleve.name,
+              firstname: eleve.firstname,
+              token: eleve.token,
+            };
+          });
+          setDataSet(suggestions);
+        })
+        .catch((error) => {
+          console.error("Erreur lors du fetch des élèves:", error);
+        });
+    }
+  }, [isFocused, coach, date]);
+
+  //Map rdv du jour
   const rdvList = rdv.map((data, i) => {
     if (selected === formatDate(new Date(data.date))) {
       return <VignetteRdv key={i} {...data} />;
     }
   });
 
-  if (!isFocused) {
-    return <View />;
-  }
+  //Récupération de la date de RDV
+  const onChange = (event, selectedDate) => {
+    setShow(false);
+    if (selectedDate) {
+      setDate(selectedDate);
+    }
+  };
+
+  //Création rdv
+  const createRdv = async () => {
+    try {
+      await newRdvSchema.validate(
+        {
+          eleve,
+          date,
+          heure,
+        },
+        { abortEarly: false }
+      );
+
+      setErrors({});
+
+      const response = await fetch(`${BACKEND_ADDRESS}/coach/rdv`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          coachToken: coach.token,
+          eleveToken: eleve.token,
+          date: date,
+          heure: heure,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.result) {
+        console.log("RDV créé avec succès");
+        setHeure("");
+        setEleve([]);
+        setModalVisible(false);
+      } else {
+        console.error("Erreur lors de la création du RDV:", data.message);
+      }
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        const yupErrors = {};
+        error.inner.forEach((innerError) => {
+          yupErrors[innerError.path] = innerError.message;
+        });
+
+        setErrors(yupErrors);
+      }
+    }
+  };
 
   return (
     <LinearGradient
@@ -122,36 +225,92 @@ export default function CalCoachScreen() {
             }}
           >
             <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <View style={styles.iconClose}>
-                  <TouchableOpacity
-                    onPress={() => setModalVisible(!modalVisible)}
-                  >
-                    <FontAwesomeIcon icon={faXmark} size={20} />
-                  </TouchableOpacity>
-                </View>
-
-                <Text style={styles.modalText}>
-                  Rentrer le nom de l'élève :
-                </Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Nom"
-                  placeholderTextColor={"#B9B8B7"}
-                ></TextInput>
-                <Text style={styles.modalText}>L'heure du rendez-vous:</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Heure"
-                  placeholderTextColor={"#B9B8B7"}
-                ></TextInput>
-
-                <TouchableOpacity
-                  style={[styles.buttonModal, styles.buttonClose]}
+              <AutocompleteDropdownContextProvider>
+                <View
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
                 >
-                  <Text style={styles.textStyle}>Ajouter</Text>
-                </TouchableOpacity>
-              </View>
+                  <View style={styles.modalView}>
+                    <View style={styles.iconClose}>
+                      <TouchableOpacity
+                        onPress={() => setModalVisible(!modalVisible)}
+                      >
+                        <FontAwesomeIcon icon={faXmark} size={20} />
+                      </TouchableOpacity>
+                    </View>
+
+                    <Text style={styles.modalText}>
+                      Rentrer le nom de l'élève :
+                    </Text>
+                    <AutocompleteDropdown
+                      onSelectItem={(item) => item && setEleve(item)}
+                      dataSet={dataSet}
+                      direction="down"
+                      textInputProps={{
+                        placeholder: "Rechercher nom d'un eleve",
+                        placeholderTextColor: "#B9B8B7",
+                      }}
+                      inputContainerStyle={styles.inputContainer}
+                      containerStyle={styles.dropdownContainer}
+                      suggestionsListContainerStyle={
+                        styles.suggestionListContainer
+                      }
+                      closeOnSubmit
+                    ></AutocompleteDropdown>
+                    <Text style={styles.modalText}>
+                      Sélectionnez la date du rendez-vous :
+                    </Text>
+                    {show && (
+                      <DateTimePicker
+                        mode="date"
+                        value={date}
+                        display={Platform.OS === "ios" ? "inline" : "default"}
+                        onChange={onChange}
+                      ></DateTimePicker>
+                    )}
+                    <TouchableOpacity
+                      style={styles.buttonDate}
+                      onPress={() => setShow(true)}
+                    >
+                      <Text style={styles.textDate}>
+                        {date.toLocaleDateString("fr-FR")}
+                      </Text>
+                    </TouchableOpacity>
+                    <Text style={styles.modalText}>
+                      L'heure du rendez-vous :
+                    </Text>
+
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Heure"
+                      placeholderTextColor={"#B9B8B7"}
+                      onChangeText={(value) => setHeure(value)}
+                      value={heure}
+                    ></TextInput>
+
+                    {errors.heure && (
+                      <Text style={{ color: "red" }}>{errors.heure}</Text>
+                    )}
+                    {errors.date && (
+                      <Text style={{ color: "red" }}>{errors.date}</Text>
+                    )}
+                    {errors.eleve && (
+                      <Text style={{ color: "red" }}>{errors.eleve}</Text>
+                    )}
+
+                    <TouchableOpacity
+                      style={[styles.buttonModal, styles.buttonClose]}
+                      onPress={createRdv}
+                    >
+                      <Text style={styles.textStyle}>Ajouter</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </AutocompleteDropdownContextProvider>
             </View>
           </Modal>
           <View style={styles.boxCal}>
@@ -228,7 +387,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     width: "70%",
-    height: 300,
+    height: 400,
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -245,8 +404,10 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   iconClose: {
+    flexDirection: "row",
     width: "100%",
     alignItems: "flex-end",
+    justifyContent: "flex-end",
   },
   modalText: {
     textAlign: "center",
@@ -255,7 +416,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 40,
     backgroundColor: "white",
-    color: "#B9B8B7",
     fontSize: 13,
     borderRadius: 5,
     borderColor: "#B9B8B7",
@@ -268,7 +428,14 @@ const styles = StyleSheet.create({
   buttonModal: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   buttonClose: {
     backgroundColor: "#DFB81C",
@@ -291,7 +458,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   boxBtn: {
-    height: "5%",
+    height: 50,
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
@@ -304,6 +471,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#DFB81C",
     borderRadius: 50,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   maskedContainer: {
     height: "40%",
@@ -314,5 +489,36 @@ const styles = StyleSheet.create({
   maskGradient: {
     height: "100%", // S'assure que le gradient couvre toute la hauteur
     width: "100%", // et toute la largeur de l'écran
+  },
+  dropdownContainer: {
+    width: "100%",
+  },
+  inputContainer: {
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "#DFB81C",
+    backgroundColor: "#ffffff",
+    borderRadius: 5,
+  },
+  suggestionListContainer: {
+    borderRadius: 5,
+    width: "100%",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
+  },
+  buttonDate: {
+    backgroundColor: "#DFB81C",
+    width: 120,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 5,
+    padding: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });

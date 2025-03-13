@@ -45,6 +45,7 @@ import ModalProgsScreen from "./screens/coach/modals/ModalProgsScreen";
 import ModalCreateProgScreen from "./screens/coach/modals/ModalCreateProgScreen";
 import ModalCreateExoScreen from "./screens/coach/modals/ModalCreateExoScreen";
 import ModalProfilScreen from "./screens/coach/modals/ModalProfilScreen";
+import ModalChatScreen from "./screens/coach/modals/ModalChatScreen";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -193,6 +194,11 @@ export default function App() {
             <Stack.Screen
               name="ModalProfil"
               component={ModalProfilScreen}
+              options={{ presentation: "modal" }}
+            />
+            <Stack.Screen
+              name="ModalChat"
+              component={ModalChatScreen}
               options={{ presentation: "modal" }}
             />
           </Stack.Navigator>

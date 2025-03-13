@@ -5,6 +5,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 
 export default function VignetteEleve(props) {
+  console.log("props is ", props);
   const navigation = useNavigation();
   return (
     <LinearGradient
@@ -12,7 +13,10 @@ export default function VignetteEleve(props) {
       style={styles.background}
     >
       <View style={styles.container}>
-        <TouchableOpacity style={styles.containerImage}>
+        <TouchableOpacity
+          style={styles.containerImage}
+          onPress={() => navigation.navigate("ModalChat", { eleve: props })}
+        >
           <FontAwesomeIcon
             icon={faMessage}
             color={"white"}
