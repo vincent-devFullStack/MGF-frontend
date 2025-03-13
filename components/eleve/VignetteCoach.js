@@ -45,7 +45,11 @@ export default function VignetteCoach(props) {
       <TouchableOpacity style={styles.containerImage}>
         <FontAwesomeIcon icon={faMessage} color={"white"} style={styles.icon} />
         <Image
-          source={{ uri: props.photoProfil }}
+          source={
+            props.photoProfil
+              ? { uri: props.photoProfil }
+              : require("../../assets/photo_coach1.jpg")
+          }
           style={styles.image}
           resizeMode="cover"
         />
@@ -85,7 +89,11 @@ export default function VignetteCoach(props) {
               </TouchableOpacity>
               <Image
                 style={styles.profilIconLarge}
-                source={{ uri: props.photoProfil }}
+                source={
+                  props.photoProfil
+                    ? { uri: props.photoProfil }
+                    : require("../../assets/photo_coach1.jpg")
+                }
               />
               <Text style={styles.modalTitle}>{props.firstname}</Text>
               <Text style={styles.modalTitle2}>Présentation: </Text>

@@ -5,7 +5,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 
 export default function VignetteEleve(props) {
-  console.log("props is ", props);
   const navigation = useNavigation();
   return (
     <LinearGradient

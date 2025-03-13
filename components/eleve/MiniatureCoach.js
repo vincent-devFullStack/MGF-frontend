@@ -50,7 +50,11 @@ function MiniatureCoach(props) {
         <View style={styles.content}>
           <Image
             style={styles.profilIcon}
-            source={{ uri: props.photoProfil }}
+            source={
+              props.photoProfil
+                ? { uri: props.photoProfil }
+                : require("../../assets/photo_coach1.jpg")
+            }
           />
           <View>
             <Text style={styles.desc}>{props.firstname}</Text>
@@ -86,7 +90,11 @@ function MiniatureCoach(props) {
             </TouchableOpacity>
             <Image
               style={styles.profilIconLarge}
-              source={{ uri: props.photoProfil }}
+              source={
+                props.photoProfil
+                  ? { uri: props.photoProfil }
+                  : require("../../assets/photo_coach1.jpg")
+              }
             />
             <Text style={styles.modalTitle}>{props.firstname}</Text>
             <Text style={styles.modalTitle2}>Présentation: </Text>

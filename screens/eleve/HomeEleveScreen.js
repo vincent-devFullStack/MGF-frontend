@@ -109,8 +109,7 @@ export default function HomeEleveScreen({ navigation }) {
   }
 
   const conversations = fullData?.data?.conversations || [];
-  const photoProfil =
-    fullData?.data?.photoProfil || require("../../assets/icon.png");
+  const photoProfil = fullData?.data?.photoProfil;
 
   const Chat = Array.isArray(conversations)
     ? conversations.map((conversation, i) => (
@@ -137,7 +136,14 @@ export default function HomeEleveScreen({ navigation }) {
         <SafeAreaView style={styles.container}>
           <View style={styles.header}>
             <TouchableOpacity onPress={() => navigation.navigate("Profil")}>
-              <Image style={styles.profilIcon} source={{ uri: photoProfil }} />
+              <Image
+                style={styles.profilIcon}
+                source={
+                  photoProfil
+                    ? { uri: photoProfil }
+                    : require("../../assets/photo_eleve1.jpg")
+                }
+              />
             </TouchableOpacity>
             <View>
               <Text style={styles.title}>

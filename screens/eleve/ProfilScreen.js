@@ -146,7 +146,14 @@ export default function ProfilScreen({ navigation }) {
 
           <View style={styles.header}>
             <TouchableOpacity onPress={() => navigation.navigate("Profil")}>
-              <Image style={styles.profilIcon} source={{ uri: photoProfil }} />
+              <Image
+                style={styles.profilIcon}
+                source={
+                  photoProfil
+                    ? { uri: photoProfil }
+                    : require("../../assets/photo_eleve1.jpg")
+                }
+              />
               <FontAwesomeIcon
                 style={styles.iconEdit}
                 icon={faPenToSquare}

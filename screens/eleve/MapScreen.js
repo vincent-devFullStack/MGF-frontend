@@ -183,7 +183,11 @@ export default function MapScreen({ navigation }) {
                   >
                     <View style={styles.markerContainer}>
                       <Image
-                        source={{ uri: coach.photoProfil }}
+                        source={
+                          coach.photoProfil
+                            ? { uri: coach.photoProfil }
+                            : require("../../assets/photo_coach1.jpg")
+                        }
                         style={styles.markerImage}
                       />
                     </View>
