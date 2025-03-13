@@ -17,7 +17,7 @@ export default function BulleChat({ conversation, fullData, onRefresh, role }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const deleteMessage = () => {
-    if (!conversation?._id && role === "eleve") return;
+    if (!conversation?._id && conversation.role === "eleve") return;
 
     Alert.alert("Confirmation", "Voulez-vous vraiment supprimer ce message ?", [
       {
@@ -67,19 +67,15 @@ export default function BulleChat({ conversation, fullData, onRefresh, role }) {
   const photoProfil =
     fullData?.data?.photoProfil || require("../../assets/icon.png");
 
-  const isEleve = role === "eleve";
-  const isCoach = role === "coach";
-
   console.log(fullData);
 
   console.log(conversation.role);
 
   return (
     <View style={styles.background}>
-      {isEleve && (
+      {conversation.role === "eleve" ? (
         <Image style={styles.profilIcon} source={{ uri: photoProfil }} />
-      )}
-      {isCoach && (
+      ) : (
         <Image
           style={styles.coachPosition}
           source={{ uri: fullData?.data?.coach?.photoProfil }}
@@ -168,6 +164,7 @@ const styles = StyleSheet.create({
   },
   coachPosition: {
     position: "absolute",
+    left: 0,
     height: 50,
     width: 50,
     borderRadius: 50,
