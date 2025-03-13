@@ -46,6 +46,7 @@ export default function Inscription({ navigation }) {
               size={50}
               progress={progress}
               showsText
+              borderWidth={0}
               thickness={8}
               textStyle={{ fontWeight: "bold", fontSize: 12 }}
               color="#DFB81C"

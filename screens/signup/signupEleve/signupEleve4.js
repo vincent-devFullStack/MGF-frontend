@@ -180,6 +180,7 @@ export default function InscriptionEleve4({ navigation }) {
               size={50}
               progress={progress}
               showsText
+              borderWidth={0}
               thickness={8}
               textStyle={{ fontWeight: "bold", fontSize: 10 }}
               color="#DFB81C"
