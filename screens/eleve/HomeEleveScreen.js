@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
 import { BACKEND_ADDRESS } from "../../env";
 import "moment/locale/fr";
-
 import SearchNewCoach from "../../components/eleve/SearchNewCoach";
 
 import {
@@ -46,7 +45,7 @@ export default function HomeEleveScreen({ navigation }) {
   };
 
   const sendMessage = async () => {
-    if (!message.trim()) return; // Évite d'envoyer un message vide
+    if (!message.trim()) return;
 
     const payload = {
       token: eleveData.token,
@@ -116,13 +115,13 @@ export default function HomeEleveScreen({ navigation }) {
       colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
       style={styles.background}
     >
+      {researchVisibleCard()}
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={100}
       >
         <SafeAreaView style={styles.container}>
-          {researchVisibleCard()}
           <View style={styles.header}>
             <TouchableOpacity onPress={() => navigation.navigate("Profil")}>
               <Image style={styles.profilIcon} source={{ uri: photoProfil }} />
