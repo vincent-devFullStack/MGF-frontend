@@ -98,11 +98,14 @@ export default function CalEleveScreen() {
       return <VignetteRdv key={i} {...data} />;
     }
   });
-  const ProgrammesList = programmes.map((data, i) => {
-    if (selected === formatDate(new Date(data.date))) {
-      return <VignetteProgramme key={i} {...data} />;
-    }
-  });
+  const ProgrammesList =
+    Array.isArray(programmes) && programmes.length > 0
+      ? programmes.map((data, i) => {
+          if (selected === formatDate(new Date(data.date))) {
+            return <VignetteProgramme key={i} {...data} />;
+          }
+        })
+      : null;
 
   if (!isFocused) {
     return <View />;

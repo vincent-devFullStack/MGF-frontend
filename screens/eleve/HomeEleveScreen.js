@@ -111,6 +111,8 @@ export default function HomeEleveScreen({ navigation }) {
   const conversations = fullData?.data?.conversations || [];
   const photoProfil = fullData?.data?.photoProfil;
 
+  const photoSeance = fullData?.data?.programmes?.photo || null;
+
   const Chat = Array.isArray(conversations)
     ? conversations.map((conversation, i) => (
         <BulleChat
@@ -163,8 +165,8 @@ export default function HomeEleveScreen({ navigation }) {
             <Image
               style={styles.imgSeance}
               source={
-                eleveData.photoProfil
-                  ? { uri: eleveData.photoProfil }
+                photoSeance
+                  ? { uri: photoSeance }
                   : require("../../assets/séance.jpg")
               }
             />

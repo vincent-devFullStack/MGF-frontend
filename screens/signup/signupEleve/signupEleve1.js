@@ -49,13 +49,11 @@ export default function InscriptionEleve1({ navigation }) {
 
   const handleCheckInputs = async () => {
     try {
-      // Awaiting for Yup to validate text
       await signUpSchema.validate(
         { email, password, confirmPassword, secretWord },
         { abortEarly: false }
       );
 
-      // Reseting Warnings and displaying success message if all goes well
       setErrors({});
 
       const response = await fetch(`${BACKEND_ADDRESS}/checkEmail`, {
@@ -82,15 +80,12 @@ export default function InscriptionEleve1({ navigation }) {
         navigation.navigate("SignupEleve2");
       }
     } catch (error) {
-      // Setting error messages identified by Yup
       if (error instanceof Yup.ValidationError) {
-        // Extracting Yup specific validation errors from list of total errors
         const yupErrors = {};
         error.inner.forEach((innerError) => {
           yupErrors[innerError.path] = innerError.message;
         });
 
-        // Saving extracted errors
         setErrors(yupErrors);
       }
     }

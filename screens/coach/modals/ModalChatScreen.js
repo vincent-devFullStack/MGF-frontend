@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   messages: {
-    height: "90%",
+    height: "88%",
     width: "100%",
     alignItems: "center",
 
@@ -170,7 +170,6 @@ const styles = StyleSheet.create({
     padding: 1,
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 10,
   },
   inputText1: {
     paddingLeft: 10,
