@@ -51,6 +51,7 @@ export default function HomeEleveScreen({ navigation }) {
       token: eleveData.token,
       texte: message,
       firstname: eleveData.firstname,
+      role: "eleve",
     };
 
     try {
@@ -106,7 +107,12 @@ export default function HomeEleveScreen({ navigation }) {
 
   const Chat = Array.isArray(conversations)
     ? conversations.map((conversation, i) => (
-        <BulleChat key={i} conversation={conversation} fullData={fullData} />
+        <BulleChat
+          key={i}
+          conversation={conversation}
+          fullData={fullData}
+          role="eleve"
+        />
       ))
     : null;
 
@@ -162,7 +168,9 @@ export default function HomeEleveScreen({ navigation }) {
             style={styles.background2}
           >
             <View style={styles.messages}>
-              <ScrollView>{Chat}</ScrollView>
+              <ScrollView showsVerticalScrollIndicator={false}>
+                {Chat}
+              </ScrollView>
             </View>
             <View style={styles.input}>
               <TextInput

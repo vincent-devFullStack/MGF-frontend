@@ -12,12 +12,12 @@ import { BACKEND_ADDRESS } from "../../env";
 
 import React, { useState, useEffect } from "react";
 
-export default function BulleChat({ conversation, fullData, onRefresh }) {
+export default function BulleChat({ conversation, fullData, onRefresh, role }) {
   const [deletedMessage, setDeletedMessage] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const deleteMessage = () => {
-    if (!conversation?._id) return;
+    if (!conversation?._id && role !== "eleve") return;
 
     Alert.alert("Confirmation", "Voulez-vous vraiment supprimer ce message ?", [
       {
@@ -37,26 +37,21 @@ export default function BulleChat({ conversation, fullData, onRefresh }) {
       texte: conversation.texte,
     };
 
-    try {
-      const response = await fetch(`${BACKEND_ADDRESS}/eleve/delete-message`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+    const response = await fetch(`${BACKEND_ADDRESS}/eleve/delete-message`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
 
-      const data = await response.json();
-      console.log("Réponse du serveur :", data);
+    const data = await response.json();
+    console.log("Réponse du serveur :", data);
 
-      if (data.result) {
-        console.log("Message supprimé avec succès !");
-        setDeletedMessage(true);
-      } else {
-        console.error("Erreur suppression :", data.error);
-        Alert.alert("Erreur", "Impossible de supprimer le message.");
-      }
-    } catch (error) {
-      console.error("Erreur lors de la suppression :", error);
-      Alert.alert("Erreur", "Une erreur est survenue.");
+    if (data.result) {
+      console.log("Message supprimé avec succès !");
+      setDeletedMessage(true);
+    } else {
+      console.error("Erreur suppression :", data.error);
+      Alert.alert("Erreur", "Impossible de supprimer le message.");
     }
   };
 
@@ -72,14 +67,20 @@ export default function BulleChat({ conversation, fullData, onRefresh }) {
   const photoProfil =
     fullData?.data?.photoProfil || require("../../assets/icon.png");
 
-  const isCoach = fullData?.data?.role === "coach";
+  const isCoach = conversation.role === "coach";
+
+  console.log(fullData);
 
   return (
     <View style={styles.background}>
-      <Image
-        style={[styles.profilIcon, isCoach ? styles.coachPosition : null]}
-        source={{ uri: photoProfil }}
-      />
+      {!isCoach ? (
+        <Image style={styles.profilIcon} source={{ uri: photoProfil }} />
+      ) : (
+        <Image
+          style={styles.coachPosition}
+          source={{ uri: fullData?.data?.coach?.photoProfil }}
+        />
+      )}
       <TouchableOpacity
         onLongPress={deleteMessage}
         style={styles.contenuMessage}
@@ -162,8 +163,10 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   coachPosition: {
-    left: 20, // Déplace l'image à gauche
     position: "absolute",
+    height: 50,
+    width: 50,
+    borderRadius: 50,
   },
   icon: {
     position: "absolute",
