@@ -7,12 +7,15 @@ import {
   Image,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import * as ImagePicker from "expo-image-picker";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { BACKEND_ADDRESS } from "../../env";
 
 export default function StatsScreen({ route, navigation }) {
+  const formData = new FormData();
+
   const isFocused = useIsFocused();
   const eleveData = useSelector((state) => state.eleve.value);
   const [activeTab, setActiveTab] = useState("Mesures");
@@ -25,6 +28,39 @@ export default function StatsScreen({ route, navigation }) {
         setFullData(data);
       });
   }, [isFocused, eleveData]);
+
+  // Upload image
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (status !== "granted") {
+      // If permission is denied, show an alert
+      setErrors({ photo: "Permission refusée" });
+    } else {
+      // Launch the image library and get
+      // the selected image
+      const result = await ImagePicker.launchImageLibraryAsync();
+
+      if (!result.cancelled) {
+        // Clear any previous errors
+        // setErrors({ photo: "" });
+
+        formData.append("photoFromFront", {
+          uri: result?.assets[0].uri,
+          name: "photo.jpg",
+          type: "image/jpeg",
+        });
+
+        const response = await fetch(`${BACKEND_ADDRESS}/upload`, {
+          method: "POST",
+          body: formData,
+        });
+        const data = await response.json();
+
+        // setPhoto(data.url);
+      }
+    }
+  };
 
   console.log(activeTab);
 

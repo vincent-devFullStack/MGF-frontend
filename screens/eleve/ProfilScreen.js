@@ -41,8 +41,7 @@ export default function ProfilScreen({ navigation }) {
       });
   }, [isFocused]);
 
-  const photoProfil =
-    fullData?.data?.photoProfil || require("../../assets/icon.png");
+  const photoProfil = fullData?.data?.photoProfil;
 
   const handleDeleteAccount = async () => {
     Alert.alert(
