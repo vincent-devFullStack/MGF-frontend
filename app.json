@@ -26,6 +26,8 @@
       },
       "permissions": [
         "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
       "package": "com.vincentsil06.mgf"
@@ -54,6 +56,12 @@
         "projectId": "9d820340-6be3-4cd5-91be-1596c90147a8"
       }
     },
-    "owner": "vincentsil06"
+    "owner": "vincentsil06",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/9d820340-6be3-4cd5-91be-1596c90147a8"
+    }
   }
 }
