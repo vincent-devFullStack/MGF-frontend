@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
 
   // Styles de la modale
   modalContainer: {
-    marginTop: 80,
+    marginTop: 90,
     height: 750,
     borderRadius: 10,
     width: "91%",
