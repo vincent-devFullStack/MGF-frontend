@@ -109,6 +109,7 @@ export default function LoginScreen({ navigation }) {
                   name: data.data.name,
                   email: data.data.email,
                   password: data.data.password,
+                  photoProfil: data.data.photoProfil,
                 })
               );
               setEmail("");

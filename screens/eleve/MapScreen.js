@@ -148,11 +148,7 @@ export default function MapScreen({ navigation }) {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
-          <MapView
-            initialRegion={region}
-            mapType="hybridFlyover"
-            style={styles.map}
-          >
+          <MapView initialRegion={region} mapType="hybrid" style={styles.map}>
             <View style={styles.iconBack}>
               <TouchableOpacity
                 onPress={() => navigation.navigate("HomeEleve")}

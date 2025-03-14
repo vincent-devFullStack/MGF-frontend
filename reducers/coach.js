@@ -31,6 +31,7 @@ export const coachSlice = createSlice({
         name: action.payload.name,
         email: action.payload.email,
         password: action.payload.password,
+        photoProfil: action.payload.photoProfil,
       };
     },
     updateFirst: (state, action) => {
