@@ -91,6 +91,7 @@ export default function CalCoachScreen() {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [dataSet, setDataSet] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
   const [show, setShow] = useState(false);
   const [errors, setErrors] = useState({});
@@ -118,7 +119,7 @@ export default function CalCoachScreen() {
           setRdv([]);
         });
     }
-  }, [isFocused, coach]);
+  }, [isFocused, coach, refresh]);
 
   //Fetch eleves coach
   useEffect(() => {
@@ -191,6 +192,7 @@ export default function CalCoachScreen() {
         setHeure("");
         setEleve([]);
         setModalVisible(false);
+        setRefresh(!refresh);
       } else {
         console.error("Erreur lors de la création du RDV:", data.message);
       }
