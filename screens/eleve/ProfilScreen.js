@@ -56,11 +56,14 @@ export default function ProfilScreen({ navigation }) {
           text: "Supprimer",
           onPress: async () => {
             try {
-              const response = await fetch(`${BACKEND_ADDRESS}/deleteAccount`, {
-                method: "DELETE",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ eleveToken: eleveData.token }),
-              });
+              const response = await fetch(
+                `${BACKEND_ADDRESS}/eleve/deleteAccount`,
+                {
+                  method: "DELETE",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ eleveToken: eleveData.token }),
+                }
+              );
 
               const data = await response.json();
 
