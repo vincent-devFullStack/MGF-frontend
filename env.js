@@ -1,1 +1,1 @@
-export const BACKEND_ADDRESS = "http://192.168.169.21:3000";
+export const BACKEND_ADDRESS = "https://mgf-backend.vercel.app/";
