@@ -7,7 +7,11 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "capsule": "expo start --tunnel"
+    "capsule": "expo start --tunnel",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "react-native"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
