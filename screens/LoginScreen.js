@@ -145,12 +145,14 @@ export default function LoginScreen({ navigation }) {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <SafeAreaView style={styles.container}>
-          <Text style={styles.title}>
+          <Text style={styles.title} accessibilityRole="header">
             Mentor <Text style={styles.titleColor}>Gym</Text> Fitness
           </Text>
 
           <View style={styles.boxInput}>
-            <Text style={styles.titleInput}>Connexion</Text>
+            <Text style={styles.titleInput} accessibilityRole="text">
+              Connexion
+            </Text>
             <TextInput
               style={styles.input}
               placeholder="Votre adresse email"
@@ -159,8 +161,14 @@ export default function LoginScreen({ navigation }) {
               onChangeText={(value) => setEmail(value)}
               value={email}
               paddingBottom={10}
+              accessibilityLabel="Adresse email"
+              accessibilityHint="Saisissez votre adresse email"
             ></TextInput>
-            {errors.email && <Text style={styles.error}>{errors.email}</Text>}
+            {errors.email && (
+              <Text style={styles.error} accessibilityRole="text">
+                {errors.email}
+              </Text>
+            )}
             <View style={styles.passwordInput}>
               <TextInput
                 style={styles.inputPass}
@@ -170,9 +178,18 @@ export default function LoginScreen({ navigation }) {
                 onChangeText={(value) => setPassword(value)}
                 value={password}
                 paddingBottom={10}
+                accessibilityLabel="password"
+                accessibilityHint="Saisissez votre mot de passe"
               ></TextInput>
               <TouchableOpacity
                 onPress={() => setPasswordVisible(!passwordVisible)}
+                accessible={true}
+                accessibilityLabel={
+                  passwordVisible
+                    ? "Masquer le mot de passe"
+                    : "Afficher le mot de passe"
+                }
+                accessibilityRole="button"
               >
                 <FontAwesomeIcon
                   style={styles.iconPass}
@@ -183,12 +200,26 @@ export default function LoginScreen({ navigation }) {
               </TouchableOpacity>
             </View>
             {errors.password && (
-              <Text style={styles.error}>{errors.password}</Text>
+              <Text style={styles.error} accessibilityRole="text">
+                {errors.password}
+              </Text>
             )}
           </View>
           <View style={styles.boxToggle}>
-            <Text style={styles.textToggle}>Élève</Text>
-            <TouchableOpacity onPress={changeType}>
+            <Text style={styles.textToggle} accessibilityRole="text">
+              Élève
+            </Text>
+            <TouchableOpacity
+              onPress={changeType}
+              accessible={true}
+              accessibilityRole="button"
+              accessibilityLabel={type === "coach" ? "Coach" : "Élève"}
+              accessibilityHint={
+                type === "eleve"
+                  ? "Appuyez pour vous connecter en tant que coach"
+                  : "Appuyez pour vous connecter en tant qu'élève"
+              }
+            >
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={type === "coach" ? faToggleOn : faToggleOff}
@@ -196,18 +227,37 @@ export default function LoginScreen({ navigation }) {
                 color={"#DFB81C"}
               />
             </TouchableOpacity>
-            <Text style={styles.textToggle}>Coach</Text>
+            <Text style={styles.textToggle} accessibilityRole="text">
+              Coach
+            </Text>
           </View>
-          <TouchableOpacity style={styles.button} onPress={connexionUser}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={connexionUser}
+            accessible={true}
+            accessibilityRole="button"
+            accessibilityLabel="Connexion"
+            accessibilityHint="Appuyez pour vous connecter"
+          >
             <Text style={styles.buttonText}>Connexion</Text>
           </TouchableOpacity>
           <View style={styles.boxTextBottom}>
             <TouchableOpacity
               onPress={() => navigation.navigate("ForgotPassword")}
+              accessible={true}
+              accessibilityRole="button"
+              accessibilityLabel="Mot de passe oublié"
+              accessibilityHint="Appuyez pour réinitialiser votre mot de passe"
             >
               <Text style={styles.textBottom1}>Mot de passe oublié</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Signup")}
+              accessible={true}
+              accessibilityRole="button"
+              accessibilityLabel="Inscription"
+              accessibilityHint="Appuyez pour vous inscrire"
+            >
               <Text style={styles.textBottom}>Inscription</Text>
             </TouchableOpacity>
           </View>

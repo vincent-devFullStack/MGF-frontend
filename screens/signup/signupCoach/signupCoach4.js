@@ -131,6 +131,10 @@ export default function InscriptionCoach4({ navigation }) {
           <View style={styles.iconBack}>
             <TouchableOpacity
               onPress={() => navigation.navigate("SignupCoach3")}
+              accessible={true}
+              accessibilityLabel="Retour à la page précédente"
+              accessibilityHint="revenir à l'écran précèdent"
+              accessibilityRole="button"
             >
               <FontAwesomeIcon
                 style={styles.icon}
@@ -139,7 +143,13 @@ export default function InscriptionCoach4({ navigation }) {
                 color={"white"}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Login")}
+              accessible={true}
+              accessibilityLabel="Revenir à l'écran d'accueil"
+              accessibilityHint="Fermer l'inscription"
+              accessibilityRole="button"
+            >
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={faXmark}
@@ -149,7 +159,11 @@ export default function InscriptionCoach4({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.container2}>
+          <View
+            style={styles.container2}
+            accessible={true}
+            accessibilityRole="progressbar"
+          >
             <Progress.Circle
               size={50}
               progress={progress}
@@ -161,13 +175,17 @@ export default function InscriptionCoach4({ navigation }) {
             />
           </View>
 
-          <View style={styles.titleContainer}>
+          <View
+            style={styles.titleContainer}
+            accessible={true}
+            accessibilityRole="header"
+          >
             <Text style={styles.title}>Mettez vous en avant!</Text>
           </View>
 
           <View style={styles.boxInput}>
             <View>
-              <Text style={styles.textInput}>
+              <Text style={styles.textInput} accessibilityRole="text">
                 Quels sont vos domaines d'expertise ?
               </Text>
               <TextInput
@@ -178,13 +196,17 @@ export default function InscriptionCoach4({ navigation }) {
                 paddingBottom={5}
                 onChangeText={(value) => setDomaines(value)}
                 value={domaines}
+                accessibilityLabel="Domaines d'expertise"
+                accessibilityHint="Saisissez vos domaines d'expertise"
               ></TextInput>
             </View>
             {errors.domaines && (
-              <Text style={styles.error}>{errors.domaines}</Text>
+              <Text style={styles.error} accessibilityRole="text">
+                {errors.domaines}
+              </Text>
             )}
             <View>
-              <Text style={styles.textInput}>
+              <Text style={styles.textInput} accessibilityRole="text">
                 Présentez-vous pour vos futurs clients :
               </Text>
               <TextInput
@@ -196,13 +218,19 @@ export default function InscriptionCoach4({ navigation }) {
                 multiline={true}
                 onChangeText={(value) => setDescription(value)}
                 value={description}
+                accessibilityLabel="Présentation"
+                accessibilityHint="Saisissez votre présentation"
               ></TextInput>
             </View>
             {errors.description && (
-              <Text style={styles.error}>{errors.description}</Text>
+              <Text style={styles.error} accessibilityRole="text">
+                {errors.description}
+              </Text>
             )}
             <View>
-              <Text style={styles.textInput}>Indiquez vos diplômes :</Text>
+              <Text style={styles.textInput} accessibilityRole="text">
+                Indiquez vos diplômes :
+              </Text>
               <TextInput
                 style={styles.input}
                 placeholder=" Diplômes..."
@@ -211,15 +239,30 @@ export default function InscriptionCoach4({ navigation }) {
                 paddingBottom={5}
                 onChangeText={(value) => setDiplomes(value)}
                 value={diplomes}
+                accessibilityLabel="Diplômes"
+                accessibilityHint="Saisissez vos diplômes"
               ></TextInput>
             </View>
             {errors.diplomes && (
-              <Text style={styles.error}>{errors.diplomes}</Text>
+              <Text style={styles.error} accessibilityRole="text">
+                {errors.diplomes}
+              </Text>
             )}
-            {errors.data && <Text style={styles.error}>{errors.data}</Text>}
+            {errors.data && (
+              <Text style={styles.error} accessibilityRole="text">
+                {errors.data}
+              </Text>
+            )}
           </View>
 
-          <TouchableOpacity style={styles.nextBtn} onPress={handleCheckInputs}>
+          <TouchableOpacity
+            style={styles.nextBtn}
+            onPress={handleCheckInputs}
+            accessible={true}
+            accessibilityLabel="Finaliser l'inscription"
+            accessibilityHint="Valide votre inscription et vous emmène à la page d'accueil"
+            accessibilityRole="button"
+          >
             <Text style={styles.btn}>Valider</Text>
           </TouchableOpacity>
         </SafeAreaView>

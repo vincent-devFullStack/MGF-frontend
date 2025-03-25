@@ -138,6 +138,10 @@ export default function InscriptionCoach3({ navigation }) {
           <View style={styles.iconBack}>
             <TouchableOpacity
               onPress={() => navigation.navigate("SignupCoach2")}
+              accessible={true}
+              accessibilityLabel="Retour à la page précédente"
+              accessibilityHint="revenir à l'écran précèdent"
+              accessibilityRole="button"
             >
               <FontAwesomeIcon
                 style={styles.icon}
@@ -146,7 +150,13 @@ export default function InscriptionCoach3({ navigation }) {
                 color={"white"}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Login")}
+              accessible={true}
+              accessibilityLabel="Revenir à l'écran d'accueil"
+              accessibilityHint="Fermer l'inscription"
+              accessibilityRole="button"
+            >
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={faXmark}
@@ -156,7 +166,11 @@ export default function InscriptionCoach3({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.container2}>
+          <View
+            style={styles.container2}
+            accessible={true}
+            accessibilityRole="progressbar"
+          >
             <Progress.Circle
               size={50}
               progress={progress}
@@ -168,12 +182,23 @@ export default function InscriptionCoach3({ navigation }) {
             />
           </View>
 
-          <View style={styles.titleContainer}>
+          <View
+            style={styles.titleContainer}
+            accessible={true}
+            accessibilityRole="header"
+          >
             <Text style={styles.title}>Mettez vous en avant!</Text>
           </View>
 
           {!photo && (
-            <TouchableOpacity style={styles.buttonImage} onPress={pickImage}>
+            <TouchableOpacity
+              style={styles.buttonImage}
+              onPress={pickImage}
+              accessible={true}
+              accessibilityLabel="Ajouter une photo"
+              accessibilityHint="Pressez pour ajouter une photo"
+              accessibilityRole="button"
+            >
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={faPlus}
@@ -184,14 +209,25 @@ export default function InscriptionCoach3({ navigation }) {
           )}
 
           {photo && (
-            <TouchableOpacity style={styles.buttonImage} onPress={pickImage}>
+            <TouchableOpacity
+              style={styles.buttonImage}
+              onPress={pickImage}
+              accessible={true}
+              accessibilityLabel="Changer votre photo"
+              accessibilityHint="Pressez pour changer votre photo"
+              accessibilityRole="imagebutton"
+            >
               <Image source={{ uri: photo }} style={styles.image} />
             </TouchableOpacity>
           )}
-          {errors.photo && <Text style={styles.error}>{errors.photo}</Text>}
+          {errors.photo && (
+            <Text accessibilityRole="text" style={styles.error}>
+              {errors.photo}
+            </Text>
+          )}
           <View style={styles.boxInput}>
             <View>
-              <Text style={styles.textInput}>
+              <Text style={styles.textInput} accessibilityRole="text">
                 Indiquez vos villes d'exercices :
               </Text>
               <TextInput
@@ -202,11 +238,17 @@ export default function InscriptionCoach3({ navigation }) {
                 paddingBottom={5}
                 onChangeText={(value) => setVilles(value)}
                 value={villes}
+                accessibilityLabel="Villes"
+                accessibilityHint="Saisissez les villes où vous exercez"
               ></TextInput>
             </View>
-            {errors.villes && <Text style={styles.error}>{errors.villes}</Text>}
+            {errors.villes && (
+              <Text accessibilityRole="text" style={styles.error}>
+                {errors.villes}
+              </Text>
+            )}
             <View>
-              <Text style={styles.textInput}>
+              <Text style={styles.textInput} accessibilityRole="text">
                 Listez les salles ou lieux d'exercice :
               </Text>
               <TextInput
@@ -217,11 +259,17 @@ export default function InscriptionCoach3({ navigation }) {
                 paddingBottom={5}
                 onChangeText={(value) => setSalles(value)}
                 value={salles}
+                accessibilityLabel="Salles"
+                accessibilityHint="Saisissez les salles où vous exercez"
               ></TextInput>
             </View>
-            {errors.salles && <Text style={styles.error}>{errors.salles}</Text>}
+            {errors.salles && (
+              <Text style={styles.error} accessibilityRole="text">
+                {errors.salles}
+              </Text>
+            )}
             <View>
-              <Text style={styles.textInput}>
+              <Text style={styles.textInput} accessibilityRole="text">
                 Indiquez votre numéro de SIRET :
               </Text>
               <TextInput
@@ -232,12 +280,25 @@ export default function InscriptionCoach3({ navigation }) {
                 paddingBottom={5}
                 onChangeText={(value) => setSiret(value)}
                 value={siret}
+                accessibilityLabel="Siret"
+                accessibilityHint="Saisissez votre numéro de SIRET"
               ></TextInput>
             </View>
-            {errors.siret && <Text style={styles.error}>{errors.siret}</Text>}
+            {errors.siret && (
+              <Text style={styles.error} accessibilityRole="text">
+                {errors.siret}
+              </Text>
+            )}
           </View>
 
-          <TouchableOpacity style={styles.nextBtn} onPress={handleCheckInputs}>
+          <TouchableOpacity
+            style={styles.nextBtn}
+            onPress={handleCheckInputs}
+            accessible={true}
+            accessibilityLabel="Continuer"
+            accessibilityHint="Valide les informations et passe à l'étape suivante"
+            accessibilityRole="button"
+          >
             <Text style={styles.btn}>Continuer</Text>
           </TouchableOpacity>
         </SafeAreaView>
