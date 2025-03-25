@@ -24,7 +24,13 @@ export default function Inscription({ navigation }) {
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
           <View style={styles.iconBack}>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Login")}
+              accessibilityLabel="Revenir à l'écran précédent"
+              accessibilityHint="Retourner à l'écran précédent"
+              accessibilityRole="button"
+              accessible={true}
+            >
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={faArrowLeft}
@@ -32,7 +38,13 @@ export default function Inscription({ navigation }) {
                 color={"white"}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Login")}
+              accessibilityLabel="Revenir à l'écran d'accueil"
+              accessibilityHint="Fermer l'inscription"
+              accessibilityRole="button"
+              accessible={true}
+            >
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={faXmark}
@@ -41,7 +53,11 @@ export default function Inscription({ navigation }) {
               />
             </TouchableOpacity>
           </View>
-          <View style={styles.container2}>
+          <View
+            style={styles.container2}
+            accessible={true}
+            accessibilityRole="progressbar"
+          >
             <Progress.Circle
               size={50}
               progress={progress}
@@ -53,12 +69,17 @@ export default function Inscription({ navigation }) {
             />
           </View>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Qui êtes vous ?</Text>
+            <Text style={styles.title} accessibilityRole="header">
+              Qui êtes vous ?
+            </Text>
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.eleveBtn}
               onPress={() => navigation.navigate("SignupEleve1")}
+              accessibilityLabel="S'inscrire en tant qu'élève"
+              accessibilityHint="Passer à l'inscription pour les élèves"
+              accessibilityRole="button"
             >
               <View style={styles.absoluteView}>
                 <Text style={styles.textBtn}>Élève</Text>
@@ -66,11 +87,15 @@ export default function Inscription({ navigation }) {
               <Image
                 source={require("../../assets/coach.jpg")}
                 style={styles.img}
+                accessibilityLabel="Image d'un coach"
               />
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.coachBtn}
               onPress={() => navigation.navigate("SignupCoach1")}
+              accessibilityLabel="S'inscrire en tant que coach"
+              accessibilityHint="Passer à l'inscription pour les coachs"
+              accessibilityRole="button"
             >
               <View style={styles.absoluteView}>
                 <Text style={styles.textBtn}>Coach</Text>
@@ -78,6 +103,7 @@ export default function Inscription({ navigation }) {
               <Image
                 source={require("../../assets/eleve.jpg")}
                 style={styles.img}
+                accessibilityLabel="Image d'un élève"
               />
             </TouchableOpacity>
           </View>

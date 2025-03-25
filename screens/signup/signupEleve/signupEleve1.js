@@ -113,7 +113,13 @@ export default function InscriptionEleve1({ navigation }) {
       >
         <SafeAreaView style={styles.container}>
           <View style={styles.iconBack}>
-            <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Signup")}
+              accessibilityLabel="Revenir à l'écran précédent"
+              accessibilityHint="Retourner à l'écran précédent"
+              accessibilityRole="button"
+              accessible={true}
+            >
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={faArrowLeft}
@@ -121,7 +127,13 @@ export default function InscriptionEleve1({ navigation }) {
                 color={"white"}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Login")}
+              accessibilityLabel="Revenir à l'écran d'accueil"
+              accessibilityHint="Fermer l'inscription"
+              accessibilityRole="button"
+              accessible={true}
+            >
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={faXmark}
@@ -131,7 +143,11 @@ export default function InscriptionEleve1({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.container2}>
+          <View
+            style={styles.container2}
+            accessible={true}
+            accessibilityRole="progressbar"
+          >
             <Progress.Circle
               size={50}
               progress={progress}
@@ -144,7 +160,9 @@ export default function InscriptionEleve1({ navigation }) {
           </View>
 
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Création de compte</Text>
+            <Text style={styles.title} accessibilityRole="header">
+              Création de compte
+            </Text>
           </View>
           <View style={styles.boxInput}>
             <View>
@@ -157,6 +175,8 @@ export default function InscriptionEleve1({ navigation }) {
                   onChangeText={(value) => setEmail(value)}
                   value={email}
                   paddingBottom={10}
+                  accessibilityLabel="Adresse email"
+                  accessibilityHint="Saisissez votre adresse email"
                 ></TextInput>
               </View>
               {errors.email && <Text style={styles.error}>{errors.email}</Text>}
@@ -172,6 +192,13 @@ export default function InscriptionEleve1({ navigation }) {
                 ></TextInput>
                 <TouchableOpacity
                   onPress={() => setPasswordVisible(!passwordVisible)}
+                  accessible={true}
+                  accessibilityLabel={
+                    passwordVisible
+                      ? "Masquer le mot de passe"
+                      : "Afficher le mot de passe"
+                  }
+                  accessibilityRole="button"
                 >
                   <FontAwesomeIcon
                     style={styles.icon}
@@ -197,6 +224,13 @@ export default function InscriptionEleve1({ navigation }) {
 
                 <TouchableOpacity
                   onPress={() => setPasswordVisible(!passwordVisible)}
+                  accessible={true}
+                  accessibilityLabel={
+                    passwordVisible
+                      ? "Masquer le mot de passe"
+                      : "Afficher le mot de passe"
+                  }
+                  accessibilityRole="button"
                 >
                   <FontAwesomeIcon
                     style={styles.icon}
@@ -225,6 +259,13 @@ export default function InscriptionEleve1({ navigation }) {
                 ></TextInput>
                 <TouchableOpacity
                   onPress={() => setSecretWordVisible(!secretWordVisible)}
+                  accessible={true}
+                  accessibilityLabel={
+                    passwordVisible
+                      ? "Masquer le mot de passe"
+                      : "Afficher le mot de passe"
+                  }
+                  accessibilityRole="button"
                 >
                   <FontAwesomeIcon
                     style={styles.icon}
@@ -240,6 +281,10 @@ export default function InscriptionEleve1({ navigation }) {
             <TouchableOpacity
               onPress={() => handleCheckInputs()}
               style={styles.nextBtn}
+              accessibilityLabel="Continuer l'inscription"
+              accessibilityHint="Passer à l'étape suivante"
+              accessibilityRole="button"
+              accessible={true}
             >
               <Text style={styles.btn}>Continuer</Text>
             </TouchableOpacity>

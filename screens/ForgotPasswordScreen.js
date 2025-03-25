@@ -49,7 +49,13 @@ const ForgotPassword = ({ navigation }) => {
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
           <View style={styles.iconBack}>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Login")}
+              accessibilityLabel="Fermer l'écran de réinitialisation"
+              accessibilityHint="Retour à l'écran de connexion"
+              accessibilityRole="button"
+              accessible={true}
+            >
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={faXmark}
@@ -58,7 +64,9 @@ const ForgotPassword = ({ navigation }) => {
               />
             </TouchableOpacity>
           </View>
-          <Text style={styles.title}>Réinitialiser votre mot de passe</Text>
+          <Text style={styles.title} accessibilityRole="header">
+            Réinitialiser votre mot de passe
+          </Text>
 
           <TextInput
             style={styles.input}
@@ -67,6 +75,8 @@ const ForgotPassword = ({ navigation }) => {
             autoCapitalize="none"
             placeholderTextColor="gray"
             onChangeText={setEmail}
+            accessibilityLabel="Email"
+            accessibilityHint="Entrez votre adresse email pour réinitialiser votre mot de passe"
           />
 
           <TextInput
@@ -76,9 +86,18 @@ const ForgotPassword = ({ navigation }) => {
             autoCapitalize="none"
             placeholderTextColor="gray"
             onChangeText={setSecretWord}
+            accessibilityLabel="Mot secret"
+            accessibilityHint="Entrez votre mot secret pour réinitialiser votre mot de passe"
           />
 
-          <TouchableOpacity style={styles.button} onPress={handlePasswordReset}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handlePasswordReset}
+            accesibilityLabel="Envoyer l'email de reinitialisation"
+            accesibilityHint="Appuyez pour envoyer un email de réinitialisation du mot de passe"
+            accesibilityRole="button"
+            accessible={true}
+          >
             <Text style={styles.buttonText}>Envoyer l'email</Text>
           </TouchableOpacity>
         </SafeAreaView>

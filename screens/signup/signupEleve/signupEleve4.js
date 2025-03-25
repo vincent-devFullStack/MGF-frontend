@@ -157,6 +157,10 @@ export default function InscriptionEleve4({ navigation }) {
           <View style={styles.iconBack}>
             <TouchableOpacity
               onPress={() => navigation.navigate("SignupEleve3")}
+              accessibilityLabel="Revenir à l'écran précédent"
+              accessibilityHint="Retourner à l'écran précédent"
+              accessibilityRole="button"
+              accessible={true}
             >
               <FontAwesomeIcon
                 style={styles.icon}
@@ -165,7 +169,13 @@ export default function InscriptionEleve4({ navigation }) {
                 color={"white"}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Login")}
+              accessibilityLabel="Revenir à l'écran d'accueil"
+              accessibilityHint="Fermer l'inscription"
+              accessibilityRole="button"
+              accessible={true}
+            >
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={faXmark}
@@ -175,7 +185,11 @@ export default function InscriptionEleve4({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.container2}>
+          <View
+            style={styles.container2}
+            accessible={true}
+            accessibilityRole="progressbar"
+          >
             <Progress.Circle
               size={50}
               progress={progress}
@@ -188,7 +202,9 @@ export default function InscriptionEleve4({ navigation }) {
           </View>
 
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Un dernier petit effort !</Text>
+            <Text style={styles.title} accessibilityRole="header">
+              Un dernier petit effort !
+            </Text>
           </View>
           <View style={styles.boxInput}>
             <View style={styles.ligne1}>
@@ -206,6 +222,9 @@ export default function InscriptionEleve4({ navigation }) {
                 placeholder=" Votre sexe"
                 value={sexe}
                 onChange={(item) => setSexe(item.value)}
+                accessibilityLabel="Sélection du sexe"
+                accessibilityHint="Choisissez entre Homme et Femme"
+                accessibilityRole="menu"
               />
               <View style={styles.input}>
                 <TextInput
@@ -214,6 +233,10 @@ export default function InscriptionEleve4({ navigation }) {
                   placeholderTextColor={"black"}
                   onChangeText={(value) => setTaille(value)}
                   value={taille}
+                  keyboardType="numeric"
+                  accessibilityLabel="Taille en centimètres"
+                  accessibilityHint="Entrez votre taille en centimètres"
+                  accessibilityRole="text"
                 />
               </View>
             </View>
@@ -222,6 +245,9 @@ export default function InscriptionEleve4({ navigation }) {
                 <Button
                   title="Indiquez votre date de naissance"
                   onPress={() => setShow(true)}
+                  accessibilityLabel="Bouton pour choisir votre date de naissance"
+                  accessibilityHint="Ouvre un calendrier pour sélectionner votre date de naissance"
+                  accessibilityRole="button"
                 />
                 {show && (
                   <DateTimePicker
@@ -254,6 +280,10 @@ export default function InscriptionEleve4({ navigation }) {
                   placeholderTextColor={"black"}
                   onChangeText={(value) => setPoids(value)}
                   value={poids}
+                  keyboardType="numeric"
+                  accessibilityLabel="Poids en kilogrammes"
+                  accessibilityHint="Entrez votre poids en kilogrammes"
+                  accessibilityRole="text"
                 />
               </View>
             </View>
@@ -289,7 +319,13 @@ export default function InscriptionEleve4({ navigation }) {
           )}
 
           <View style={styles.btnPosition}>
-            <TouchableOpacity style={styles.nextBtn} onPress={registerUser}>
+            <TouchableOpacity
+              style={styles.nextBtn}
+              onPress={registerUser}
+              accessibilityLabel="Finaliser l'inscription"
+              accessibilityHint="Valide votre inscription et vous emmène à la page d'accueil"
+              accessibilityRole="button"
+            >
               <Text style={styles.btn}>Continuer</Text>
             </TouchableOpacity>
           </View>

@@ -76,6 +76,9 @@ export default function InscriptionEleve3({ navigation }) {
           <View style={styles.iconBack}>
             <TouchableOpacity
               onPress={() => navigation.navigate("SignupEleve2")}
+              accessibilityLabel="Revenir à l'écran précédent"
+              accessibilityHint="Retourner à l'écran précédent"
+              accessibilityRole="button"
             >
               <FontAwesomeIcon
                 style={styles.icon}
@@ -84,7 +87,12 @@ export default function InscriptionEleve3({ navigation }) {
                 color={"white"}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Login")}
+              accessibilityLabel="Revenir à l'écran d'accueil"
+              accessibilityHint="Fermer l'inscription"
+              accessibilityRole="button"
+            >
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={faXmark}
@@ -94,7 +102,11 @@ export default function InscriptionEleve3({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.container2}>
+          <View
+            style={styles.container2}
+            accessible={true}
+            accessibilityRole="progressbar"
+          >
             <Progress.Circle
               size={50}
               progress={progress}
@@ -107,12 +119,17 @@ export default function InscriptionEleve3({ navigation }) {
           </View>
 
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Quel est votre objectif ?</Text>
+            <Text style={styles.title} accessibilityRole="header">
+              Quel est votre objectif ?
+            </Text>
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.eleveBtn}
               onPress={() => handleClickPerte("Perte de poids")}
+              accessibilityLabel="Objectif perte de poids"
+              accessibilityHint="Sélectionnez cet objectif pour continuer"
+              accessibilityRole="button"
             >
               <View style={styles.absoluteView}>
                 <Text style={styles.textBtn}>Perte de poids</Text>
@@ -125,6 +142,9 @@ export default function InscriptionEleve3({ navigation }) {
             <TouchableOpacity
               style={styles.coachBtn}
               onPress={() => handleClickMuscle("Prise de muscle")}
+              accessibilityLabel="Objectif prise de muscle"
+              accessibilityHint="Sélectionnez cet objectif pour continuer"
+              accessibilityRole="button"
             >
               <View style={styles.absoluteView}>
                 <Text style={styles.textBtn}>Prendre du muscle</Text>
@@ -137,12 +157,15 @@ export default function InscriptionEleve3({ navigation }) {
             <TouchableOpacity
               style={styles.coachBtn}
               onPress={() => handleClickRéath("Réathlétisation")}
+              accessibilityLabel="Objectif Réathlétisation"
+              accessibilityHint="Sélectionnez cet objectif pour continuer"
+              accessibilityRole="button"
             >
               <View style={styles.absoluteView}>
                 <Text style={styles.textBtn}>Réathlétisation</Text>
               </View>
               <Image
-                source={require("../../../assets/eleve.jpg")}
+                source={require("../../../assets/sport.jpg")}
                 style={styles.img}
               />
             </TouchableOpacity>
