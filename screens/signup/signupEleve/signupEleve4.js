@@ -157,7 +157,8 @@ export default function InscriptionEleve4({ navigation }) {
       >
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <SafeAreaView style={styles.container} accessible={false}>
-            <View style={styles.iconBack}>
+            <View style={styles.iconBack} accessible={false}>
+              {/* Back button */}
               <TouchableOpacity
                 onPress={() => navigation.navigate("SignupEleve3")}
                 accessibilityLabel="Revenir à l'écran précédent"
@@ -172,6 +173,7 @@ export default function InscriptionEleve4({ navigation }) {
                   color={"white"}
                 />
               </TouchableOpacity>
+              {/* Close button */}
               <TouchableOpacity
                 onPress={() => navigation.navigate("Login")}
                 accessibilityLabel="Revenir à l'écran d'accueil"
@@ -188,11 +190,8 @@ export default function InscriptionEleve4({ navigation }) {
               </TouchableOpacity>
             </View>
 
-            <View
-              style={styles.container2}
-              accessible={true}
-              accessibilityRole="progressbar"
-            >
+            {/* Progress bar */}
+            <View style={styles.container2} accessible={false}>
               <Progress.Circle
                 size={50}
                 progress={progress}
@@ -204,25 +203,21 @@ export default function InscriptionEleve4({ navigation }) {
               />
             </View>
 
-            <View style={styles.titleContainer}>
+            {/* Title */}
+            <View style={styles.titleContainer} accessible={true}>
               <Text style={styles.title} accessibilityRole="header">
                 Un dernier petit effort !
               </Text>
             </View>
+
+            {/* Form Inputs */}
             <View style={styles.boxInput}>
               <View style={styles.ligne1}>
                 <Dropdown
                   style={styles.dropdown}
-                  placeholderStyle={styles.placeholderStyle}
-                  selectedTextStyle={styles.selectedTextStyle}
-                  inputSearchStyle={styles.inputSearchStyle}
-                  iconStyle={styles.iconStyle}
                   data={data}
-                  search
-                  maxHeight={300}
                   labelField="label"
                   valueField="value"
-                  placeholder=" Votre sexe"
                   value={sexe}
                   onChange={(item) => setSexe(item.value)}
                   accessibilityLabel="Sélection du sexe"
@@ -233,7 +228,6 @@ export default function InscriptionEleve4({ navigation }) {
                   <TextInput
                     style={styles.inputText}
                     placeholder="Votre taille"
-                    placeholderTextColor={"black"}
                     onChangeText={(value) => setTaille(value)}
                     value={taille}
                     keyboardType="numeric"
@@ -243,13 +237,15 @@ export default function InscriptionEleve4({ navigation }) {
                   />
                 </View>
               </View>
+
               <View style={styles.ligne2}>
+                {/* Date Picker Button */}
                 <View style={styles.containerDate}>
                   <Button
                     title="Indiquez votre date de naissance"
                     onPress={() => setShow(true)}
-                    accessibilityLabel="Bouton pour choisir votre date de naissance"
-                    accessibilityHint="Ouvre un calendrier pour sélectionner votre date de naissance"
+                    accessibilityLabel="Choisir la date de naissance"
+                    accessibilityHint="Sélectionnez votre date de naissance"
                     accessibilityRole="button"
                   />
                   {show && (
@@ -269,58 +265,53 @@ export default function InscriptionEleve4({ navigation }) {
                   <TextInput
                     style={styles.inputText1}
                     placeholder="Votre naissance"
-                    placeholderTextColor={"black"}
-                    onChangeText={(value) => setDateNaissance(value)}
                     value={dateNaissance}
                   />
                 </View>
               </View>
+
               <View style={styles.ligne3}>
-                <View style={styles.input1}>
-                  <TextInput
-                    style={styles.inputText}
-                    placeholder="Votre poids"
-                    placeholderTextColor={"black"}
-                    onChangeText={(value) => setPoids(value)}
-                    value={poids}
-                    keyboardType="numeric"
-                    accessibilityLabel="Poids en kilogrammes"
-                    accessibilityHint="Entrez votre poids en kilogrammes"
-                    accessibilityRole="text"
-                  />
-                </View>
+                <TextInput
+                  style={styles.inputText}
+                  placeholder="Votre poids"
+                  keyboardType="numeric"
+                  onChangeText={(value) => setPoids(value)}
+                  value={poids}
+                  accessibilityLabel="Poids en kilogrammes"
+                  accessibilityHint="Entrez votre poids en kilogrammes"
+                  accessibilityRole="text"
+                />
               </View>
             </View>
+
+            {/* Error messages */}
             {errors.sexe && (
               <Text style={{ color: "red", textAlign: "center" }}>
                 {errors.sexe}
               </Text>
             )}
-
             {errors.taille && (
               <Text style={{ color: "red", textAlign: "center" }}>
                 {errors.taille}
               </Text>
             )}
-
             {errors.dateNaissance && (
               <Text style={{ color: "red", textAlign: "center" }}>
                 {errors.dateNaissance}
               </Text>
             )}
-
             {errors.poids && (
               <Text style={{ color: "red", textAlign: "center" }}>
                 {errors.poids}
               </Text>
             )}
-
             {errors.data && (
               <Text style={{ color: "red", textAlign: "center" }}>
                 {errors.data}
               </Text>
             )}
 
+            {/* Continue Button */}
             <View style={styles.btnPosition}>
               <TouchableOpacity
                 style={styles.nextBtn}
