@@ -153,6 +153,7 @@ export default function HomeEleveScreen({ navigation }) {
                 }
                 accessibilityLabel="Photo de profil"
                 accessibilityRole="image"
+                accessible={true}
               />
             </TouchableOpacity>
             <View>

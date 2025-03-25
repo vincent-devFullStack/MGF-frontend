@@ -122,7 +122,13 @@ export default function ProfilScreen({ navigation }) {
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
           <View style={styles.iconBack}>
-            <TouchableOpacity onPress={() => navigation.navigate("HomeEleve")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("HomeEleve")}
+              accessibilityLabel="Revenir à l'écran précédent"
+              accessibilityHint="Retourner à l'écran précédent"
+              accessibilityRole="button"
+              accessible={true}
+            >
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={faArrowLeft}
@@ -135,6 +141,10 @@ export default function ProfilScreen({ navigation }) {
                 dispatch(logout());
                 navigation.navigate("Login");
               }}
+              accessibilityLabel="Se deconnecter et revenir à l'écran de connexion"
+              accessibilityHint="Se deconnecter et retourner à l'écran de connexion"
+              accessibilityRole="button"
+              accessible={true}
             >
               <FontAwesomeIcon
                 style={styles.icon}
@@ -144,7 +154,9 @@ export default function ProfilScreen({ navigation }) {
               />
             </TouchableOpacity>
           </View>
-          <Text style={styles.titrePage}>Profile</Text>
+          <Text style={styles.titrePage} accessibilityRole="header">
+            Profile
+          </Text>
 
           <View style={styles.header}>
             <TouchableOpacity onPress={() => navigation.navigate("Profil")}>
@@ -206,6 +218,10 @@ export default function ProfilScreen({ navigation }) {
                 <TouchableOpacity
                   style={styles.cross}
                   onPress={() => setModalVisible(false)}
+                  accessibilityLabel="Fermer la fenêtre modale"
+                  accessibilityHint="Ferme l'onglet'"
+                  accessibilityRole="button"
+                  accessible={true}
                 >
                   <FontAwesomeIcon
                     style={styles.icon}

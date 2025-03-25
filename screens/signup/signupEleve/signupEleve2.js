@@ -87,6 +87,7 @@ export default function InscriptionEleve2({ navigation }) {
               accessibilityLabel="Revenir à l'écran précédent"
               accessibilityHint="Retourner à l'écran précédent"
               accessibilityRole="button"
+              accessible={true}
             >
               <FontAwesomeIcon
                 style={styles.icon}
@@ -100,6 +101,7 @@ export default function InscriptionEleve2({ navigation }) {
               accessibilityLabel="Revenir à l'écran d'accueil"
               accessibilityHint="Fermer l'inscription"
               accessibilityRole="button"
+              accessible={true}
             >
               <FontAwesomeIcon
                 style={styles.icon}

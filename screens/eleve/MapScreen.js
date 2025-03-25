@@ -293,10 +293,17 @@ export default function MapScreen({ navigation }) {
                       colors={["#101018", "#383853", "#4B4B70", "#54547E"]}
                       style={styles.modalContainer}
                     >
-                      <View style={styles.modalContent}>
+                      <View
+                        style={styles.modalContent}
+                        accessible={true}
+                        accessibilityRole="dialog"
+                      >
                         <TouchableOpacity
                           style={styles.cross}
                           onPress={() => setModalVisible(false)}
+                          accessibilityLabel="Fermer la modal"
+                          accessibilityHint="Ferme l'onglet"
+                          accessibilityRole="button"
                         >
                           <FontAwesomeIcon
                             style={styles.icon}
@@ -308,8 +315,13 @@ export default function MapScreen({ navigation }) {
                         <Image
                           style={styles.profilIconLarge}
                           source={{ uri: selectedCoach.photoProfil }}
+                          accessibilityLabel={`Photo de profil de ${selectedCoach.firstname}`}
+                          accessibilityRole="image"
                         />
-                        <Text style={styles.modalTitle}>
+                        <Text
+                          style={styles.modalTitle}
+                          accessibilityRole="header"
+                        >
                           {selectedCoach.firstname}
                         </Text>
                         <Text style={styles.modalTitle2}>Présentation: </Text>
@@ -329,6 +341,10 @@ export default function MapScreen({ navigation }) {
                         <TouchableOpacity
                           style={styles.closeButton}
                           onPress={sendEmail}
+                          accessibilityLabel="Contacter le coach par email"
+                          accessibilityHint="Ouvre votre client de messagerie pour envoyer un email au coach selectionné"
+                          accessibilityRole="button"
+                          accessible={true}
                         >
                           <Text style={styles.closeButtonText}>
                             Me contacter
