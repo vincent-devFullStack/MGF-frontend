@@ -147,6 +147,8 @@ export default function CalEleveScreen() {
                   selectedDotColor: "orange",
                 },
               }}
+              accessibilityLabel="Calendrier des rendez-vous"
+              accessibilityHint="Sélectionnez un jour pour voir les rendez-vous et programmes associés."
             />
           </View>
           <MaskedView
@@ -161,6 +163,7 @@ export default function CalEleveScreen() {
             <ScrollView
               contentContainerStyle={styles.containerRdv}
               showsVerticalScrollIndicator={false}
+              accessibilityLabel="Liste des rendez-vous et programmes"
             >
               {rdv && rdvList}
               {programmes && ProgrammesList}

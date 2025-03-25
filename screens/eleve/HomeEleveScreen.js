@@ -137,7 +137,13 @@ export default function HomeEleveScreen({ navigation }) {
       >
         <SafeAreaView style={styles.container}>
           <View style={styles.header}>
-            <TouchableOpacity onPress={() => navigation.navigate("Profil")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Profil")}
+              accessibilityLabel="Aller au profil"
+              accessibilityHint="Ouvre votre profil"
+              accessibilityRole="button"
+              accessible={true}
+            >
               <Image
                 style={styles.profilIcon}
                 source={
@@ -145,10 +151,12 @@ export default function HomeEleveScreen({ navigation }) {
                     ? { uri: photoProfil }
                     : require("../../assets/photo_eleve1.jpg")
                 }
+                accessibilityLabel="Photo de profil"
+                accessibilityRole="image"
               />
             </TouchableOpacity>
             <View>
-              <Text style={styles.title}>
+              <Text style={styles.title} accessibilityRole="header">
                 Bonne Séance
                 <Text style={styles.titleColor}> {eleveData.firstname}</Text>
               </Text>
@@ -161,6 +169,9 @@ export default function HomeEleveScreen({ navigation }) {
           <TouchableOpacity
             style={styles.seance}
             onPress={() => navigation.navigate("TrainingScreen", { fullData })}
+            accessibilityLabel="Image de votre séance d'entraînement"
+            accessibilityHint="Aller à votre séance d'entrainement"
+            accessibilityRole="button"
           >
             <Image
               style={styles.imgSeance}
@@ -194,8 +205,16 @@ export default function HomeEleveScreen({ navigation }) {
                 placeholder="Tapez votre message ici pour répondre"
                 placeholderTextColor="grey"
                 value={message}
+                accessibilityLabel="Zone de saisie du message"
+                accessibilityHint="Tapez ici pour écrire un message"
+                accessibilityRole="text"
               />
-              <TouchableOpacity onPress={sendMessage}>
+              <TouchableOpacity
+                onPress={sendMessage}
+                accessibilityLabel="Envoyer le message"
+                accessibilityHint="Envoyer votre message à votre coach"
+                accessibilityRole="button"
+              >
                 <FontAwesomeIcon
                   style={styles.icon}
                   icon={faPaperPlane}

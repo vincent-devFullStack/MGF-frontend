@@ -152,6 +152,9 @@ export default function MapScreen({ navigation }) {
             <View style={styles.iconBack}>
               <TouchableOpacity
                 onPress={() => navigation.navigate("HomeEleve")}
+                accessible={true}
+                accessibilityLabel="Retour à l'accueil"
+                accessibilityHint="Appuyez pour retourner sur la page d'accueil"
               >
                 <FontAwesomeIcon
                   style={styles.icon}
@@ -176,6 +179,9 @@ export default function MapScreen({ navigation }) {
                       setSelectedCoach(coach);
                       setModalVisible(true);
                     }}
+                    accessible={true}
+                    accessibilityLabel={`Coach ${coach.firstname}`}
+                    accessibilityHint={`Disponible à ${ville.nom}, appuyez pour plus d'informations`}
                   >
                     <View style={styles.markerContainer}>
                       <Image
@@ -198,6 +204,9 @@ export default function MapScreen({ navigation }) {
                   onChangeText={setSearch}
                   placeholderTextColor={"grey"}
                   value={search}
+                  accessible={true}
+                  accessibilityLabel="Champ de recherche"
+                  accessibilityHint="Entrez le nom d'un coach ou d'une ville"
                 />
                 <TouchableOpacity
                   style={styles.searchBtn}
