@@ -231,6 +231,7 @@ export default function InscriptionEleve4({ navigation }) {
                   accessibilityLabel="Sélection du sexe"
                   accessibilityHint="Choisissez entre Homme et Femme"
                   accessibilityRole="menu"
+                  accessible={false}
                 />
                 <View style={styles.input}>
                   <TextInput
