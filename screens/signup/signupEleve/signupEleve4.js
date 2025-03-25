@@ -228,10 +228,6 @@ export default function InscriptionEleve4({ navigation }) {
                   placeholder=" Votre sexe"
                   value={sexe}
                   onChange={(item) => setSexe(item.value)}
-                  accessibilityLabel="Sélection du sexe"
-                  accessibilityHint="Choisissez entre Homme et Femme"
-                  accessibilityRole="menu"
-                  accessible={false}
                 />
                 <View style={styles.input}>
                   <TextInput
