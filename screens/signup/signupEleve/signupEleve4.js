@@ -237,9 +237,9 @@ export default function InscriptionEleve4({ navigation }) {
                     onChangeText={(value) => setTaille(value)}
                     value={taille}
                     keyboardType="numeric"
-                    accessibilityLabel="Taille en centimètres"
-                    accessibilityHint="Entrez votre taille en centimètres"
-                    accessibilityRole="text"
+                    // accessibilityLabel="Taille en centimètres"
+                    // accessibilityHint="Entrez votre taille en centimètres"
+                    // accessibilityRole="text"
                   />
                 </View>
               </View>
@@ -248,9 +248,9 @@ export default function InscriptionEleve4({ navigation }) {
                   <Button
                     title="Indiquez votre date de naissance"
                     onPress={() => setShow(true)}
-                    accessibilityLabel="Bouton pour choisir votre date de naissance"
-                    accessibilityHint="Ouvre un calendrier pour sélectionner votre date de naissance"
-                    accessibilityRole="button"
+                    // accessibilityLabel="Bouton pour choisir votre date de naissance"
+                    // accessibilityHint="Ouvre un calendrier pour sélectionner votre date de naissance"
+                    // accessibilityRole="button"
                   />
                   {show && (
                     <DateTimePicker
@@ -284,9 +284,9 @@ export default function InscriptionEleve4({ navigation }) {
                     onChangeText={(value) => setPoids(value)}
                     value={poids}
                     keyboardType="numeric"
-                    accessibilityLabel="Poids en kilogrammes"
-                    accessibilityHint="Entrez votre poids en kilogrammes"
-                    accessibilityRole="text"
+                    // accessibilityLabel="Poids en kilogrammes"
+                    // accessibilityHint="Entrez votre poids en kilogrammes"
+                    // accessibilityRole="text"
                   />
                 </View>
               </View>
