@@ -190,7 +190,7 @@ export default function ProfilScreen({ navigation }) {
             style={styles.button2}
             onPress={() => handleDeleteAccount()}
           >
-            <Text style={styles.buttonText}>Supprimer le compte</Text>
+            <Text style={styles.buttonTextDel}>Supprimer le compte</Text>
           </TouchableOpacity>
           <Modal
             animationType="slide"
@@ -299,6 +299,11 @@ const styles = StyleSheet.create({
   buttonText: {
     fontWeight: "bold",
     fontSize: 13,
+  },
+  buttonTextDel: {
+    fontWeight: "bold",
+    fontSize: 13,
+    color: "white",
   },
   button2: {
     alignItems: "center",

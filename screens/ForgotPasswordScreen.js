@@ -10,9 +10,11 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { BACKEND_ADDRESS } from "../env";
 
-const ForgotPassword = () => {
+const ForgotPassword = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [secretWord, setSecretWord] = useState("");
 
@@ -46,6 +48,16 @@ const ForgotPassword = () => {
     >
       <KeyboardAvoidingView style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
+          <View style={styles.iconBack}>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <FontAwesomeIcon
+                style={styles.icon}
+                icon={faXmark}
+                size={20}
+                color={"white"}
+              />
+            </TouchableOpacity>
+          </View>
           <Text style={styles.title}>Réinitialiser votre mot de passe</Text>
 
           <TextInput
@@ -118,6 +130,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
   },
+  iconBack: {
+    flexDirection: "row",
+    width: "85%",
+    height: "110%",
+    justifyContent: "flex-end",
+    position: "absolute",
+    paddingTop: 70,
+  },
+  icon: { zIndex: 10 },
 });
 
 export default ForgotPassword;
