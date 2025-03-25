@@ -156,7 +156,7 @@ export default function InscriptionEleve4({ navigation }) {
         style={{ flex: 1 }}
       >
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <SafeAreaView style={styles.container}>
+          <SafeAreaView style={styles.container} accessible={false}>
             <View style={styles.iconBack}>
               <TouchableOpacity
                 onPress={() => navigation.navigate("SignupEleve3")}
