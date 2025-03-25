@@ -116,7 +116,13 @@ export default function InscriptionCoach1({ navigation }) {
       >
         <SafeAreaView style={styles.container}>
           <View style={styles.iconBack}>
-            <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Signup")}
+              accessible={true}
+              accessibilityLabel="Retour à la page précédente"
+              accessibilityHint="revenir à l'écran précèdent"
+              accessibilityRole="button"
+            >
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={faArrowLeft}
@@ -124,7 +130,13 @@ export default function InscriptionCoach1({ navigation }) {
                 color={"white"}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Login")}
+              accessible={true}
+              accessibilityLabel="Revenir à l'écran d'accueil"
+              accessibilityHint="Fermer l'inscription"
+              accessibilityRole="button"
+            >
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={faXmark}
@@ -134,7 +146,11 @@ export default function InscriptionCoach1({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.container2}>
+          <View
+            style={styles.container2}
+            accessible={true}
+            accessibilityRole="progressbar"
+          >
             <Progress.Circle
               size={50}
               progress={progress}
@@ -146,7 +162,11 @@ export default function InscriptionCoach1({ navigation }) {
             />
           </View>
 
-          <View style={styles.titleContainer}>
+          <View
+            style={styles.titleContainer}
+            accessible={true}
+            accessibilityRole="header"
+          >
             <Text style={styles.title}>Création de compte</Text>
           </View>
           <View style={styles.boxInput}>
@@ -161,9 +181,15 @@ export default function InscriptionCoach1({ navigation }) {
                   value={email}
                   paddingBottom={10}
                   inputMode="email"
+                  accessibilityLabel="Adresse email"
+                  accessibilityHint="Saisissez votre adresse email"
                 ></TextInput>
               </View>
-              {errors.email && <Text style={styles.error}>{errors.email}</Text>}
+              {errors.email && (
+                <Text style={styles.error} accessibilityRole="text">
+                  {errors.email}
+                </Text>
+              )}
               <View style={styles.passwordInput}>
                 <TextInput
                   style={styles.inputPass}
@@ -173,9 +199,18 @@ export default function InscriptionCoach1({ navigation }) {
                   onChangeText={(value) => setPassword(value)}
                   value={password}
                   paddingBottom={10}
+                  accessibilityLabel="Mot de passe"
+                  accessibilityHint="Saisissez votre mot de passe"
                 ></TextInput>
                 <TouchableOpacity
                   onPress={() => setPasswordVisible(!passwordVisible)}
+                  accessible={true}
+                  accessibilityLabel={
+                    passwordVisible
+                      ? "Masquer le mot de passe"
+                      : "Afficher le mot de passe"
+                  }
+                  accessibilityRole="button"
                 >
                   <FontAwesomeIcon
                     style={styles.icon}
@@ -186,7 +221,9 @@ export default function InscriptionCoach1({ navigation }) {
                 </TouchableOpacity>
               </View>
               {errors.password && (
-                <Text style={styles.error}>{errors.password}</Text>
+                <Text style={styles.error} accessibilityRole="text">
+                  {errors.password}
+                </Text>
               )}
               <View style={styles.passwordInput}>
                 <TextInput
@@ -197,10 +234,19 @@ export default function InscriptionCoach1({ navigation }) {
                   onChangeText={(value) => setConfirmPassword(value)}
                   value={confirmPassword}
                   paddingBottom={10}
+                  accessibilityLabel="Confirmer le mot de passe"
+                  accessibilityHint="Saisissez à nouveau votre mot de passe"
                 ></TextInput>
 
                 <TouchableOpacity
                   onPress={() => setPasswordVisible(!passwordVisible)}
+                  accessible={true}
+                  accessibilityLabel={
+                    passwordVisible
+                      ? "Masquer le mot de passe"
+                      : "Afficher le mot de passe"
+                  }
+                  accessibilityRole="button"
                 >
                   <FontAwesomeIcon
                     style={styles.icon}
@@ -211,9 +257,11 @@ export default function InscriptionCoach1({ navigation }) {
                 </TouchableOpacity>
               </View>
               {errors.confirmPassword && (
-                <Text style={styles.error}>{errors.confirmPassword}</Text>
+                <Text style={styles.error} accessibilityRole="text">
+                  {errors.confirmPassword}
+                </Text>
               )}
-              <Text style={styles.text}>
+              <Text style={styles.text} accessibilityRole="text">
                 Indiquez votre mot secret pour la rénitilisation de votre mot de
                 passe :
               </Text>
@@ -226,9 +274,15 @@ export default function InscriptionCoach1({ navigation }) {
                   onChangeText={(value) => setSecretWord(value)}
                   value={secretWord}
                   paddingBottom={10}
+                  accessibilityLabel="Mot secret"
+                  accessibilityHint="Saisissez votre mot secret"
                 ></TextInput>
                 <TouchableOpacity
                   onPress={() => setSecretWordVisible(!secretWordVisible)}
+                  accessible={true}
+                  accessibilityLabel="Afficher le mot secret"
+                  accessibilityHint="Appuyez pour afficher le mot secret"
+                  accessibilityRole="togglebutton"
                 >
                   <FontAwesomeIcon
                     style={styles.icon}
@@ -244,6 +298,10 @@ export default function InscriptionCoach1({ navigation }) {
             <TouchableOpacity
               onPress={() => handleCheckInputs()}
               style={styles.nextBtn}
+              accessible={true}
+              accessibilityLabel="Continuer"
+              accessibilityHint="Valide les informations et passe à l'étape suivante"
+              accessibilityRole="button"
             >
               <Text style={styles.btn}>Continuer</Text>
             </TouchableOpacity>

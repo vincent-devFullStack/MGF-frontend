@@ -85,6 +85,10 @@ export default function InscriptionCoach2({ navigation }) {
           <View style={styles.iconBack}>
             <TouchableOpacity
               onPress={() => navigation.navigate("SignupCoach1")}
+              accessible={true}
+              accessibilityLabel="Retour à la page précédente"
+              accessibilityHint="revenir à l'écran précèdent"
+              accessibilityRole="button"
             >
               <FontAwesomeIcon
                 style={styles.icon}
@@ -93,7 +97,13 @@ export default function InscriptionCoach2({ navigation }) {
                 color={"white"}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Login")}
+              accessible={true}
+              accessibilityLabel="Revenir à l'écran d'accueil"
+              accessibilityHint="Fermer l'inscription"
+              accessibilityRole="button"
+            >
               <FontAwesomeIcon
                 style={styles.icon}
                 icon={faXmark}
@@ -103,7 +113,11 @@ export default function InscriptionCoach2({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.container2}>
+          <View
+            style={styles.container2}
+            accessible={true}
+            accessibilityRole="progressbar"
+          >
             <Progress.Circle
               size={50}
               progress={progress}
@@ -115,7 +129,11 @@ export default function InscriptionCoach2({ navigation }) {
             />
           </View>
 
-          <View style={styles.titleContainer}>
+          <View
+            style={styles.titleContainer}
+            accessible={true}
+            accessibilityRole="header"
+          >
             <Text style={styles.title}>Création de compte</Text>
           </View>
           <View style={styles.boxInput}>
@@ -127,10 +145,14 @@ export default function InscriptionCoach2({ navigation }) {
                 onChangeText={(value) => setFirstname(value)}
                 value={firstname}
                 paddingBottom={10}
+                accessibilityLabel="Prénom"
+                accessibilityHint="Saisissez votre prénom"
               ></TextInput>
             </View>
             {errors.firstname && (
-              <Text style={styles.error}>{errors.firstname}</Text>
+              <Text style={styles.error} accessibilityRole="text">
+                {errors.firstname}
+              </Text>
             )}
             <View>
               <TextInput
@@ -140,14 +162,24 @@ export default function InscriptionCoach2({ navigation }) {
                 onChangeText={(value) => setName(value)}
                 value={name}
                 paddingBottom={10}
+                accessibilityLabel="Nom"
+                accessibilityHint="Saisissez votre nom"
               ></TextInput>
             </View>
-            {errors.name && <Text style={styles.error}>{errors.name}</Text>}
+            {errors.name && (
+              <Text style={styles.error} accessibilityRole="text">
+                {errors.name}
+              </Text>
+            )}
           </View>
           <View style={styles.btnPosition}>
             <TouchableOpacity
               style={styles.nextBtn}
               onPress={handleCheckInputs}
+              accessible={true}
+              accessibilityLabel="Continuer"
+              accessibilityHint="Valide les informations et passe à l'étape suivante"
+              accessibilityRole="button"
             >
               <Text style={styles.btn}>Continuer</Text>
             </TouchableOpacity>

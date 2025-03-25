@@ -240,12 +240,16 @@ export default function CalCoachScreen() {
                     <View style={styles.iconClose}>
                       <TouchableOpacity
                         onPress={() => setModalVisible(!modalVisible)}
+                        accessible={true}
+                        accessibilityLabel="Fermer la fenêtre"
+                        accessibilityHint="Ferme la fenêtre de création de rendez-vous"
+                        accessibilityRole="button"
                       >
                         <FontAwesomeIcon icon={faXmark} size={20} />
                       </TouchableOpacity>
                     </View>
 
-                    <Text style={styles.modalText}>
+                    <Text style={styles.modalText} accessibilityLabel="text">
                       Rentrer le nom de l'élève :
                     </Text>
                     <AutocompleteDropdown
@@ -263,7 +267,7 @@ export default function CalCoachScreen() {
                       }
                       closeOnSubmit
                     ></AutocompleteDropdown>
-                    <Text style={styles.modalText}>
+                    <Text style={styles.modalText} accessibilityLabel="text">
                       Sélectionnez la date du rendez-vous :
                     </Text>
                     {show && (
@@ -277,12 +281,16 @@ export default function CalCoachScreen() {
                     <TouchableOpacity
                       style={styles.buttonDate}
                       onPress={() => setShow(true)}
+                      accessible={true}
+                      accessibilityLabel="Sélectionner une date"
+                      accessibilityHint="Ouvre un calendrier pour sélectionner une date"
+                      accessibilityRole="button"
                     >
                       <Text style={styles.textDate}>
                         {date.toLocaleDateString("fr-FR")}
                       </Text>
                     </TouchableOpacity>
-                    <Text style={styles.modalText}>
+                    <Text style={styles.modalText} accessibilityLabel="text">
                       L'heure du rendez-vous :
                     </Text>
 
@@ -292,21 +300,33 @@ export default function CalCoachScreen() {
                       placeholderTextColor={"#B9B8B7"}
                       onChangeText={(value) => setHeure(value)}
                       value={heure}
+                      accessibilityLabel="heure"
+                      accessibilityHint="Rentrer l'heure du rendez-vous"
                     ></TextInput>
 
                     {errors.heure && (
-                      <Text style={{ color: "red" }}>{errors.heure}</Text>
+                      <Text style={{ color: "red" }} accessibilityLabel="text">
+                        {errors.heure}
+                      </Text>
                     )}
                     {errors.date && (
-                      <Text style={{ color: "red" }}>{errors.date}</Text>
+                      <Text style={{ color: "red" }} accessibilityLabel="text">
+                        {errors.date}
+                      </Text>
                     )}
                     {errors.eleve && (
-                      <Text style={{ color: "red" }}>{errors.eleve}</Text>
+                      <Text style={{ color: "red" }} accessibilityLabel="text">
+                        {errors.eleve}
+                      </Text>
                     )}
 
                     <TouchableOpacity
                       style={[styles.buttonModal, styles.buttonClose]}
                       onPress={createRdv}
+                      accessible={true}
+                      accessibilityLabel="Créer le rendez-vous"
+                      accessibilityHint="Crée le rendez-vous avec les informations rentrées et ferme la fenêtre"
+                      accessibilityRole="button"
                     >
                       <Text style={styles.textStyle}>Ajouter</Text>
                     </TouchableOpacity>
@@ -315,7 +335,12 @@ export default function CalCoachScreen() {
               </AutocompleteDropdownContextProvider>
             </View>
           </Modal>
-          <View style={styles.boxCal}>
+          <View
+            style={styles.boxCal}
+            accessible={true}
+            accessibilityLabel="Calendrier"
+            accessibilityHint="Sélectionner un jour pour voir les rendez-vous"
+          >
             <Calendar
               style={styles.calendar}
               onDayPress={(day) => {
@@ -355,6 +380,7 @@ export default function CalCoachScreen() {
             <ScrollView
               contentContainerStyle={styles.containerRdv}
               showsVerticalScrollIndicator={false}
+              accessibilityRole="grid"
             >
               {rdv && rdvList}
             </ScrollView>
@@ -363,6 +389,10 @@ export default function CalCoachScreen() {
             <TouchableOpacity
               style={styles.button}
               onPress={() => setModalVisible(true)}
+              accessible={true}
+              accessibilityLabel="Ajouter un rendez-vous"
+              accessibilityHint="Ouvre une fenêtre pour ajouter un rendez-vous"
+              accessibilityRole="button"
             >
               <FontAwesomeIcon icon={faPlus} color={"#101018"} />
             </TouchableOpacity>
