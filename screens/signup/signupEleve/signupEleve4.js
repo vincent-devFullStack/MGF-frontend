@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -153,183 +155,185 @@ export default function InscriptionEleve4({ navigation }) {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
-        <SafeAreaView style={styles.container}>
-          <View style={styles.iconBack}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("SignupEleve3")}
-              accessibilityLabel="Revenir à l'écran précédent"
-              accessibilityHint="Retourner à l'écran précédent"
-              accessibilityRole="button"
-              accessible={true}
-            >
-              <FontAwesomeIcon
-                style={styles.icon}
-                icon={faArrowLeft}
-                size={20}
-                color={"white"}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Login")}
-              accessibilityLabel="Revenir à l'écran d'accueil"
-              accessibilityHint="Fermer l'inscription"
-              accessibilityRole="button"
-              accessible={true}
-            >
-              <FontAwesomeIcon
-                style={styles.icon}
-                icon={faXmark}
-                size={20}
-                color={"white"}
-              />
-            </TouchableOpacity>
-          </View>
-
-          <View
-            style={styles.container2}
-            accessible={true}
-            accessibilityRole="progressbar"
-          >
-            <Progress.Circle
-              size={50}
-              progress={progress}
-              showsText
-              borderWidth={0}
-              thickness={8}
-              textStyle={{ fontWeight: "bold", fontSize: 10 }}
-              color="#DFB81C"
-            />
-          </View>
-
-          <View style={styles.titleContainer}>
-            <Text style={styles.title} accessibilityRole="header">
-              Un dernier petit effort !
-            </Text>
-          </View>
-          <View style={styles.boxInput}>
-            <View style={styles.ligne1}>
-              <Dropdown
-                style={styles.dropdown}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                inputSearchStyle={styles.inputSearchStyle}
-                iconStyle={styles.iconStyle}
-                data={data}
-                search
-                maxHeight={300}
-                labelField="label"
-                valueField="value"
-                placeholder=" Votre sexe"
-                value={sexe}
-                onChange={(item) => setSexe(item.value)}
-                accessibilityLabel="Sélection du sexe"
-                accessibilityHint="Choisissez entre Homme et Femme"
-                accessibilityRole="menu"
-              />
-              <View style={styles.input}>
-                <TextInput
-                  style={styles.inputText}
-                  placeholder="Votre taille"
-                  placeholderTextColor={"black"}
-                  onChangeText={(value) => setTaille(value)}
-                  value={taille}
-                  keyboardType="numeric"
-                  accessibilityLabel="Taille en centimètres"
-                  accessibilityHint="Entrez votre taille en centimètres"
-                  accessibilityRole="text"
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <SafeAreaView style={styles.container}>
+            <View style={styles.iconBack}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("SignupEleve3")}
+                accessibilityLabel="Revenir à l'écran précédent"
+                accessibilityHint="Retourner à l'écran précédent"
+                accessibilityRole="button"
+                accessible={true}
+              >
+                <FontAwesomeIcon
+                  style={styles.icon}
+                  icon={faArrowLeft}
+                  size={20}
+                  color={"white"}
                 />
-              </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Login")}
+                accessibilityLabel="Revenir à l'écran d'accueil"
+                accessibilityHint="Fermer l'inscription"
+                accessibilityRole="button"
+                accessible={true}
+              >
+                <FontAwesomeIcon
+                  style={styles.icon}
+                  icon={faXmark}
+                  size={20}
+                  color={"white"}
+                />
+              </TouchableOpacity>
             </View>
-            <View style={styles.ligne2}>
-              <View style={styles.containerDate}>
-                <Button
-                  title="Indiquez votre date de naissance"
-                  onPress={() => setShow(true)}
-                  accessibilityLabel="Bouton pour choisir votre date de naissance"
-                  accessibilityHint="Ouvre un calendrier pour sélectionner votre date de naissance"
-                  accessibilityRole="button"
+
+            <View
+              style={styles.container2}
+              accessible={true}
+              accessibilityRole="progressbar"
+            >
+              <Progress.Circle
+                size={50}
+                progress={progress}
+                showsText
+                borderWidth={0}
+                thickness={8}
+                textStyle={{ fontWeight: "bold", fontSize: 10 }}
+                color="#DFB81C"
+              />
+            </View>
+
+            <View style={styles.titleContainer}>
+              <Text style={styles.title} accessibilityRole="header">
+                Un dernier petit effort !
+              </Text>
+            </View>
+            <View style={styles.boxInput}>
+              <View style={styles.ligne1}>
+                <Dropdown
+                  style={styles.dropdown}
+                  placeholderStyle={styles.placeholderStyle}
+                  selectedTextStyle={styles.selectedTextStyle}
+                  inputSearchStyle={styles.inputSearchStyle}
+                  iconStyle={styles.iconStyle}
+                  data={data}
+                  search
+                  maxHeight={300}
+                  labelField="label"
+                  valueField="value"
+                  placeholder=" Votre sexe"
+                  value={sexe}
+                  onChange={(item) => setSexe(item.value)}
+                  accessibilityLabel="Sélection du sexe"
+                  accessibilityHint="Choisissez entre Homme et Femme"
+                  accessibilityRole="menu"
                 />
-                {show && (
-                  <DateTimePicker
-                    value={dateNaissance}
-                    mode="date"
-                    display={Platform.OS === "ios" ? "inline" : "default"}
-                    onChange={onChange}
+                <View style={styles.input}>
+                  <TextInput
+                    style={styles.inputText}
+                    placeholder="Votre taille"
+                    placeholderTextColor={"black"}
+                    onChangeText={(value) => setTaille(value)}
+                    value={taille}
+                    keyboardType="numeric"
+                    accessibilityLabel="Taille en centimètres"
+                    accessibilityHint="Entrez votre taille en centimètres"
+                    accessibilityRole="text"
                   />
-                )}
-                <Text style={styles.dateText}>
-                  Date sélectionnée :{" "}
-                  {dateNaissance.toLocaleDateString("fr-FR")}
-                </Text>
+                </View>
               </View>
-              <View style={styles.input}>
-                <TextInput
-                  style={styles.inputText1}
-                  placeholder="Votre naissance"
-                  placeholderTextColor={"black"}
-                  onChangeText={(value) => setDateNaissance(value)}
-                  value={dateNaissance}
-                />
+              <View style={styles.ligne2}>
+                <View style={styles.containerDate}>
+                  <Button
+                    title="Indiquez votre date de naissance"
+                    onPress={() => setShow(true)}
+                    accessibilityLabel="Bouton pour choisir votre date de naissance"
+                    accessibilityHint="Ouvre un calendrier pour sélectionner votre date de naissance"
+                    accessibilityRole="button"
+                  />
+                  {show && (
+                    <DateTimePicker
+                      value={dateNaissance}
+                      mode="date"
+                      display={Platform.OS === "ios" ? "inline" : "default"}
+                      onChange={onChange}
+                    />
+                  )}
+                  <Text style={styles.dateText}>
+                    Date sélectionnée :{" "}
+                    {dateNaissance.toLocaleDateString("fr-FR")}
+                  </Text>
+                </View>
+                <View style={styles.input}>
+                  <TextInput
+                    style={styles.inputText1}
+                    placeholder="Votre naissance"
+                    placeholderTextColor={"black"}
+                    onChangeText={(value) => setDateNaissance(value)}
+                    value={dateNaissance}
+                  />
+                </View>
+              </View>
+              <View style={styles.ligne3}>
+                <View style={styles.input1}>
+                  <TextInput
+                    style={styles.inputText}
+                    placeholder="Votre poids"
+                    placeholderTextColor={"black"}
+                    onChangeText={(value) => setPoids(value)}
+                    value={poids}
+                    keyboardType="numeric"
+                    accessibilityLabel="Poids en kilogrammes"
+                    accessibilityHint="Entrez votre poids en kilogrammes"
+                    accessibilityRole="text"
+                  />
+                </View>
               </View>
             </View>
-            <View style={styles.ligne3}>
-              <View style={styles.input1}>
-                <TextInput
-                  style={styles.inputText}
-                  placeholder="Votre poids"
-                  placeholderTextColor={"black"}
-                  onChangeText={(value) => setPoids(value)}
-                  value={poids}
-                  keyboardType="numeric"
-                  accessibilityLabel="Poids en kilogrammes"
-                  accessibilityHint="Entrez votre poids en kilogrammes"
-                  accessibilityRole="text"
-                />
-              </View>
+            {errors.sexe && (
+              <Text style={{ color: "red", textAlign: "center" }}>
+                {errors.sexe}
+              </Text>
+            )}
+
+            {errors.taille && (
+              <Text style={{ color: "red", textAlign: "center" }}>
+                {errors.taille}
+              </Text>
+            )}
+
+            {errors.dateNaissance && (
+              <Text style={{ color: "red", textAlign: "center" }}>
+                {errors.dateNaissance}
+              </Text>
+            )}
+
+            {errors.poids && (
+              <Text style={{ color: "red", textAlign: "center" }}>
+                {errors.poids}
+              </Text>
+            )}
+
+            {errors.data && (
+              <Text style={{ color: "red", textAlign: "center" }}>
+                {errors.data}
+              </Text>
+            )}
+
+            <View style={styles.btnPosition}>
+              <TouchableOpacity
+                style={styles.nextBtn}
+                onPress={registerUser}
+                accessibilityLabel="Finaliser l'inscription"
+                accessibilityHint="Valide votre inscription et vous emmène à la page d'accueil"
+                accessibilityRole="button"
+              >
+                <Text style={styles.btn}>Continuer</Text>
+              </TouchableOpacity>
             </View>
-          </View>
-          {errors.sexe && (
-            <Text style={{ color: "red", textAlign: "center" }}>
-              {errors.sexe}
-            </Text>
-          )}
-
-          {errors.taille && (
-            <Text style={{ color: "red", textAlign: "center" }}>
-              {errors.taille}
-            </Text>
-          )}
-
-          {errors.dateNaissance && (
-            <Text style={{ color: "red", textAlign: "center" }}>
-              {errors.dateNaissance}
-            </Text>
-          )}
-
-          {errors.poids && (
-            <Text style={{ color: "red", textAlign: "center" }}>
-              {errors.poids}
-            </Text>
-          )}
-
-          {errors.data && (
-            <Text style={{ color: "red", textAlign: "center" }}>
-              {errors.data}
-            </Text>
-          )}
-
-          <View style={styles.btnPosition}>
-            <TouchableOpacity
-              style={styles.nextBtn}
-              onPress={registerUser}
-              accessibilityLabel="Finaliser l'inscription"
-              accessibilityHint="Valide votre inscription et vous emmène à la page d'accueil"
-              accessibilityRole="button"
-            >
-              <Text style={styles.btn}>Continuer</Text>
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
+          </SafeAreaView>
+        </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </LinearGradient>
   );
