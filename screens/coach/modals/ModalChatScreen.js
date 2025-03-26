@@ -104,12 +104,20 @@ export default function ModalCreateExo({ route, navigation }) {
       >
         <SafeAreaView style={styles.container}>
           <View style={styles.iconXmark}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              accessibilityLabel="Fermer la fenêtre de chat"
+              accessibilityHint="Ferme la fenêtre de chat"
+              accessibilityRole="button"
+            >
               <FontAwesomeIcon icon={faXmark} color="#B9B8B7" size={24} />
             </TouchableOpacity>
 
             <View style={styles.messages}>
-              <ScrollView showsVerticalScrollIndicator={false}>
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                accessibilityRole="grid"
+              >
                 {Chat}
               </ScrollView>
             </View>
@@ -120,8 +128,15 @@ export default function ModalCreateExo({ route, navigation }) {
                 placeholder="Tapez votre message ici pour répondre"
                 placeholderTextColor="grey"
                 value={message}
+                accessibilityLabel="Zone de texte pour écrire un message"
+                accessibilityHint="Écrivez votre message ici pour répondre"
               />
-              <TouchableOpacity onPress={sendMessage}>
+              <TouchableOpacity
+                onPress={sendMessage}
+                accessibilityLabel="Envoyer"
+                accessibilityHint="Envoie le message"
+                accessibilityRole="button"
+              >
                 <FontAwesomeIcon
                   style={styles.icon}
                   icon={faPaperPlane}

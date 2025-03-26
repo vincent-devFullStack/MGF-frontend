@@ -138,7 +138,6 @@ export default function InscriptionCoach3({ navigation }) {
           <View style={styles.iconBack}>
             <TouchableOpacity
               onPress={() => navigation.navigate("SignupCoach2")}
-              accessible={true}
               accessibilityLabel="Retour à la page précédente"
               accessibilityHint="revenir à l'écran précèdent"
               accessibilityRole="button"
@@ -152,7 +151,6 @@ export default function InscriptionCoach3({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => navigation.navigate("Login")}
-              accessible={true}
               accessibilityLabel="Revenir à l'écran d'accueil"
               accessibilityHint="Fermer l'inscription"
               accessibilityRole="button"
@@ -170,6 +168,12 @@ export default function InscriptionCoach3({ navigation }) {
             style={styles.container2}
             accessible={true}
             accessibilityRole="progressbar"
+            accessibilityValue={{
+              min: 0,
+              max: 100,
+              now: progress * 100,
+              text: `${progress * 100}%`,
+            }}
           >
             <Progress.Circle
               size={50}
@@ -194,7 +198,6 @@ export default function InscriptionCoach3({ navigation }) {
             <TouchableOpacity
               style={styles.buttonImage}
               onPress={pickImage}
-              accessible={true}
               accessibilityLabel="Ajouter une photo"
               accessibilityHint="Pressez pour ajouter une photo"
               accessibilityRole="button"
@@ -212,7 +215,6 @@ export default function InscriptionCoach3({ navigation }) {
             <TouchableOpacity
               style={styles.buttonImage}
               onPress={pickImage}
-              accessible={true}
               accessibilityLabel="Changer votre photo"
               accessibilityHint="Pressez pour changer votre photo"
               accessibilityRole="imagebutton"
@@ -294,7 +296,6 @@ export default function InscriptionCoach3({ navigation }) {
           <TouchableOpacity
             style={styles.nextBtn}
             onPress={handleCheckInputs}
-            accessible={true}
             accessibilityLabel="Continuer"
             accessibilityHint="Valide les informations et passe à l'étape suivante"
             accessibilityRole="button"

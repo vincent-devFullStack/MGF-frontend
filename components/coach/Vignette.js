@@ -8,14 +8,15 @@ export default function Vignette(props) {
           source={
             props.photo
               ? { uri: props.photo }
-              : require("../../assets/photo_eleve2.jpg")
+              : require("../../assets/séance.jpg")
           }
           style={styles.image}
           resizeMode="cover"
+          accessibilityRole="image"
         />
       </View>
 
-      <View style={styles.containerText}>
+      <View style={styles.containerText} accessible={true}>
         <Text style={styles.text}>{props.name}</Text>
         <Text style={styles.textMini}>{props.description}</Text>
       </View>

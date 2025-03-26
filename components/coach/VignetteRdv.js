@@ -17,6 +17,9 @@ export default function VignetteRdv(props) {
           onPress={() =>
             navigation.navigate("ModalChat", { eleve: props.eleve })
           }
+          accessibilityLabel="Ouvrir le chat"
+          accessibilityHint="Ouvre le chat avec l'élève"
+          accessibilityRole="imagebutton"
         >
           <FontAwesomeIcon
             icon={faMessage}
@@ -34,7 +37,7 @@ export default function VignetteRdv(props) {
           />
         </TouchableOpacity>
 
-        <View style={styles.containerText}>
+        <View style={styles.containerText} accessible={true}>
           <Text style={styles.text}>Rendez vous à :</Text>
           <Text style={styles.text}>{props.heure}</Text>
           <Text style={styles.text}>Présentiel</Text>
@@ -45,12 +48,18 @@ export default function VignetteRdv(props) {
             onPress={() =>
               navigation.navigate("ModalProfil", { eleve: props.eleve })
             }
+            accessibilityLabel="Voir le profil"
+            accessibilityHint="Ouvre le profil de l'élève"
+            accessibilityRole="button"
           >
             <Text style={styles.textButton}>Profil</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("Wallet")}
+            accessibilityLabel="Voir l'abonnement"
+            accessibilityHint="Ouvre l'écran portefeuilles"
+            accessibilityRole="button"
           >
             <Text style={styles.textButton}>Abonnement</Text>
           </TouchableOpacity>

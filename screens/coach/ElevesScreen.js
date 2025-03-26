@@ -111,12 +111,16 @@ export default function ElevesScreen() {
             onRequestClose={() => {
               setModalVisible(!modalVisible);
             }}
+            accessibilityViewIsModal={true}
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <View style={styles.iconClose}>
                   <TouchableOpacity
                     onPress={() => setModalVisible(!modalVisible)}
+                    accessibilityLabel="Fermer la fenêtre"
+                    accessibilityHint="Ferme la fenêtre d'ajout d'élève"
+                    accessibilityRole="button"
                   >
                     <FontAwesomeIcon icon={faXmark} size={20} />
                   </TouchableOpacity>
@@ -126,7 +130,9 @@ export default function ElevesScreen() {
                   Rentrer l'email de l'élève :
                 </Text>
                 {errors.eleveEmail && (
-                  <Text style={styles.error}>{errors.eleveEmail}</Text>
+                  <Text style={styles.error} accessibilityRole="text">
+                    {errors.eleveEmail}
+                  </Text>
                 )}
                 <TextInput
                   style={styles.input}
@@ -136,10 +142,15 @@ export default function ElevesScreen() {
                   value={eleveEmail}
                   inputMode="email"
                   keyboardType="email-address"
+                  accessibilityLabel="Email de l'élève"
+                  accessibilityHint="Rentrer l'email de l'élève"
                 ></TextInput>
                 <TouchableOpacity
                   style={[styles.buttonModal, styles.buttonClose]}
                   onPress={addEleve}
+                  accessibilityLabel="Ajouter l'élève"
+                  accessibilityHint="Ajoute l'élève à la liste des élèves"
+                  accessibilityRole="button"
                 >
                   <Text style={styles.textStyle}>Ajouter</Text>
                 </TouchableOpacity>
@@ -164,10 +175,13 @@ export default function ElevesScreen() {
                 />
               }
             >
-              <Text style={styles.title}>Elèves</Text>
+              <Text style={styles.title} accessibilityRole="header">
+                Elèves
+              </Text>
               <ScrollView
                 contentContainerStyle={styles.containerEleves}
                 showsVerticalScrollIndicator={false}
+                accessibilityRole="grid"
               >
                 {eleves && elevesList}
               </ScrollView>
@@ -177,6 +191,9 @@ export default function ElevesScreen() {
             <TouchableOpacity
               style={styles.button}
               onPress={() => setModalVisible(true)}
+              accessibilityLabel="Ajouter un élève"
+              accessibilityHint="Ouvre une fenêtre pour ajouter un élève"
+              accessibilityRole="button"
             >
               <FontAwesomeIcon icon={faPlus} color={"#101018"} />
             </TouchableOpacity>

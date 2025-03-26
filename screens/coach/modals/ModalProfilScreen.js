@@ -184,9 +184,11 @@ export default function ModalProfil({ route, navigation }) {
 
   const mesuresContainer = (
     <View style={styles.containerGlobal}>
-      <Text style={styles.mesuresTextTop}>Mesures corporelles</Text>
+      <Text style={styles.mesuresTextTop} accessibilityRole="header">
+        Mesures corporelles
+      </Text>
 
-      <View style={styles.inputTaille}>
+      <View style={styles.inputTaille} accessible={true}>
         <Text style={styles.mesuresTextTop}>Taille</Text>
         <View style={styles.boxTaille}>
           <Text style={styles.mesuresTextTopUp}>{eleve.taille}</Text>
@@ -194,134 +196,201 @@ export default function ModalProfil({ route, navigation }) {
         <Text style={styles.mesuresTextTop}>cm</Text>
       </View>
 
-      <ScrollView contentContainerStyle={styles.containerMesuresInputs}>
+      <ScrollView
+        contentContainerStyle={styles.containerMesuresInputs}
+        accessibilityRole="grid"
+      >
         <View style={styles.boxInput}>
-          <Text style={styles.mesuresText}>Poids</Text>
+          <Text style={styles.mesuresText} accessibilityRole="text">
+            Poids
+          </Text>
           <TextInput
             style={styles.input}
             placeholder="Départ"
             placeholderTextColor={"#B9B8B7"}
             keyboardType="numeric"
+            accessibilityLabel="Poids de départ"
+            accessibilityHint="Entrez le poids de départ"
           ></TextInput>
           <TextInput
             style={styles.input}
             placeholder="Actuel"
             placeholderTextColor={"#B9B8B7"}
             keyboardType="numeric"
+            accessibilityLabel="Poids actuel"
+            accessibilityHint="Entrez le poids actuel"
           ></TextInput>
-          <Text style={styles.mesuresTextb}>kg</Text>
+          <Text style={styles.mesuresTextb} accessibilityRole="text">
+            kg
+          </Text>
         </View>
         <View style={styles.boxInput}>
-          <Text style={styles.mesuresText}>Cou</Text>
+          <Text style={styles.mesuresText} accessibilityRole="text">
+            Cou
+          </Text>
           <TextInput
             style={styles.input}
             placeholder="Départ"
             placeholderTextColor={"#B9B8B7"}
             keyboardType="numeric"
+            accessibilityLabel="Tour de cou de départ"
+            accessibilityHint="Entrez le tour de cou de départ"
           ></TextInput>
           <TextInput
             style={styles.input}
             placeholder="Actuel"
             placeholderTextColor={"#B9B8B7"}
             keyboardType="numeric"
+            accessibilityLabel="Tour de cou actuel"
+            accessibilityHint="Entrez le tour de cou actuel"
           ></TextInput>
-          <Text style={styles.mesuresTextb}>cm</Text>
+          <Text style={styles.mesuresTextb} accessibilityRole="text">
+            cm
+          </Text>
         </View>
         <View style={styles.boxInput}>
-          <Text style={styles.mesuresText}>Poitrine</Text>
+          <Text style={styles.mesuresText} accessibilityRole="text">
+            Poitrine
+          </Text>
           <TextInput
             style={styles.input}
             placeholder="Départ"
             placeholderTextColor={"#B9B8B7"}
             keyboardType="numeric"
+            accessibilityLabel="Tour de poitrine de départ"
+            accessibilityHint="Entrez le tour de poitrine de départ"
           ></TextInput>
           <TextInput
             style={styles.input}
             placeholder="Actuel"
             placeholderTextColor={"#B9B8B7"}
             keyboardType="numeric"
+            accessibilityLabel="Tour de poitrine actuel"
+            accessibilityHint="Entrez le tour de poitrine actuel"
           ></TextInput>
-          <Text style={styles.mesuresTextb}>cm</Text>
+          <Text style={styles.mesuresTextb} accessibilityRole="text">
+            cm
+          </Text>
         </View>
         <View style={styles.boxInput}>
-          <Text style={styles.mesuresText}>Biceps</Text>
+          <Text style={styles.mesuresText} accessibilityRole="text">
+            Biceps
+          </Text>
           <TextInput
             style={styles.input}
             placeholder="Départ"
             placeholderTextColor={"#B9B8B7"}
             keyboardType="numeric"
+            accessibilityLabel="Tour de biceps de départ"
+            accessibilityHint="Entrez le tour de biceps de départ"
           ></TextInput>
           <TextInput
             style={styles.input}
             placeholder="Actuel"
             placeholderTextColor={"#B9B8B7"}
             keyboardType="numeric"
+            accessibilityLabel="Tour de biceps actuel"
+            accessibilityHint="Entrez le tour de biceps actuel"
           ></TextInput>
-          <Text style={styles.mesuresTextb}>cm</Text>
+          <Text style={styles.mesuresTextb} accessibilityRole="text">
+            cm
+          </Text>
         </View>
         <View style={styles.boxInput}>
-          <Text style={styles.mesuresText}>Taille</Text>
+          <Text style={styles.mesuresText} accessibilityRole="text">
+            Taille
+          </Text>
           <TextInput
             style={styles.input}
             placeholder="Départ"
             placeholderTextColor={"#B9B8B7"}
             keyboardType="numeric"
+            accessibilityLabel="Tour de taille de départ"
+            accessibilityHint="Entrez le tour de taille de départ"
           ></TextInput>
           <TextInput
             style={styles.input}
             placeholder="Actuel"
             placeholderTextColor={"#B9B8B7"}
             keyboardType="numeric"
+            accessibilityLabel="Tour de taille actuel"
+            accessibilityHint="Entrez le tour de taille actuel"
           ></TextInput>
-          <Text style={styles.mesuresTextb}>cm</Text>
+          <Text style={styles.mesuresTextb} accessibilityRole="text">
+            cm
+          </Text>
         </View>
         <View style={styles.boxInput}>
-          <Text style={styles.mesuresText}>Hanche</Text>
+          <Text style={styles.mesuresText} accessibilityRole="text">
+            Hanche
+          </Text>
           <TextInput
             style={styles.input}
             placeholder="Départ"
             placeholderTextColor={"#B9B8B7"}
             keyboardType="numeric"
+            accessibilityLabel="Tour de hanche de départ"
+            accessibilityHint="Entrez le tour de hanche de départ"
           ></TextInput>
           <TextInput
             style={styles.input}
             placeholder="Actuel"
             placeholderTextColor={"#B9B8B7"}
             keyboardType="numeric"
+            accessibilityLabel="Tour de hanche actuel"
+            accessibilityHint="Entrez le tour de hanche actuel"
           ></TextInput>
-          <Text style={styles.mesuresTextb}>cm</Text>
+          <Text style={styles.mesuresTextb} accessibilityRole="text">
+            cm
+          </Text>
         </View>
         <View style={styles.boxInput}>
-          <Text style={styles.mesuresText}>Cuisse</Text>
+          <Text style={styles.mesuresText} accessibilityRole="text">
+            Cuisse
+          </Text>
           <TextInput
             style={styles.input}
             placeholder="Départ"
             placeholderTextColor={"#B9B8B7"}
             keyboardType="numeric"
+            accessibilityLabel="Tour de cuisse de départ"
+            accessibilityHint="Entrez le tour de cuisse de départ"
           ></TextInput>
           <TextInput
             style={styles.input}
             placeholder="Actuel"
             placeholderTextColor={"#B9B8B7"}
             keyboardType="numeric"
+            accessibilityLabel="Tour de cuisse actuel"
+            accessibilityHint="Entrez le tour de cuisse actuel"
           ></TextInput>
-          <Text style={styles.mesuresTextb}>cm</Text>
+          <Text style={styles.mesuresTextb} accessibilityRole="text">
+            cm
+          </Text>
         </View>
         <View style={styles.boxInput}>
-          <Text style={styles.mesuresText}>Mollet</Text>
+          <Text style={styles.mesuresText} accessibilityRole="text">
+            Mollet
+          </Text>
           <TextInput
             style={styles.input}
             placeholder="Départ"
             placeholderTextColor={"#B9B8B7"}
             keyboardType="numeric"
+            accessibilityLabel="Tour de mollet de départ"
+            accessibilityHint="Entrez le tour de mollet de départ"
           ></TextInput>
           <TextInput
             style={styles.input}
             placeholder="Actuel"
             placeholderTextColor={"#B9B8B7"}
             keyboardType="numeric"
+            accessibilityLabel="Tour de mollet actuel"
+            accessibilityHint="Entrez le tour de mollet actuel"
           ></TextInput>
-          <Text style={styles.mesuresTextb}>cm</Text>
+          <Text style={styles.mesuresTextb} accessibilityRole="text">
+            cm
+          </Text>
         </View>
       </ScrollView>
       <View style={styles.containerButton}>

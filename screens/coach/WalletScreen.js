@@ -20,11 +20,16 @@ export default function WalletScreen() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <SafeAreaView style={styles.container}>
-          <Text style={styles.title}>Portefeuilles</Text>
+          <Text style={styles.title} accessibilityRole="text">
+            Portefeuilles
+          </Text>
           <Image
             style={styles.image}
             source={require("../../assets/page_construction.png")}
             resizeMode="cover"
+            accessibilityLabel="Page en construction"
+            accessibilityHint="Image d'une page en construction"
+            accessibilityRole="image"
           />
         </SafeAreaView>
       </KeyboardAvoidingView>

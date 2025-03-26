@@ -183,7 +183,6 @@ export default function LoginScreen({ navigation }) {
               ></TextInput>
               <TouchableOpacity
                 onPress={() => setPasswordVisible(!passwordVisible)}
-                accessible={true}
                 accessibilityLabel={
                   passwordVisible
                     ? "Masquer le mot de passe"
@@ -211,7 +210,6 @@ export default function LoginScreen({ navigation }) {
             </Text>
             <TouchableOpacity
               onPress={changeType}
-              accessible={true}
               accessibilityRole="button"
               accessibilityLabel={type === "coach" ? "Coach" : "Élève"}
               accessibilityHint={
@@ -234,7 +232,6 @@ export default function LoginScreen({ navigation }) {
           <TouchableOpacity
             style={styles.button}
             onPress={connexionUser}
-            accessible={true}
             accessibilityRole="button"
             accessibilityLabel="Connexion"
             accessibilityHint="Appuyez pour vous connecter"
@@ -244,7 +241,6 @@ export default function LoginScreen({ navigation }) {
           <View style={styles.boxTextBottom}>
             <TouchableOpacity
               onPress={() => navigation.navigate("ForgotPassword")}
-              accessible={true}
               accessibilityRole="button"
               accessibilityLabel="Mot de passe oublié"
               accessibilityHint="Appuyez pour réinitialiser votre mot de passe"
@@ -253,7 +249,6 @@ export default function LoginScreen({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => navigation.navigate("Signup")}
-              accessible={true}
               accessibilityRole="button"
               accessibilityLabel="Inscription"
               accessibilityHint="Appuyez pour vous inscrire"

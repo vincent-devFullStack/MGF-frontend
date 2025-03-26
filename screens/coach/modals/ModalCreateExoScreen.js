@@ -183,26 +183,39 @@ export default function ModalCreateExo({ route, navigation }) {
       >
         <SafeAreaView style={styles.container}>
           <View style={styles.iconXmark}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              accessibilityLabel="Fermer la fenêtre"
+              accessibilityHint="Ferme la fenêtre de création d'exercice"
+              accessibilityRole="button"
+            >
               <FontAwesomeIcon icon={faXmark} color="#B9B8B7" size={24} />
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.title}>Créer exercice</Text>
+          <Text style={styles.title} accessibilityRole="header">
+            Créer exercice
+          </Text>
 
           <View style={styles.containerInput}>
-            <Text style={styles.text}>Indiquez le nom</Text>
+            <Text style={styles.text} accessibilityRole="text">
+              Indiquez le nom
+            </Text>
             <TextInput
               style={styles.input}
               placeholder=" Nom"
               placeholderTextColor={"#B9B8B7"}
               onChangeText={(value) => setName(value)}
               value={name}
+              accessibilityLabel="Nom de l'exercice"
+              accessibilityHint="Indiquez le nom de l'exercice"
             ></TextInput>
           </View>
 
           <View style={styles.containerInput}>
-            <Text style={styles.text}>Description</Text>
+            <Text style={styles.text} accessibilityRole="text">
+              Description
+            </Text>
             <TextInput
               style={styles.inputDescription}
               placeholder=" Description"
@@ -210,26 +223,37 @@ export default function ModalCreateExo({ route, navigation }) {
               multiline={true}
               onChangeText={(value) => setDescription(value)}
               value={description}
+              accessibilityLabel="Description de l'exercice"
+              accessibilityHint="Indiquez la description de l'exercice"
             ></TextInput>
           </View>
 
           <View style={styles.containerInput}>
-            <Text style={styles.text}>Catégorie</Text>
+            <Text style={styles.text} accessibilityRole="text">
+              Catégorie
+            </Text>
             <TextInput
               style={styles.input}
               placeholder=" Catégorie"
               placeholderTextColor={"#B9B8B7"}
               onChangeText={(value) => setCategorie(value)}
               value={categorie}
+              accessibilityLabel="Catégorie de l'exercice"
+              accessibilityHint="Indiquez la catégorie de l'exercice"
             ></TextInput>
           </View>
 
-          <Text style={styles.textUpload}>Ajouter une image et une vidéo</Text>
+          <Text style={styles.textUpload} accessibilityRole="text">
+            Ajouter une image et une vidéo
+          </Text>
           <View style={styles.containerUpload}>
             <View style={styles.box}>
               <TouchableOpacity
                 style={styles.containerImage}
                 onPress={pickImage}
+                accessibilityLabel="Ajouter une image"
+                accessibilityHint="Ajoute une image de l'exercice"
+                accessibilityRole="imagebutton"
               >
                 {image ? (
                   <Image style={styles.image} source={{ uri: image }} />
@@ -242,6 +266,9 @@ export default function ModalCreateExo({ route, navigation }) {
               <TouchableOpacity
                 style={styles.containerImage}
                 onPress={pickVideo}
+                accessibilityLabel="Ajouter une vidéo"
+                accessibilityHint="Ajoute une vidéo de l'exercice"
+                accessibilityRole="button"
               >
                 {video ? (
                   <FontAwesomeIcon icon={faCheck} color="green" size={40} />
@@ -255,34 +282,59 @@ export default function ModalCreateExo({ route, navigation }) {
             <ScrollView
               contentContainerStyle={styles.containerErrors}
               showsVerticalScrollIndicator={false}
+              accessibilityRole="grid"
             >
-              {errors.name && <Text style={styles.error}>{errors.name}</Text>}
-
-              {errors.video && <Text style={styles.error}>{errors.video}</Text>}
-
-              {errors.description && (
-                <Text style={styles.error}>{errors.description}</Text>
+              {errors.name && (
+                <Text style={styles.error} accessibilityRole="text">
+                  {errors.name}
+                </Text>
               )}
 
-              {errors.image && <Text style={styles.error}>{errors.image}</Text>}
+              {errors.video && (
+                <Text style={styles.error} accessibilityRole="text">
+                  {errors.video}
+                </Text>
+              )}
+
+              {errors.description && (
+                <Text style={styles.error} accessibilityRole="text">
+                  {errors.description}
+                </Text>
+              )}
+
+              {errors.image && (
+                <Text style={styles.error} accessibilityRole="text">
+                  {errors.image}
+                </Text>
+              )}
 
               {errors.ciblage && (
-                <Text style={styles.error}>{errors.ciblage}</Text>
+                <Text style={styles.error} accessibilityRole="text">
+                  {errors.ciblage}
+                </Text>
               )}
 
               {errors.utilisationMuscle && (
-                <Text style={styles.error}>{errors.utilisationMuscle}</Text>
+                <Text style={styles.error} accessibilityRole="text">
+                  {errors.utilisationMuscle}
+                </Text>
               )}
 
               {errors.categorie && (
-                <Text style={styles.error}>{errors.categorie}</Text>
+                <Text style={styles.error} accessibilityRole="text">
+                  {errors.categorie}
+                </Text>
               )}
 
-              {errors.error && <Text style={styles.error}>{errors.error}</Text>}
+              {errors.error && (
+                <Text style={styles.error} accessibilityRole="text">
+                  {errors.error}
+                </Text>
+              )}
             </ScrollView>
           </View>
 
-          <Text style={styles.textUpload}>
+          <Text style={styles.textUpload} accessibilityRole="text">
             Ajouter muscles ciblés et sollicités
           </Text>
 
@@ -293,6 +345,8 @@ export default function ModalCreateExo({ route, navigation }) {
               placeholderTextColor={"#B9B8B7"}
               onChangeText={(value) => setCiblage(value)}
               value={ciblage}
+              accessibilityLabel="Muscles ciblés"
+              accessibilityHint="Indiquez les muscles ciblés"
             ></TextInput>
             <TextInput
               style={styles.inputBottom}
@@ -300,11 +354,19 @@ export default function ModalCreateExo({ route, navigation }) {
               placeholderTextColor={"#B9B8B7"}
               onChangeText={(value) => setUtilisationMuscle(value)}
               value={utilisationMuscle}
+              accessibilityLabel="Utilisation musculaire"
+              accessibilityHint="Indiquez l'utilisation musculaire"
             ></TextInput>
           </View>
 
           <View style={styles.containerButton}>
-            <TouchableOpacity style={styles.button} onPress={createExo}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={createExo}
+              accessibilityLabel="Valider l'exercice"
+              accessibilityHint="Valide la création de l'exercice"
+              accessibilityRole="button"
+            >
               <Text style={styles.buttonText}>Valider</Text>
             </TouchableOpacity>
           </View>

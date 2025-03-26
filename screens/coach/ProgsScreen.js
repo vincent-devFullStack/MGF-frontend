@@ -82,10 +82,13 @@ export default function ProgsScreen({ navigation }) {
                 />
               }
             >
-              <Text style={styles.title}>Programmes</Text>
+              <Text style={styles.title} accessibilityRole="text">
+                Programmes
+              </Text>
               <ScrollView
                 contentContainerStyle={styles.containerProg}
                 showsVerticalScrollIndicator={false}
+                accessibilityRole="grid"
               >
                 {progs && progsList}
               </ScrollView>
@@ -99,12 +102,18 @@ export default function ProgsScreen({ navigation }) {
                     path: "programme",
                   })
                 }
+                accessibilityLabel="Voir tous les programmes"
+                accessibilityHint="Ouvre la liste de tous les programmes"
+                accessibilityRole="button"
               >
                 <Text style={styles.buttonText}>Voir tout</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate("ModalCreateProg")}
+                accessibilityLabel="Créer un nouveau programme"
+                accessibilityHint="Ouvre la fenêtre de création d'un nouveau programme"
+                accessibilityRole="button"
               >
                 <Text style={styles.buttonText}>Nouveau programme</Text>
               </TouchableOpacity>
@@ -130,10 +139,13 @@ export default function ProgsScreen({ navigation }) {
                 />
               }
             >
-              <Text style={styles.secondTitle}>Exercices</Text>
+              <Text style={styles.secondTitle} accessibilityRole="text">
+                Exercices
+              </Text>
               <ScrollView
                 contentContainerStyle={styles.containerExo}
                 showsVerticalScrollIndicator={false}
+                accessibilityRole="grid"
               >
                 {exos && exosList}
               </ScrollView>
@@ -147,12 +159,18 @@ export default function ProgsScreen({ navigation }) {
                     path: "exercice",
                   })
                 }
+                accessibilityLabel="Voir tous les exercices"
+                accessibilityHint="Ouvre la liste de tous les exercices"
+                accessibilityRole="button"
               >
                 <Text style={styles.buttonText}>Voir tout</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate("ModalCreateExo")}
+                accessibilityLabel="Créer un nouvel exercice"
+                accessibilityHint="Ouvre la fenêtre de création d'un nouvel exercice"
+                accessibilityRole="button"
               >
                 <Text style={styles.buttonText}>Nouveau exercice</Text>
               </TouchableOpacity>

@@ -76,6 +76,7 @@ export default function HomeCoachScreen({ navigation }) {
             onRequestClose={() => {
               setModalVisible(!modalVisible);
             }}
+            accessibilityViewIsModal={true}
           >
             <View style={styles.centeredView}>
               <LinearGradient
@@ -85,6 +86,9 @@ export default function HomeCoachScreen({ navigation }) {
                 <View style={styles.iconClose}>
                   <TouchableOpacity
                     onPress={() => setModalVisible(!modalVisible)}
+                    accessibilityLabel="Fermer la fenêtre"
+                    accessibilityHint="Ferme la fenêtre de profil"
+                    accessibilityRole="button"
                   >
                     <FontAwesomeIcon icon={faXmark} size={20} color="white" />
                   </TouchableOpacity>
@@ -111,6 +115,9 @@ export default function HomeCoachScreen({ navigation }) {
                   onPress={() => {
                     navigation.navigate("Login");
                   }}
+                  accessibilityLabel="Déconnexion"
+                  accessibilityHint="Déconnecte l'utilisateur"
+                  accessibilityRole="button"
                 >
                   <Text style={styles.buttonDecoText}>Déconnexion</Text>
                 </TouchableOpacity>
@@ -122,6 +129,9 @@ export default function HomeCoachScreen({ navigation }) {
             <TouchableOpacity
               style={styles.containerImage}
               onPress={() => setModalVisible(true)}
+              accessibilityLabel="Profil"
+              accessibilityHint="Ouvre la fenêtre de profil"
+              accessibilityRole="imagebutton"
             >
               <Image
                 source={
@@ -133,7 +143,9 @@ export default function HomeCoachScreen({ navigation }) {
                 resizeMode="cover"
               />
             </TouchableOpacity>
-            <Text style={styles.title}>Bonjour</Text>
+            <Text style={styles.title} accessibilityRole="header">
+              Bonjour
+            </Text>
             <Text style={[styles.title, { color: "#DFB81C" }]}>
               {coach?.firstname}
             </Text>
@@ -157,10 +169,13 @@ export default function HomeCoachScreen({ navigation }) {
                 />
               }
             >
-              <Text style={styles.secondTitle}>Coachings du jour</Text>
+              <Text style={styles.secondTitle} accessibilityRole="text">
+                Coachings du jour
+              </Text>
               <ScrollView
                 contentContainerStyle={styles.containerRdv}
                 showsVerticalScrollIndicator={false}
+                accessibilityRole="grid"
               >
                 {rdv && rdvList}
               </ScrollView>
@@ -185,10 +200,13 @@ export default function HomeCoachScreen({ navigation }) {
                 />
               }
             >
-              <Text style={styles.secondTitle}>Echéances abonnements</Text>
+              <Text style={styles.secondTitle} accessibilityRole="text">
+                Echéances abonnements
+              </Text>
               <ScrollView
                 contentContainerStyle={styles.containerAbo}
                 showsVerticalScrollIndicator={false}
+                accessibilityRole="grid"
               ></ScrollView>
             </MaskedView>
           </View>

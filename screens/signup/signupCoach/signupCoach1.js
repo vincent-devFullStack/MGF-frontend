@@ -118,7 +118,6 @@ export default function InscriptionCoach1({ navigation }) {
           <View style={styles.iconBack}>
             <TouchableOpacity
               onPress={() => navigation.navigate("Signup")}
-              accessible={true}
               accessibilityLabel="Retour à la page précédente"
               accessibilityHint="revenir à l'écran précèdent"
               accessibilityRole="button"
@@ -132,7 +131,6 @@ export default function InscriptionCoach1({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => navigation.navigate("Login")}
-              accessible={true}
               accessibilityLabel="Revenir à l'écran d'accueil"
               accessibilityHint="Fermer l'inscription"
               accessibilityRole="button"
@@ -150,6 +148,12 @@ export default function InscriptionCoach1({ navigation }) {
             style={styles.container2}
             accessible={true}
             accessibilityRole="progressbar"
+            accessibilityValue={{
+              min: 0,
+              max: 100,
+              now: progress * 100,
+              text: `${progress * 100}%`,
+            }}
           >
             <Progress.Circle
               size={50}
@@ -204,7 +208,6 @@ export default function InscriptionCoach1({ navigation }) {
                 ></TextInput>
                 <TouchableOpacity
                   onPress={() => setPasswordVisible(!passwordVisible)}
-                  accessible={true}
                   accessibilityLabel={
                     passwordVisible
                       ? "Masquer le mot de passe"
@@ -240,7 +243,6 @@ export default function InscriptionCoach1({ navigation }) {
 
                 <TouchableOpacity
                   onPress={() => setPasswordVisible(!passwordVisible)}
-                  accessible={true}
                   accessibilityLabel={
                     passwordVisible
                       ? "Masquer le mot de passe"
@@ -279,7 +281,6 @@ export default function InscriptionCoach1({ navigation }) {
                 ></TextInput>
                 <TouchableOpacity
                   onPress={() => setSecretWordVisible(!secretWordVisible)}
-                  accessible={true}
                   accessibilityLabel="Afficher le mot secret"
                   accessibilityHint="Appuyez pour afficher le mot secret"
                   accessibilityRole="togglebutton"
@@ -298,7 +299,6 @@ export default function InscriptionCoach1({ navigation }) {
             <TouchableOpacity
               onPress={() => handleCheckInputs()}
               style={styles.nextBtn}
-              accessible={true}
               accessibilityLabel="Continuer"
               accessibilityHint="Valide les informations et passe à l'étape suivante"
               accessibilityRole="button"

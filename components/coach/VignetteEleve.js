@@ -15,6 +15,9 @@ export default function VignetteEleve(props) {
         <TouchableOpacity
           style={styles.containerImage}
           onPress={() => navigation.navigate("ModalChat", { eleve: props })}
+          accessibilityLabel="Ouvrir le chat"
+          accessibilityHint="Ouvre le chat avec l'élève"
+          accessibilityRole="imagebutton"
         >
           <FontAwesomeIcon
             icon={faMessage}
@@ -32,7 +35,7 @@ export default function VignetteEleve(props) {
           />
         </TouchableOpacity>
 
-        <View style={styles.containerText}>
+        <View style={styles.containerText} accessible={true}>
           <Text style={styles.text}>{props.firstname || "Nom inconnu"}</Text>
           <Text style={styles.textType}>Présentiel</Text>
           <Text style={styles.text}>Expire dans :</Text>
@@ -42,12 +45,18 @@ export default function VignetteEleve(props) {
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("ModalProfil", { eleve: props })}
+            accessibilityLabel="Voir le profil"
+            accessibilityHint="Ouvre le profil de l'élève"
+            accessibilityRole="button"
           >
             <Text style={styles.textButton}>Profil</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("Wallet")}
+            accessibilityLabel="Voir l'abonnement"
+            accessibilityHint="Ouvre l'écran portefeuilles"
+            accessibilityRole="button"
           >
             <Text style={styles.textButton}>Abonnement</Text>
           </TouchableOpacity>

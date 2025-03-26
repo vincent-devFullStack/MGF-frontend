@@ -216,15 +216,22 @@ export default function ModalCreateProg({ route, navigation }) {
       >
         <SafeAreaView style={styles.container}>
           <View style={styles.iconXmark}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              accessibilityLabel="Fermer la fenêtre"
+              accessibilityHint="Ferme la fenêtre de création de programme"
+              accessibilityRole="button"
+            >
               <FontAwesomeIcon icon={faXmark} color="#B9B8B7" size={24} />
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.title}>Créer programme</Text>
+          <Text style={styles.title} accessibilityRole="header">
+            Créer programme
+          </Text>
 
           <View style={styles.containerInput}>
-            <Text style={styles.text}>
+            <Text style={styles.text} accessibilityRole="text">
               Indiquez le nom et durée du programme
             </Text>
 
@@ -235,6 +242,8 @@ export default function ModalCreateProg({ route, navigation }) {
                 placeholderTextColor={"#B9B8B7"}
                 onChangeText={(value) => setName(value)}
                 value={name}
+                accessibilityLabel="Nom du programme"
+                accessibilityHint="Entrez le nom du programme"
               ></TextInput>
               <TextInput
                 style={styles.input}
@@ -243,6 +252,8 @@ export default function ModalCreateProg({ route, navigation }) {
                 onChangeText={(value) => setDuree(value)}
                 value={duree}
                 keyboardType="numeric"
+                accessibilityLabel="Durée du programme"
+                accessibilityHint="Entrez la durée du programme"
               ></TextInput>
             </View>
 
@@ -252,13 +263,20 @@ export default function ModalCreateProg({ route, navigation }) {
               placeholderTextColor={"#B9B8B7"}
               onChangeText={(value) => setDescription(value)}
               value={description}
+              accessibilityLabel="Description du programme"
+              accessibilityHint="Entrez la description du programme"
             ></TextInput>
 
             <View style={styles.box2}>
-              <Text style={styles.text}>Choisissez une image :</Text>
+              <Text style={styles.text} accessibilityRole="text">
+                Choisissez une image :
+              </Text>
               <TouchableOpacity
                 style={styles.containerImage}
                 onPress={pickImage}
+                accessibilityLabel="Ajouter une image"
+                accessibilityHint="Ajoute une image au programme"
+                accessibilityRole="imagebutton"
               >
                 {photo ? (
                   <Image style={styles.image} source={{ uri: photo }} />
@@ -273,32 +291,64 @@ export default function ModalCreateProg({ route, navigation }) {
             <ScrollView
               contentContainerStyle={styles.containerErrors}
               showsVerticalScrollIndicator={false}
+              accessibilityRole="grid"
             >
-              {errors.name && <Text style={styles.error}>{errors.name}</Text>}
+              {errors.name && (
+                <Text style={styles.error} accessibilityRole="text">
+                  {errors.name}
+                </Text>
+              )}
 
-              {errors.duree && <Text style={styles.error}>{errors.duree}</Text>}
+              {errors.duree && (
+                <Text style={styles.error} accessibilityRole="text">
+                  {errors.duree}
+                </Text>
+              )}
 
               {errors.description && (
-                <Text style={styles.error}>{errors.description}</Text>
+                <Text style={styles.error} accessibilityRole="text">
+                  {errors.description}
+                </Text>
               )}
 
-              {errors.photo && <Text style={styles.error}>{errors.photo}</Text>}
+              {errors.photo && (
+                <Text style={styles.error} accessibilityRole="text">
+                  {errors.photo}
+                </Text>
+              )}
 
               {errors.seances && (
-                <Text style={styles.error}>{errors.seances}</Text>
+                <Text style={styles.error} accessibilityRole="text">
+                  {errors.seances}
+                </Text>
               )}
 
-              {errors.error && <Text style={styles.error}>{errors.error}</Text>}
+              {errors.error && (
+                <Text style={styles.error} accessibilityRole="text">
+                  {errors.error}
+                </Text>
+              )}
             </ScrollView>
           </View>
           <View style={styles.containerSeances}>
             <View style={styles.box3}>
-              <Text style={styles.text2}>Ajouter une séance :</Text>
-              <TouchableOpacity style={styles.buttonPlus} onPress={newSeance}>
+              <Text style={styles.text2} accessibilityRole="text">
+                Ajouter une séance :
+              </Text>
+              <TouchableOpacity
+                style={styles.buttonPlus}
+                onPress={newSeance}
+                accessibilityLabel="Ajouter une séance"
+                accessibilityHint="Ouvre une fenêtre pour ajouter une séance"
+                accessibilityRole="button"
+              >
                 <FontAwesomeIcon icon={faPlus} color="#101018" />
               </TouchableOpacity>
             </View>
-            <ScrollView contentContainerStyle={styles.containerList}>
+            <ScrollView
+              contentContainerStyle={styles.containerList}
+              accessibilityRole="grid"
+            >
               {programmeList}
             </ScrollView>
           </View>
@@ -307,6 +357,7 @@ export default function ModalCreateProg({ route, navigation }) {
             animationType="slide"
             transparent={true}
             visible={displayModal}
+            accessibilityViewIsModal={true}
           >
             <View style={styles.centeredView}>
               <AutocompleteDropdownContextProvider>
@@ -325,6 +376,9 @@ export default function ModalCreateProg({ route, navigation }) {
                     <View style={styles.iconXmodal}>
                       <TouchableOpacity
                         onPress={() => setDisplayModal(!displayModal)}
+                        accessibilityLabel="Fermer la fenêtre"
+                        accessibilityHint="Ferme la fenêtre de création de séance"
+                        accessibilityRole="button"
                       >
                         <FontAwesomeIcon
                           icon={faXmark}
@@ -357,6 +411,8 @@ export default function ModalCreateProg({ route, navigation }) {
                         onChangeText={(value) => setSeries(value)}
                         value={series}
                         keyboardType="numeric"
+                        accessibilityLabel="Séries"
+                        accessibilityHint="Entrez le nombre de séries"
                       ></TextInput>
                       <TextInput
                         style={styles.input}
@@ -365,6 +421,8 @@ export default function ModalCreateProg({ route, navigation }) {
                         onChangeText={(value) => setRepetitions(value)}
                         value={repetitions}
                         keyboardType="numeric"
+                        accessibilityLabel="Répétitions"
+                        accessibilityHint="Entrez le nombre de répétitions"
                       ></TextInput>
                     </View>
 
@@ -372,6 +430,9 @@ export default function ModalCreateProg({ route, navigation }) {
                       <TouchableOpacity
                         style={styles.buttonPlus}
                         onPress={addExo}
+                        accessibilityLabel="Ajouter un exercice"
+                        accessibilityHint="Ajoute un exercice à la séance"
+                        accessibilityRole="button"
                       >
                         <FontAwesomeIcon icon={faPlus} color={"#101018"} />
                       </TouchableOpacity>
@@ -383,6 +444,9 @@ export default function ModalCreateProg({ route, navigation }) {
                       <TouchableOpacity
                         style={styles.button}
                         onPress={AddSeance}
+                        accessibilityLabel="Valider la séance"
+                        accessibilityHint="Valide la séance et la rajoute au programme"
+                        accessibilityRole="button"
                       >
                         <Text style={styles.buttonText}>Ajouter</Text>
                       </TouchableOpacity>
@@ -394,7 +458,13 @@ export default function ModalCreateProg({ route, navigation }) {
           </Modal>
 
           <View style={styles.containerButton}>
-            <TouchableOpacity style={styles.button} onPress={createProg}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={createProg}
+              accessibilityLabel="Valider le programme"
+              accessibilityHint="Valide le programme et le crée"
+              accessibilityRole="button"
+            >
               <Text style={styles.buttonText}>Valider</Text>
             </TouchableOpacity>
           </View>

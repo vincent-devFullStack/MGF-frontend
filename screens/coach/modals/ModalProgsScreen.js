@@ -96,22 +96,44 @@ export default function ModalProgs({ route, navigation }) {
             source={
               data.photo
                 ? { uri: data.photo }
-                : require("../../../assets/photo_eleve2.jpg")
+                : require("../../../assets/séance.jpg")
             }
             style={styles.image}
             resizeMode="cover"
+            accessibilityRole="image"
+            accessibilityLabel={
+              path === "exercice" ? "Image de l'exercice" : "Image du programme"
+            }
           />
         </View>
 
-        <View style={styles.containerText}>
+        <View style={styles.containerText} accessible={true}>
           <Text style={styles.text}>{data.name}</Text>
           <Text style={styles.textMini}>{data.description}</Text>
         </View>
         <View style={styles.containerIcon}>
-          <TouchableOpacity onPress={butttonAlertModify}>
+          <TouchableOpacity
+            onPress={butttonAlertModify}
+            accessibilityLabel="Modifier"
+            accessibilityHint={
+              path === "exercice"
+                ? "Ouvre une fenêtre pour modifier l'exercice"
+                : "Ouvre une fenêtre pour modifier le programme"
+            }
+            accessibilityRole="button"
+          >
             <FontAwesomeIcon icon={faPen} size={20} color="#DFB81C" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => buttonAlertDelete(data.name)}>
+          <TouchableOpacity
+            onPress={() => buttonAlertDelete(data.name)}
+            accessibilityLabel="Supprimer"
+            accessibilityHint={
+              path === "exercice"
+                ? "Ouvre une alerte pour confirmer la suppression de l'exercice"
+                : "Ouvre une alerte pour confirmer la suppression du programme"
+            }
+            accessibilityRole="button"
+          >
             <FontAwesomeIcon icon={faTrashCan} size={20} color="#B9B8B7" />
           </TouchableOpacity>
         </View>
@@ -125,13 +147,23 @@ export default function ModalProgs({ route, navigation }) {
       style={styles.background}
     >
       <View style={styles.iconXmark}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          accessibilityLabel="Fermer"
+          accessibilityHint="Ferme la fenêtre"
+          accessibilityRole="button"
+        >
           <FontAwesomeIcon icon={faXmark} color="#B9B8B7" size={24} />
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.title}>{titre}</Text>
-      <ScrollView contentContainerStyle={styles.containerList}>
+      <Text style={styles.title} accessibilityRole="header">
+        {titre}
+      </Text>
+      <ScrollView
+        contentContainerStyle={styles.containerList}
+        accessibilityRole="grid"
+      >
         {list}
       </ScrollView>
 
@@ -143,6 +175,15 @@ export default function ModalProgs({ route, navigation }) {
               ? () => navigation.navigate("ModalCreateExo")
               : () => navigation.navigate("ModalCreateProg")
           }
+          accessibilityLabel={
+            path === "exercice" ? "Nouvel exercice" : "Nouveau programme"
+          }
+          accessibilityHint={
+            path === "exercice"
+              ? "Ouvre une fenêtre pour créer un nouvel exercice"
+              : "Ouvre une fenêtre pour créer un nouveau programme"
+          }
+          accessibilityRole="button"
         >
           <Text style={styles.buttonText}>
             {path === "exercice" ? "Nouvel exercice" : "Nouveau programme"}

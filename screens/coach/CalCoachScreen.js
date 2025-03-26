@@ -225,6 +225,7 @@ export default function CalCoachScreen() {
             onRequestClose={() => {
               setModalVisible(!modalVisible);
             }}
+            accessibilityViewIsModal={true}
           >
             <View style={styles.centeredView}>
               <AutocompleteDropdownContextProvider>
@@ -240,7 +241,6 @@ export default function CalCoachScreen() {
                     <View style={styles.iconClose}>
                       <TouchableOpacity
                         onPress={() => setModalVisible(!modalVisible)}
-                        accessible={true}
                         accessibilityLabel="Fermer la fenêtre"
                         accessibilityHint="Ferme la fenêtre de création de rendez-vous"
                         accessibilityRole="button"
@@ -281,7 +281,6 @@ export default function CalCoachScreen() {
                     <TouchableOpacity
                       style={styles.buttonDate}
                       onPress={() => setShow(true)}
-                      accessible={true}
                       accessibilityLabel="Sélectionner une date"
                       accessibilityHint="Ouvre un calendrier pour sélectionner une date"
                       accessibilityRole="button"
@@ -323,7 +322,6 @@ export default function CalCoachScreen() {
                     <TouchableOpacity
                       style={[styles.buttonModal, styles.buttonClose]}
                       onPress={createRdv}
-                      accessible={true}
                       accessibilityLabel="Créer le rendez-vous"
                       accessibilityHint="Crée le rendez-vous avec les informations rentrées et ferme la fenêtre"
                       accessibilityRole="button"
@@ -389,7 +387,6 @@ export default function CalCoachScreen() {
             <TouchableOpacity
               style={styles.button}
               onPress={() => setModalVisible(true)}
-              accessible={true}
               accessibilityLabel="Ajouter un rendez-vous"
               accessibilityHint="Ouvre une fenêtre pour ajouter un rendez-vous"
               accessibilityRole="button"
