@@ -64,5 +64,21 @@
     "react-redux": "^9.2.0",
     "redux-persist": "^6.0.0",
     "yup": "^1.6.1"
+  },
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": [
+          "@fortawesome/free-brands-svg-icons",
+          "@fortawesome/free-regular-svg-icons",
+          "@fortawesome/free-solid-svg-icons",
+          "redux-persist",
+          "fs-extra",
+          "moment",
+          "react-native-element-dropdown"
+        ],
+        "listUnknownPackages": false
+      }
+    }
   }
 }
